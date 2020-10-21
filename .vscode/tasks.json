@@ -1,0 +1,34 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"label": "npm: build",
+			"detail": "webpack"
+		},
+		{
+			"type": "npm",
+			"script": "start-dev",
+			"isBackground": true,
+			"problemMatcher": {
+				"owner": "npm",
+				"background": {
+					"activeOnStart": true,
+					"beginsPattern": ".*",
+					"endsPattern":"Compiled successfully.+"
+				},
+				"pattern": {
+					"regexp": "",
+				}
+			},
+			"label": "npm: start-dev",
+			"detail": "webpack s -w",
+		}
+	]
+}
