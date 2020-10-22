@@ -7,10 +7,10 @@
 		{
 			"type": "chrome",
 			"request": "launch",
-			"name": "Launch Chrome against the index file",
+			"name": "Launch Chrome against development server",
 			"url": "http://localhost:3000",
 			"webRoot": "${workspaceFolder}",
-			"preLaunchTask": "npm: start-dev",
+			"preLaunchTask": "npm: start-dev-server",
 		}
 	]
 }

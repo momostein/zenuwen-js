@@ -14,7 +14,7 @@
 		},
 		{
 			"type": "npm",
-			"script": "start-dev",
+			"script": "start-dev-server",
 			"isBackground": true,
 			"problemMatcher": {
 				"owner": "npm",
@@ -27,7 +27,7 @@
 					"regexp": "",
 				}
 			},
-			"label": "npm: start-dev",
+			"label": "npm: start-dev-server",
 			"detail": "webpack s -w",
 		}
 	]

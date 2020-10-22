@@ -5,12 +5,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 module.exports = {
 	entry: './src/index.js',
 
-	externalsPresets:{
-		web:true
+	externalsPresets: {
+		web: true,
 	},
 	externalsType: 'script',
 	externals: {
-		'phaser': ['https://cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.js', 'Phaser']
+		phaser: ['https://cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.js', 'Phaser'],
 	},
 
 	output: {
@@ -20,7 +20,7 @@ module.exports = {
 	plugins: [
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin({
-			template: "./src/html/index.html",
+			template: './src/html/index.html',
 		}),
 	],
 	devServer: {

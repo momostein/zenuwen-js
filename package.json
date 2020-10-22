@@ -1,11 +1,15 @@
 {
-	"name": "webpack-test",
-	"version": "1.0.0",
-	"description": "",
+	"name": "zenuwen-js",
+	"version": "0.0.1",
+	"description": "The belgian classic Zenuwen made with phaser 3",
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:momostein/zenuwen-js.git"
+	},
 	"private": true,
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start-dev": "webpack s -w",
+		"start-dev-server": "webpack s -w",
 		"build": "webpack"
 	},
 	"keywords": [],
@@ -14,11 +18,17 @@
 	"devDependencies": {
 		"clean-webpack-plugin": "^3.0.0",
 		"eslint": "^7.11.0",
+		"eslint-config-standard": "^15.0.0",
+		"eslint-plugin-import": "^2.22.1",
+		"eslint-plugin-node": "^11.1.0",
+		"eslint-plugin-promise": "^4.2.1",
+		"eslint-plugin-standard": "^4.0.2",
 		"html-webpack-plugin": "^4.5.0",
-		"phaser": "^3.24.1",
 		"webpack": "^5.1.3",
 		"webpack-cli": "^4.1.0",
 		"webpack-dev-server": "^3.11.0"
 	},
-	"dependencies": {}
+	"dependencies": {
+		"phaser": "^3.24.1"
+	}
 }
