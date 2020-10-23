@@ -1,58 +1,89 @@
 import Phaser from 'phaser';
-import { helloWorld } from './js/hello_world';
+import {Card} from './js/card.js';
+import {Stapel} from './js/stapel.js';
 
-const config = {
-	type: Phaser.AUTO,
-	width: 800,
-	height: 800,
-	physics: {
-		default: 'arcade',
-		arcade: {
-			gravity: {
-				y: 200,
-			},
+
+	const config = {
+		type: Phaser.AUTO,
+		width: 1200,
+		height: 800,
+		physics: {
+			default: 'arcade',
+			arcade: {
+				gravity: { y: 200 }
+			}
 		},
-	},
-	scene: {
-		preload,
-		create,
-	},
-};
+		scene: {
+			preload: preload,
+			create: create
+		}
+	};
 
-// eslint-disable-next-line no-unused-vars
-const game = new Phaser.Game(config);
+	const game = new Phaser.Game(config);
 
-function preload () {
-	// this.load.setBaseURL('http://labs.phaser.io'); // Files are now hosted locally
+	function preload() {
 
-	this.load.image('sky', 'assets/phaser-example/skies/space3.png');
-	this.load.image('logo', 'assets/phaser-example/sprites/phaser3-logo.png');
-	this.load.image('red', 'assets/phaser-example/particles/red.png');
-	this.load.atlasXML('playingCards', 'assets/Spritesheets/playingCards.png', 'assets/Spritesheets/playingCards.xml');
-}
+		this.load.image('cardback', 'assets/PNG/Cards/cardBack_green1.png');
 
-function create () {
-	this.add.image(400, 300, 'sky');
+	}
 
-	const particles = this.add.particles('red');
+	function create() {
+		let self = this;
 
-	const emitter = particles.createEmitter({
-		speed: 100,
-		scale: {
-			start: 1,
-			end: 0,
-		},
-		blendMode: 'ADD',
-	});
+		this.stapel = new Stapel(this,300,200,150,220);
+		this.stapel1 = new Stapel(this,500,200,150,220);
 
-	// const logo = this.physics.add.image(400, 100, 'logo');
-	const logo = this.physics.add.image(400, 100, 'playingCards', 'cardSpades3.png');
+		this.dealCards= ()=>{
+			for(let i=0; i<5;i++){
+				let playercard = new Card(this,300+(i*100),600,'cardback');
+			}
+		}
 
-	logo.setVelocity(100, 200);
-	logo.setBounce(1, 1);
-	logo.setCollideWorldBounds(true);
+	   this.dealText = this.add.text(75,350,['Show 5 cards']).setFontSize(20).setColor('#FFFFFF').setInteractive();
 
-	emitter.startFollow(logo);
+	   this.dealText.on('pointerdown',function(){
+		   self.dealCards();
+	   });
+	   
+	   this.dealText.on('pointerover', function(){
+		   self.dealText.setColor("#FF0000");
+	   });
 
-	helloWorld();
-}
+	   this.dealText.on('pointerout', function(){
+		   self.dealText.setColor('#FFFFFF');
+	   });
+
+	   this.input.on('dragstart', function(pointer,gameObject){
+		  self.children.bringToTop(gameObject);
+	   });
+
+	   this.input.on('dragend', function(pointer,gameObject,dropped){
+		   if(!dropped){
+			   gameObject.x = gameObject.input.dragStartX;
+			   gameObject.y = gameObject.input.dragStartY;
+		   }
+	   })
+
+	   this.input.on('drag',function(pointer, gameObject, dragx,dragy){
+		   gameObject.x=dragx;
+		   gameObject.y=dragy;
+	   })
+
+	   this.input.on('drop', function(pointer, card, stapel){
+		if(stapel.containsCard(card)){
+			card.x = card.input.dragStartX;
+			card.y = card.input.dragStartY;
+		}else{
+			if(card.getStapel()!=undefined){
+				card.getStapel().popCard();
+			}
+			stapel.addCard(card);
+			card.setStapel(stapel);
+			card.x = (stapel.x);
+			card.y = (stapel.y);
+			console.log("source: ",  card.getStapel() );
+			console.log("destination: ",  stapel);
+		}
+	   })
+		
+	}
