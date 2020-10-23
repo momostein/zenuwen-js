@@ -5,9 +5,9 @@ import GameEnd from './game_end';
 import PauseMenu from './pause_menu';
 
 export default [
+	Game,
 	MainMenu,
 	GameInfo,
-	Game,
 	GameEnd,
 	PauseMenu,
 ];
