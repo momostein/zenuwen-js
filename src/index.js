@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import { helloWorld } from './js/hello_world';
-
+import { abstractStapel } from './js/abstract_Stapel';
+import { aflegStapel } from './js/abstract_Stapel';
 const config = {
 	type: Phaser.AUTO,
 	width: 800,
@@ -55,4 +56,5 @@ function create () {
 	emitter.startFollow(logo);
 
 	helloWorld();
+
 }
