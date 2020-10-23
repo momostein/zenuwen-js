@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 const config = {
 	type: Phaser.AUTO,
 	width: 800,
-	height: 600,
+	height: 800,
 	physics: {
 		default: 'arcade',
 		arcade: {
@@ -22,11 +22,12 @@ const config = {
 const game = new Phaser.Game(config);
 
 function preload () {
-	this.load.setBaseURL('http://labs.phaser.io');
+	// this.load.setBaseURL('http://labs.phaser.io'); // Files are now hosted locally
 
-	this.load.image('sky', 'assets/skies/space3.png');
-	this.load.image('logo', 'assets/sprites/phaser3-logo.png');
-	this.load.image('red', 'assets/particles/red.png');
+	this.load.image('sky', 'assets/phaser-example/skies/space3.png');
+	this.load.image('logo', 'assets/phaser-example/sprites/phaser3-logo.png');
+	this.load.image('red', 'assets/phaser-example/particles/red.png');
+	this.load.atlasXML('playingCards', 'assets/Spritesheets/playingCards.png', 'assets/Spritesheets/playingCards.xml');
 }
 
 function create () {
@@ -43,7 +44,8 @@ function create () {
 		blendMode: 'ADD',
 	});
 
-	const logo = this.physics.add.image(400, 100, 'logo');
+	// const logo = this.physics.add.image(400, 100, 'logo');
+	const logo = this.physics.add.image(400, 100, 'playingCards', 'cardSpades3.png');
 
 	logo.setVelocity(100, 200);
 	logo.setBounce(1, 1);
