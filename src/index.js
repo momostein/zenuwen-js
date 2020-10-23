@@ -1,17 +1,17 @@
 import Phaser from 'phaser';
+import { Card } from './js/card.js';
+import { Stapel } from './js/stapel.js';
 import { helloWorld } from './js/hello_world';
 import Scenes from './js/scenes';
 
 const config = {
 	type: Phaser.AUTO,
-	width: 800,
-	height: 500,
+	width: 1200,
+	height: 800,
 	physics: {
 		default: 'arcade',
 		arcade: {
-			gravity: {
-				y: 200,
-			},
+			gravity: { y: 200 },
 		},
 	},
 	// scene: {
@@ -21,7 +21,6 @@ const config = {
 	scene: Scenes,
 };
 
-// eslint-disable-next-line no-unused-vars
 const game = new Phaser.Game(config);
 
 // function preload () {
@@ -33,28 +32,62 @@ const game = new Phaser.Game(config);
 // 	this.load.atlasXML('playingCards', 'assets/Spritesheets/playingCards.png', 'assets/Spritesheets/playingCards.xml');
 // }
 
-// function create () {
-// 	this.add.image(400, 300, 'sky');
+function create () {
+	const self = this;
 
-// 	const particles = this.add.particles('red');
+	this.stapel = new Stapel(this, 300, 200, 150, 220);
+	this.stapel1 = new Stapel(this, 500, 200, 150, 220);
 
-// 	const emitter = particles.createEmitter({
-// 		speed: 100,
-// 		scale: {
-// 			start: 1,
-// 			end: 0,
-// 		},
-// 		blendMode: 'ADD',
-// 	});
+	this.dealCards = () => {
+		for (let i = 0; i < 5; i++) {
+			const playercard = new Card(this, 300 + (i * 100), 600, 'cardback');
+		}
+	};
 
-// 	// const logo = this.physics.add.image(400, 100, 'logo');
-// 	const logo = this.physics.add.image(400, 100, 'playingCards', 'cardSpades3.png');
+	this.dealText = this.add.text(75, 350, ['Show 5 cards']).setFontSize(20).setColor('#FFFFFF').setInteractive();
 
-// 	logo.setVelocity(100, 200);
-// 	logo.setBounce(1, 1);
-// 	logo.setCollideWorldBounds(true);
+	this.dealText.on('pointerdown', function () {
+		self.dealCards();
+	});
 
-// 	emitter.startFollow(logo);
+	this.dealText.on('pointerover', function () {
+		self.dealText.setColor('#FF0000');
+	});
 
-// 	helloWorld();
-// }
+	this.dealText.on('pointerout', function () {
+		self.dealText.setColor('#FFFFFF');
+	});
+
+	this.input.on('dragstart', function (pointer, gameObject) {
+		self.children.bringToTop(gameObject);
+	});
+
+	this.input.on('dragend', function (pointer, gameObject, dropped) {
+		if (!dropped) {
+			gameObject.x = gameObject.input.dragStartX;
+			gameObject.y = gameObject.input.dragStartY;
+		}
+	});
+
+	this.input.on('drag', function (pointer, gameObject, dragx, dragy) {
+		gameObject.x = dragx;
+		gameObject.y = dragy;
+	});
+
+	this.input.on('drop', function (pointer, card, stapel) {
+		if (stapel.containsCard(card)) {
+			card.x = card.input.dragStartX;
+			card.y = card.input.dragStartY;
+		} else {
+			if (card.getStapel() !== undefined) {
+				card.getStapel().popCard();
+			}
+			stapel.addCard(card);
+			card.setStapel(stapel);
+			card.x = (stapel.x);
+			card.y = (stapel.y);
+			console.log('source: ', card.getStapel());
+			console.log('destination: ', stapel);
+		}
+	});
+}
