@@ -4,10 +4,10 @@ import Game from './game';
 import GameEnd from './game_end';
 import PauseMenu from './pause_menu';
 
-export {
+export default [
 	MainMenu,
 	GameInfo,
 	Game,
 	GameEnd,
 	PauseMenu,
-};
+];

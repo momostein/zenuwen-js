@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { helloWorld } from './js/hello_world';
-import * as Scenes from './js/scenes';
+import Scenes from './js/scenes';
 
 const config = {
 	type: Phaser.AUTO,
@@ -18,13 +18,7 @@ const config = {
 	// 	preload,
 	// 	create,
 	// },
-	scene: [
-		Scenes.MainMenu,
-		Scenes.GameEnd,
-		Scenes.GameInfo,
-		Scenes.Game,
-		Scenes.PauseMenu,
-	],
+	scene: Scenes,
 };
 
 // eslint-disable-next-line no-unused-vars
