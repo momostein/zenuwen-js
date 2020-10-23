@@ -21,7 +21,7 @@
 				"background": {
 					"activeOnStart": true,
 					"beginsPattern": ".*",
-					"endsPattern":"Compiled successfully.+"
+					"endsPattern":"Compiled.+"
 				},
 				"pattern": {
 					"regexp": "",

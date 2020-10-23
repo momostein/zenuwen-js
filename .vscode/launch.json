@@ -11,6 +11,14 @@
 			"url": "http://localhost:3000",
 			"webRoot": "${workspaceFolder}",
 			"preLaunchTask": "npm: start-dev-server",
+		},
+		{
+			"name": "Launch Firefox against development server",
+			"type": "firefox",
+			"request": "launch",
+			"url": "http://localhost:3000",
+			"webRoot": "${workspaceFolder}",
+			"preLaunchTask": "npm: start-dev-server",
 		}
 	]
 }
