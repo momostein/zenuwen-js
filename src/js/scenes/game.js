@@ -21,7 +21,7 @@ export default class Game extends Phaser.Scene {
 
 		this.dealCards = () => {
 			for (let i = 0; i < 5; i++) {
-				const playercard = new Card(this, 300 + (i * 100), 600, 'cardback');
+				const playercard = new Card(this, 300 + (i * 100), 600, i + 1, 'C');
 			}
 		};
 

@@ -22,7 +22,7 @@ function getSuitString (suit) {
 			return 'Spades';
 
 		default:
-			throw new Error('Invalid card suit');
+			throw new Error('Invalid card suit: ' + suit);
 	}
 }
 
@@ -42,7 +42,7 @@ function getValueString (value) {
 			case -1:
 				return 'Joker';
 			default:
-				throw new Error('Invalid card value');
+				throw new Error('Invalid card value: ' + value);
 		}
 	}
 }
