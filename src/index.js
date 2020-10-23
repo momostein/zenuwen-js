@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { helloWorld } from './js/hello_world';
 
 const config = {
 	type: Phaser.AUTO,
@@ -52,4 +53,6 @@ function create () {
 	logo.setCollideWorldBounds(true);
 
 	emitter.startFollow(logo);
+
+	helloWorld();
 }
