@@ -19,13 +19,18 @@ export default class Game extends Phaser.Scene {
 		this.stapel = new Stapel(this, 300, 200, 150, 220);
 		this.stapel1 = new Stapel(this, 500, 200, 150, 220);
 
+		/*
+		 * Deal cards button
+		 */
+
 		this.dealCards = () => {
 			for (let i = 0; i < 5; i++) {
-				const playercard = new Card(this, 300 + (i * 100), 600, i + 1, 'C');
+				const playerCard = new Card(this, 300 + (i * 100), 600, i + 1, 'C');
 			}
 		};
 
-		this.dealText = this.add.text(75, 350, ['Show 5 cards']).setFontSize(20).setColor('#FFFFFF').setInteractive();
+		this.dealText = this.add.text(75, 350, ['Add 5 cards']).setFontSize(20).setColor('#FFFFFF').setInteractive();
+		this.dealText.setFontFamily('sans-serif');
 
 		this.dealText.on('pointerdown', function () {
 			self.dealCards();
@@ -39,6 +44,10 @@ export default class Game extends Phaser.Scene {
 			self.dealText.setColor('#FFFFFF');
 		});
 
+		/*
+		 * Dragging cards
+		 */
+
 		this.input.on('dragstart', function (pointer, gameObject) {
 			self.children.bringToTop(gameObject);
 		});
@@ -50,12 +59,13 @@ export default class Game extends Phaser.Scene {
 			}
 		});
 
-		this.input.on('drag', function (pointer, gameObject, dragx, dragy) {
-			gameObject.x = dragx;
-			gameObject.y = dragy;
+		this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
+			gameObject.x = dragX;
+			gameObject.y = dragY;
 		});
 
 		this.input.on('drop', function (pointer, card, stapel) {
+			// TODO: Verplaats bijna alle logica naar de stapels
 			if (stapel.containsCard(card)) {
 				card.x = card.input.dragStartX;
 				card.y = card.input.dragStartY;
@@ -66,7 +76,7 @@ export default class Game extends Phaser.Scene {
 				stapel.addCard(card);
 				card.setStapel(stapel);
 				card.x = (stapel.x);
-				card.y = (stapel.y);
+				card.y = (stapel.y + card.height / 2 + stapel.getNumberOfCards() * 20 - 5);
 				console.log('source: ', card.getStapel());
 				console.log('destination: ', stapel);
 			}
