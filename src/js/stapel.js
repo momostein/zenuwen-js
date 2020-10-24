@@ -19,7 +19,8 @@ export class Stapel extends Phaser.GameObjects.Zone {
 
 	addCard (card) {
 		if (this.getNumberOfCards() !== 0) {
-			this.cards[this.getNumberOfCards() - 1].disableInteractive();
+			this.cards[this.getNumberOfCards() - 1].disableInteractive().close();
+
 			this.setPosition(this.x, this.y);
 			this.setSize(this.width, this.height + 20, true);
 			// this.setDisplaySize(this.width, this.height + 20); // Zones aren't rendered
@@ -36,7 +37,7 @@ export class Stapel extends Phaser.GameObjects.Zone {
 
 	popCard () {
 		if (this.getNumberOfCards() >= 2) {
-			this.cards[this.getNumberOfCards() - 2].setInteractive();
+			this.cards[this.getNumberOfCards() - 2].setInteractive().open();
 			this.setPosition(this.x, this.y);
 			this.setSize(this.width, this.height - 20, true);
 			// this.setDisplaySize(this.width, this.height - 20); // Zones aren't rendered
