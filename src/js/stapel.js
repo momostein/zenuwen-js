@@ -10,7 +10,7 @@ export class Stapel extends Phaser.GameObjects.Zone {
 	}
 
 	addCard (card) {
-		if (this.getNumberOfCards() != 0) {
+		if (this.getNumberOfCards() !== 0) {
 			this.cards[this.getNumberOfCards() - 1].disableInteractive();
 			this.setPosition(this.x, this.y + 10);
 			this.setSize(this.width, this.height + 20);
