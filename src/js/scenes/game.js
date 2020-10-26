@@ -65,19 +65,15 @@ export default class Game extends Phaser.Scene {
 		});
 
 		this.input.on('drop', function (pointer, card, stapel) {
-			// TODO: Verplaats bijna alle logica naar de stapels
 			if (stapel.containsCard(card)) {
 				card.x = card.input.dragStartX;
 				card.y = card.input.dragStartY;
 			} else {
-				if (card.getStapel() !== undefined) {
+				if (card.getStapel()) {
 					card.getStapel().popCard();
 				}
-				stapel.addCard(card);
-				card.setStapel(stapel);
-				card.x = (stapel.x);
-				card.y = (stapel.y + card.height / 2 + stapel.getNumberOfCards() * 20 - 5);
 				console.log('source: ', card.getStapel());
+				stapel.addCard(card);
 				console.log('destination: ', stapel);
 			}
 		});

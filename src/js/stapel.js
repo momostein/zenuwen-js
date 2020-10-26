@@ -33,6 +33,10 @@ export class Stapel extends Phaser.GameObjects.Zone {
 		// this.border.setPosition(this.x, this.y);
 		resizeRect(this.border, this.width, this.height);
 		this.cards.push(card);
+
+		card.setStapel(this);
+		card.x = (this.x);
+		card.y = (this.y + card.height / 2 + this.getNumberOfCards() * 20 - 5);
 	}
 
 	popCard () {
