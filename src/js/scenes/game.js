@@ -43,39 +43,5 @@ export default class Game extends Phaser.Scene {
 		this.dealText.on('pointerout', function () {
 			self.dealText.setColor('#FFFFFF');
 		});
-
-		/*
-		 * Dragging cards
-		 */
-
-		this.input.on('dragstart', function (pointer, gameObject) {
-			self.children.bringToTop(gameObject);
-		});
-
-		this.input.on('dragend', function (pointer, gameObject, dropped) {
-			if (!dropped) {
-				gameObject.x = gameObject.input.dragStartX;
-				gameObject.y = gameObject.input.dragStartY;
-			}
-		});
-
-		this.input.on('drag', function (pointer, gameObject, dragX, dragY) {
-			gameObject.x = dragX;
-			gameObject.y = dragY;
-		});
-
-		this.input.on('drop', function (pointer, card, stapel) {
-			if (stapel.containsCard(card)) {
-				card.x = card.input.dragStartX;
-				card.y = card.input.dragStartY;
-			} else {
-				if (card.getStapel()) {
-					card.getStapel().popCard();
-				}
-				console.log('source: ', card.getStapel());
-				stapel.addCard(card);
-				console.log('destination: ', stapel);
-			}
-		});
 	}
 }
