@@ -56,5 +56,4 @@ function create () {
 	emitter.startFollow(logo);
 
 	helloWorld();
-
 }

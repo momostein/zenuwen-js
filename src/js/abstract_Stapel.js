@@ -20,11 +20,12 @@ export class abstractStapel {
         throw new Error('You have to implement the method addCard in your class!');
      }
      draw(){
-        console.log("Drawing test of inheritance")
+        console.log("Drawing test of inheritance");
      }
 }
 
 export class aflegStapel extends abstractStapel {
-        //new abstractStapel(); niet hier natuurlijk ma ge snapt het wel he 
-	    //new aflegStapel().draw();
-  }
+   addCard(){
+      console.log("Test");
+   }
+}
