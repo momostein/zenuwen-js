@@ -29,7 +29,7 @@ export default class Game extends Phaser.Scene {
 			}
 		};
 
-		this.dealText = this.add.text(75, 350, ['Add 5 cards']).setFontSize(20).setColor('#FFFFFF').setInteractive();
+		this.dealText = this.add.text(75, 350, ['Add 5 cards']).setFontSize(20).setColor('#030303').setInteractive();
 		this.dealText.setFontFamily('sans-serif');
 
 		this.dealText.on('pointerdown', function () {
@@ -41,7 +41,7 @@ export default class Game extends Phaser.Scene {
 		});
 
 		this.dealText.on('pointerout', function () {
-			self.dealText.setColor('#FFFFFF');
+			self.dealText.setColor('#030303');
 		});
 	}
 }

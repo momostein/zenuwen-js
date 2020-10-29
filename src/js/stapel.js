@@ -21,11 +21,11 @@ export class Stapel extends Phaser.GameObjects.Zone {
 		if (this.getNumberOfCards() !== 0) {
 			this.cards[this.getNumberOfCards() - 1].disableInteractive().close();
 
-			this.setPosition(this.x, this.y);
+			// this.setPosition(this.x, this.y);
 			this.setSize(this.width, this.height + 20, true);
 			// this.setDisplaySize(this.width, this.height + 20); // Zones aren't rendered
 		} else {
-			this.setPosition(this.x, this.y);
+			// this.setPosition(this.x, this.y);
 			this.setSize(this.width, this.height, true);
 			// this.setDisplaySize(this.width, this.height); // Zones aren't rendered
 		}
@@ -42,18 +42,18 @@ export class Stapel extends Phaser.GameObjects.Zone {
 	popCard () {
 		if (this.getNumberOfCards() >= 2) {
 			this.cards[this.getNumberOfCards() - 2].setInteractive().open();
-			this.setPosition(this.x, this.y);
+			// this.setPosition(this.x, this.y);
 			this.setSize(this.width, this.height - 20, true);
 			// this.setDisplaySize(this.width, this.height - 20); // Zones aren't rendered
 		} else {
-			this.setPosition(this.x, this.y);
+			// this.setPosition(this.x, this.y);
 			this.setSize(this.width, this.height, true);
 			// this.setDisplaySize(this.width, this.height); // Zones aren't rendered
 		}
 
 		// this.border.setPosition(this.x, this.y);
 		resizeRect(this.border, this.width, this.height);
-		this.cards.pop();
+		return this.cards.pop();
 	}
 
 	getNumberOfCards () {
