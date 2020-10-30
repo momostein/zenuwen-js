@@ -62,5 +62,24 @@ export default class Game extends Phaser.Scene {
 		this.stopText.on('pointerout', function () {
 			self.stopText.setColor('#030303');
 		});
+
+		/*
+		 * Pause button
+		 */
+
+		this.pauseText = this.add.text(1000, 370, ['Pause']).setFontSize(20).setColor('#030303').setInteractive();
+		this.pauseText.setFontFamily('sans-serif');
+
+		this.pauseText.on('pointerdown', function () {
+			this.scene.switch('pauseMenu');
+		}, this);
+
+		this.pauseText.on('pointerover', function () {
+			self.pauseText.setColor('#FF0000');
+		});
+
+		this.pauseText.on('pointerout', function () {
+			self.pauseText.setColor('#030303');
+		});
 	}
 }
