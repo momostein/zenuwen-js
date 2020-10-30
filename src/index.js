@@ -19,4 +19,5 @@ const config = {
 	backgroundColor: 'E4E4E4',
 };
 
+// eslint-disable-next-line no-unused-vars
 const game = new Phaser.Game(config);
