@@ -23,6 +23,7 @@ export class Card extends Phaser.GameObjects.Image {
 				this.y = dragY;
 			})
 			.on('drop', function (pointer, stapel) {
+				stapel.border.setStrokeStyle(5, 0xff0000, 1);
 				if (stapel.containsCard(this)) {
 					this.x = this.input.dragStartX;
 					this.y = this.input.dragStartY;
@@ -32,6 +33,12 @@ export class Card extends Phaser.GameObjects.Image {
 					}
 					stapel.addCard(this);
 				}
+			})
+			.on('dragenter', function (pointer, stapel) {
+				stapel.border.setStrokeStyle(5, 0xffff00, 1);
+			})
+			.on('dragleave', function (pointer, stapel) {
+				stapel.border.setStrokeStyle(5, 0xff0000, 1);
 			});
 		scene.add.displayList.add(this);
 		scene.input.setDraggable(this);
