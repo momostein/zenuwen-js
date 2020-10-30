@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Scenes from './js/scenes';
+import { style } from './js/style';
 
 const config = {
 	type: Phaser.AUTO,
@@ -16,7 +17,7 @@ const config = {
 	// 	create,
 	// },
 	scene: Scenes,
-	backgroundColor: 'E4E4E4',
+	backgroundColor: style.colors.background,
 };
 
 const game = new Phaser.Game(config);
