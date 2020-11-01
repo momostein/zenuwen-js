@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { Card } from '../card';
-import { Stapel } from '../stapel';
+import { AflegStapel } from '../stapels';
 import { style } from '../style';
 
 export default class Game extends Phaser.Scene {
@@ -17,8 +17,9 @@ export default class Game extends Phaser.Scene {
 	create () {
 		const self = this;
 
-		this.stapel = new Stapel(this, 300, 200, 150, 220);
-		this.stapel1 = new Stapel(this, 500, 200, 150, 220);
+		this.stapel1 = new AflegStapel(this, 300, 200, 150, 220);
+		this.stapel2 = new AflegStapel(this, 500, 200, 150, 220);
+		this.stapel3 = new AflegStapel(this, 700, 200, 150, 220);
 
 		/*
 		 * Deal cards button
@@ -26,7 +27,9 @@ export default class Game extends Phaser.Scene {
 
 		this.dealCards = () => {
 			for (let i = 0; i < 5; i++) {
-				const playerCard = new Card(this, 300 + (i * 100), 600, i + 1, 'C');
+				this.stapel1.addCard(
+					new Card(this, 0, 0, i + 1, 'C'),
+				);
 			}
 		};
 
