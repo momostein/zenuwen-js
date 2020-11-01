@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 import { Card } from '../card';
 import { AflegStapel } from '../stapels';
+import { Stapel } from '../stapel';
+import { PatienceStapel } from '../patience_Stapel';
 import { style } from '../style';
 
 export default class Game extends Phaser.Scene {
@@ -33,7 +35,7 @@ export default class Game extends Phaser.Scene {
 			}
 		};
 
-		this.dealText = this.add.text(75, 350, ['Add 5 cards']).setFontSize(20).setColor(style.colors.textColor).setInteractive();
+		this.dealText = this.add.text(75, 350, ['deal cards']).setFontSize(20).setColor(style.colors.textColor).setInteractive();
 		this.dealText.setFontFamily('sans-serif');
 
 		this.dealText.on('pointerdown', function () {
