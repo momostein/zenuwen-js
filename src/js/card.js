@@ -2,9 +2,6 @@ import Phaser from 'phaser';
 
 import getCardFrame from './card_frames';
 
-const colorStapelBorderIdle = '#ff0000';
-const colorStapelBorderHover = '#ffff00';
-
 export class Card extends Phaser.GameObjects.Image {
 	constructor (scene, x, y, value = -1, suit) {
 		super(scene, x, y);
@@ -26,7 +23,8 @@ export class Card extends Phaser.GameObjects.Image {
 				this.y = dragY;
 			})
 			.on('drop', function (pointer, stapel) {
-				stapel.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
+				// stapel.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
+
 				if (stapel.containsCard(this)) {
 					this.x = this.input.dragStartX;
 					this.y = this.input.dragStartY;
@@ -38,10 +36,12 @@ export class Card extends Phaser.GameObjects.Image {
 				}
 			})
 			.on('dragenter', function (pointer, stapel) {
-				stapel.border.setStrokeStyle(5, colorStapelBorderHover, 1);
+				// stapel.border.setStrokeStyle(5, colorStapelBorderHover, 1);
+				stapel.dragEnter(this);
 			})
 			.on('dragleave', function (pointer, stapel) {
-				stapel.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
+				// stapel.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
+				stapel.dragLeave(this);
 			});
 		scene.add.displayList.add(this);
 		scene.input.setDraggable(this);

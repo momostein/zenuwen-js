@@ -1,4 +1,8 @@
 import Phaser from 'phaser';
+import { style } from './style';
+
+const colorStapelBorderIdle = style.colors.primary.color32;
+const colorStapelBorderHover = style.colors.secondary.color32;
 
 export class abstractStapel extends Phaser.GameObjects.Zone {
 	/* constructor() {
@@ -34,6 +38,14 @@ export class abstractStapel extends Phaser.GameObjects.Zone {
 		// If stapel contains Card
 		return (this.cards.includes(card));
 	}
+
+	dragEnter (card) {
+		console.error("This stapel shouldn't receive a dragenter event!");
+	}
+
+	dragLeave (card) {
+		console.error("This stapel shouldn't receive a drageleave event!");
+	}
 }
 
 export class AflegStapel extends abstractStapel {
@@ -48,6 +60,8 @@ export class AflegStapel extends abstractStapel {
 
 		this.setOrigin(0.5, 0.0);
 		this.border.setOrigin(0.5, 0.0);
+
+		this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
 	}
 
 	addCard (card) {
@@ -69,6 +83,8 @@ export class AflegStapel extends abstractStapel {
 
 		card.x = (this.x);
 		card.y = (this.y + card.height / 2 + this.getSize() * 20 - 5);
+
+		this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
 	}
 
 	popCard () {
@@ -85,17 +101,18 @@ export class AflegStapel extends abstractStapel {
 
 		// this.border.setPosition(this.x, this.y);
 		resizeRect(this.border, this.width, this.height);
-
 		return super.popCard();
 	}
 
-	// getNumberOfCards () {
-	// 	return this.cards.length;
-	// }
+	dragEnter (card) {
+		if (!this.containsCard(card)) {
+			this.border.setStrokeStyle(5, colorStapelBorderHover, 1);
+		}
+	}
 
-	// containsCard (card) {
-	// 	return (this.cards.includes(card));
-	// }
+	dragLeave (card) {
+		this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
+	}
 }
 
 function resizeRect (rect, w, h) {
