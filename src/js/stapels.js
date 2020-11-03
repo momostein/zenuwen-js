@@ -56,7 +56,7 @@ export class AflegStapel extends abstractStapel {
 		// This makes it resizable
 		this.setInteractive(undefined, undefined, true);
 
-		this.border = scene.add.rectangle(this.x, this.y, this.width, this.height).setFillStyle().setStrokeStyle(5, 0xff0000, 1);
+		this.border = scene.add.rectangle(this.x, this.y, this.width, this.height).setFillStyle().setStrokeStyle(5, colorStapelBorderIdle, 1);
 
 		this.setOrigin(0.5, 0.0);
 		this.border.setOrigin(0.5, 0.0);

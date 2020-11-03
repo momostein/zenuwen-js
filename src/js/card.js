@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 
 import getCardFrame from './card_frames';
+const cardDist = 35;
 
 export class Card extends Phaser.GameObjects.Image {
 	constructor (scene, x, y, value = -1, suit) {
@@ -23,7 +24,7 @@ export class Card extends Phaser.GameObjects.Image {
 					if (this.getStapel()) {
 						for (let i = this.stapel_pos + 1; i < this.getStapel().getSize(); i++) {
 							this.getStapel().cards[i].x = this.input.dragStartX;
-							this.getStapel().cards[i].y = this.input.dragStartY + (i - this.stapel_pos) * this.getStapel().getCardDist();
+							this.getStapel().cards[i].y = this.input.dragStartY + (i - this.stapel_pos) * cardDist;
 						}
 					}
 					this.x = this.input.dragStartX;
@@ -36,17 +37,14 @@ export class Card extends Phaser.GameObjects.Image {
 				if (this.getStapel()) {
 					for (let i = this.stapel_pos + 1; i < this.getStapel().getSize(); i++) {
 						this.getStapel().cards[i].x = dragX;
-						this.getStapel().cards[i].y = dragY + (i - this.stapel_pos) * this.getStapel().getCardDist();
+						this.getStapel().cards[i].y = dragY + (i - this.stapel_pos) * cardDist;
 					}
 				}
 			})
 			.on('drop', function (pointer, stapel) {
+				stapel.dragLeave();
 				// stapel.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
-
-				if (stapel.containsCard(this)) {
-					this.x = this.input.dragStartX;
-					this.y = this.input.dragStartY;
-				} else {
+				if (stapel.checkCard(this)) {
 					if (this.getStapel()) {
 						const size = this.getStapel().getSize();
 						for (let i = this.stapel_pos + 1; i < size; i++) {
@@ -59,7 +57,7 @@ export class Card extends Phaser.GameObjects.Image {
 					if (this.getStapel()) {
 						for (let i = this.stapel_pos + 1; i < this.getStapel().getSize(); i++) {
 							this.getStapel().cards[i].x = this.input.dragStartX;
-							this.getStapel().cards[i].y = this.input.dragStartY + (i - this.stapel_pos) * this.getStapel().getCardDist();
+							this.getStapel().cards[i].y = this.input.dragStartY + (i - this.stapel_pos) * cardDist;
 						}
 					}
 					this.x = this.input.dragStartX;

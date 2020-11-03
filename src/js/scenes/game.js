@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import { Card } from '../card';
 import { AflegStapel } from '../stapels';
 import { Stapel } from '../stapel';
-import { PatienceStapel } from '../patience_Stapel';
+import { PatienceStapel } from '../patience_stapel';
 import { style } from '../style';
 
 export default class Game extends Phaser.Scene {
@@ -18,20 +18,22 @@ export default class Game extends Phaser.Scene {
 
 	create () {
 		const self = this;
+		var stapels = [];
 
-		this.stapel1 = new AflegStapel(this, 300, 200, 150, 220);
-		this.stapel2 = new AflegStapel(this, 500, 200, 150, 220);
-		this.stapel3 = new AflegStapel(this, 700, 200, 150, 220);
-
+		for (let i = 0; i < 5; i++) {
+			stapels.push(new PatienceStapel(this, 250 + 160 * i, 300, 150, 220));
+		}
 		/*
 		 * Deal cards button
 		 */
 
 		this.dealCards = () => {
 			for (let i = 0; i < 5; i++) {
-				this.stapel1.addCard(
-					new Card(this, 0, 0, i + 1, 'C'),
-				);
+				const stapel = stapels[i];
+				for (let j = 4 - i; j < 5; j++) {
+					const playerCard = new Card(this, 300 + (j * 100), 600, j + 1, 'C');
+					stapel.addCard(playerCard);
+				}
 			}
 		};
 
