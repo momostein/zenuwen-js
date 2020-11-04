@@ -21,20 +21,24 @@ export class PatienceStapel extends abstractStapel {
 	}
 
 	checkCard (card) {
+		// Return true if it is possible to place card on pile
 		var size = this.getSize();
 		return ((size === 0 || this.cards[size - 1].getValue() === card.getValue()) && !this.containsCard(card));
 	}
 
 	addCard (card) {
 		if (this.getSize() !== 0) {
+			// place card when pile is not empty
 			this.setPosition(this.x, this.y);
 			this.setSize(this.width, this.height + cardDist, true);
 			// this.setDisplaySize(this.width, this.height + 20); // Zones aren't rendered
 		} else {
+			// place card when pile is empty
 			this.setPosition(this.x, this.y);
 			this.setSize(this.width, this.height, true);
 			// this.setDisplaySize(this.width, this.height); // Zones aren't rendered
 		}
+		// needs to be changed so that al dealt cards are not visible
 		if (!this.checkCard(card)) {
 			this.cards[this.getSize() - 1].disableInteractive().close();
 		}
@@ -43,10 +47,9 @@ export class PatienceStapel extends abstractStapel {
 		card.setStapelPos(this.getSize());
 
 		super.addCard(card);
-
+		// place card
 		this.scene.children.bringToTop(card);
-		card.x = (this.x);
-		card.y = (this.y + card.height / 2 + this.getSize() * cardDist - (cardDist - 15));
+		card.setPosition(this.x, this.y + card.height / 2 + this.getSize() * cardDist - (cardDist - 15));
 	}
 
 	popCard () {
@@ -74,6 +77,35 @@ export class PatienceStapel extends abstractStapel {
 
 	dragLeave (card) {
 		this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
+	}
+
+	dragCardsStart (card) {
+		// Bring cards to top
+		for (let i = card.getStapelPos(); i < this.getSize(); i++) {
+			this.scene.children.bringToTop(this.cards[i]);
+		}
+	}
+
+	dragCardsEnd (card) {
+		// Place the cards back on the pile
+		for (let i = card.getStapelPos(); i < this.getSize(); i++) {
+			this.cards[i].setPosition(card.input.dragStartX, card.input.dragStartY + (i - card.getStapelPos()) * cardDist);
+		}
+	}
+
+	dragCards (card, dragX, dragY) {
+		// Let the cards follow the mouse whit a y-distance between cards
+		for (let i = card.getStapelPos(); i < this.getSize(); i++) {
+			this.cards[i].setPosition(dragX, dragY + (i - card.getStapelPos()) * cardDist);
+		}
+	}
+
+	dropCards (card, stapel) {
+		// Place cards on other pile and pop them form this pile
+		const size = this.getSize();
+		for (let i = card.getStapelPos(); i < size; i++) {
+			stapel.addCard(this.popCard());
+		}
 	}
 }
 

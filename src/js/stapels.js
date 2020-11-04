@@ -46,6 +46,22 @@ export class abstractStapel extends Phaser.GameObjects.Zone {
 	dragLeave (card) {
 		console.error("This stapel shouldn't receive a drageleave event!");
 	}
+
+	dragCardsStart (card) {
+		console.error("This stapel shouldn't receive a dragStart event!");
+	}
+
+	dragCardsEnd (card) {
+		console.error("This stapel shouldn't receive a dragEnd event!");
+	}
+
+	dragCards (card, dragX, dragY) {
+		console.error("This stapel shouldn't receive a drag event!");
+	}
+
+	dropCards (card, stapel) {
+		console.error("This stapel shouldn't receive a drop event!");
+	}
 }
 
 export class AflegStapel extends abstractStapel {

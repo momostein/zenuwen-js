@@ -12,56 +12,53 @@ export class Card extends Phaser.GameObjects.Image {
 		this.stapel_pos = undefined;
 		this.setInteractive()
 			.on('dragstart', function (pointer) {
-				scene.children.bringToTop(this);
+				// The pile wile do something if the card is on a pile
+				// If the card is not on a pile bring te card to top
 				if (this.getStapel()) {
-					for (let i = this.stapel_pos + 1; i < this.getStapel().getSize(); i++) {
-						scene.children.bringToTop(this.getStapel().cards[i]);
-					}
+					this.getStapel().dragCardsStart(this);
+				} else {
+					this.bringCardToTop();
 				}
 			})
 			.on('dragend', function (pointer, x, y, dropped) {
+				// if the card is not dropped on a pile place the card(s) back on the pile
+				// The pile will do that if the card is on a pile
 				if (!dropped) {
 					if (this.getStapel()) {
-						for (let i = this.stapel_pos + 1; i < this.getStapel().getSize(); i++) {
-							this.getStapel().cards[i].x = this.input.dragStartX;
-							this.getStapel().cards[i].y = this.input.dragStartY + (i - this.stapel_pos) * cardDist;
-						}
+						this.getStapel().dragCardsEnd(this);
+					} else {
+						this.setPosition(this.input.dragStartX, this.input.dragStartY);
 					}
-					this.x = this.input.dragStartX;
-					this.y = this.input.dragStartY;
 				}
 			})
 			.on('drag', function (pointer, dragX, dragY) {
-				this.x = dragX;
-				this.y = dragY;
+				// Card(s) follow the mouse
+				// The pile will do that if the card is on a pile
 				if (this.getStapel()) {
-					for (let i = this.stapel_pos + 1; i < this.getStapel().getSize(); i++) {
-						this.getStapel().cards[i].x = dragX;
-						this.getStapel().cards[i].y = dragY + (i - this.stapel_pos) * cardDist;
-					}
+					this.getStapel().dragCards(this, dragX, dragY);
+				} else {
+					this.setPosition(dragX, dragY);
 				}
 			})
 			.on('drop', function (pointer, stapel) {
+				// The drag ends when dropped so it leaves also
 				stapel.dragLeave();
 				// stapel.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
+
+				// check if cards can placed on pile
 				if (stapel.checkCard(this)) {
+					// place the card(s) on the new pile
 					if (this.getStapel()) {
-						const size = this.getStapel().getSize();
-						for (let i = this.stapel_pos + 1; i < size; i++) {
-							stapel.addCard(this.getStapel().popCard());
-						}
-						this.getStapel().popCard();
+						this.getStapel().dropCards(this, stapel);
+					} else {
+						stapel.addCard(this);
 					}
-					stapel.addCard(this);
 				} else {
+					// place the card(s) back on the pile
 					if (this.getStapel()) {
-						for (let i = this.stapel_pos + 1; i < this.getStapel().getSize(); i++) {
-							this.getStapel().cards[i].x = this.input.dragStartX;
-							this.getStapel().cards[i].y = this.input.dragStartY + (i - this.stapel_pos) * cardDist;
-						}
+						this.getStapel().dragCardsEnd(this);
 					}
-					this.x = this.input.dragStartX;
-					this.y = this.input.dragStartY;
+					this.setPosition(this.input.dragStartX, this.input.dragStartY);
 				}
 			})
 			.on('dragenter', function (pointer, stapel) {
