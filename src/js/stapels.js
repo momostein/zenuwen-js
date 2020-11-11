@@ -24,7 +24,7 @@ export class abstractStapel extends Phaser.GameObjects.Zone {
 	}
 
 	addCard (card) {
-		card.stapelIndex = this.cards.push(card) - 1;
+		this.cards.push(card);
 		card.stapel = this;
 	}
 
@@ -68,7 +68,6 @@ export class abstractStapel extends Phaser.GameObjects.Zone {
 				this.cards.splice(i, 1);
 
 				card.stapel = null;
-				card.stapelIndex = undefined;
 
 				return card;
 			}

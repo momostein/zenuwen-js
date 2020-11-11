@@ -53,7 +53,8 @@ export class PatienceStapel extends abstractStapel {
 	getDragCards (card) {
 		if (this.containsCard(card)) {
 			// Just slice the array from the index of the card till the end
-			return this.cards.slice(card.stapelIndex);
+
+			return this.cards.slice(this.cards.indexOf(card));
 		} else {
 			throw new Error("Can't get dragCards if card isn't in this stapel");
 		}

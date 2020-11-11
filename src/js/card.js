@@ -12,7 +12,6 @@ export class Card extends Phaser.GameObjects.Image {
 
 		// Current stapel and current index in the stapel
 		this.stapel = null;
-		this.stapelIndex = undefined;
 
 		// Current cards being dragged
 		this.dragCards = [];
