@@ -32,8 +32,13 @@ export default class Game extends Phaser.Scene {
 				const stapel = stapels[i];
 				for (let j = 4 - i; j < 5; j++) {
 					const playerCard = new Card(this, 300 + (j * 100), 600, j + 1, 'C');
+					playerCard.disableInteractive().close();
 					stapel.addCard(playerCard);
 				}
+			}
+
+			for (const stapel of stapels) {
+				stapel.openTop();
 			}
 		};
 

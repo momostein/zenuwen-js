@@ -4,9 +4,12 @@ import { style } from './style';
 const colorStapelBorderIdle = style.colors.primary.color32;
 const colorStapelBorderHover = style.colors.secondary.color32;
 const cardDist = 35;
+const cardWidth = 140;
+const cardHeight = 190;
+const padding = 5;
 export class PatienceStapel extends abstractStapel {
 	constructor (scene, x, y, width, height) {
-		super(scene, x, y, width, height);
+		super(scene, x, y, cardWidth + padding * 2, cardHeight + padding * 2);
 
 		scene.add.existing(this);
 		// Make this a dropzone with default shape without a callback
@@ -20,53 +23,21 @@ export class PatienceStapel extends abstractStapel {
 		this.border.setOrigin(0.5, 0.0);
 	}
 
-	checkCard (card) {
-		// Return true if it is possible to place card on pile
-		var size = this.getSize();
-		return ((size === 0 || this.cards[size - 1].getValue() === card.getValue()) && !this.containsCard(card));
-	}
-
 	addCard (card) {
-		if (this.getSize() !== 0) {
-			// place card when pile is not empty
-			this.setPosition(this.x, this.y);
-			this.setSize(this.width, this.height + cardDist, true);
-			// this.setDisplaySize(this.width, this.height + 20); // Zones aren't rendered
-		} else {
-			// place card when pile is empty
-			this.setPosition(this.x, this.y);
-			this.setSize(this.width, this.height, true);
-			// this.setDisplaySize(this.width, this.height); // Zones aren't rendered
-		}
-		// needs to be changed so that al dealt cards are not visible
-		if (!this.checkCard(card)) {
-			this.cards[this.getSize() - 1].disableInteractive().close();
-		}
-		// this.border.setPosition(this.x, this.y);
-		resizeRect(this.border, this.width, this.height);
-		card.setStapelPos(this.getSize());
-
 		super.addCard(card);
-		// place card
+
+		// Bring this card to the top
 		this.scene.children.bringToTop(card);
-		card.setPosition(this.x, this.y + card.height / 2 + this.getSize() * cardDist - (cardDist - 15));
+
+		this.updateCards();
 	}
 
 	popCard () {
-		if (this.getSize() >= 2) {
-			this.cards[this.getSize() - 2].setInteractive().open();
-			// this.setPosition(this.x, this.y);
-			this.setSize(this.width, this.height - cardDist, true);
-			// this.setDisplaySize(this.width, this.height - 20); // Zones aren't rendered
-		} else {
-			// this.setPosition(this.x, this.y);
-			this.setSize(this.width, this.height, true);
-			// this.setDisplaySize(this.width, this.height); // Zones aren't rendered
-		}
+		const card = super.popCard();
 
-		// this.border.setPosition(this.x, this.y);
-		resizeRect(this.border, this.width, this.height);
-		return super.popCard();
+		this.updateCards();
+
+		return card;
 	}
 
 	dragEnter (card) {
@@ -79,32 +50,63 @@ export class PatienceStapel extends abstractStapel {
 		this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
 	}
 
-	dragCardsStart (card) {
-		// Bring cards to top
-		for (let i = card.getStapelPos(); i < this.getSize(); i++) {
-			this.scene.children.bringToTop(this.cards[i]);
+	getDragCards (card) {
+		if (this.containsCard(card)) {
+			// Just slice the array from the index of the card till the end
+			return this.cards.slice(card.stapelIndex);
+		} else {
+			throw new Error("Can't get dragCards if card isn't in this stapel");
 		}
 	}
 
-	dragCardsEnd (card) {
-		// Place the cards back on the pile
-		for (let i = card.getStapelPos(); i < this.getSize(); i++) {
-			this.cards[i].setPosition(card.input.dragStartX, card.input.dragStartY + (i - card.getStapelPos()) * cardDist);
+	setSize (width, height, resizeInput = true) {
+		// this.border.setPosition(this.x, this.y);
+		super.setSize(width, height, resizeInput);
+		resizeRect(this.border, width, this.height);
+	}
+
+	checkCards (cards) {
+		// Return true if it is possible to place card on pile
+		var size = this.getSize();
+		if (size === 0) {
+			return true;
+		} else {
+			const topcard = this.cards[this.cards.length - 1];
+			for (const card of cards) {
+				if (card.value !== topcard.value || this.containsCard(card)) {
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 
-	dragCards (card, dragX, dragY) {
-		// Let the cards follow the mouse whit a y-distance between cards
-		for (let i = card.getStapelPos(); i < this.getSize(); i++) {
-			this.cards[i].setPosition(dragX, dragY + (i - card.getStapelPos()) * cardDist);
+	removeCard (card) {
+		super.removeCard(card);
+
+		this.updateCards();
+
+		this.openTop();
+	}
+
+	openTop () {
+		if (this.cards.length) {
+			const topCard = this.cards[this.cards.length - 1];
+			topCard.setInteractive().open();
 		}
 	}
 
-	dropCards (card, stapel) {
-		// Place cards on other pile and pop them form this pile
-		const size = this.getSize();
-		for (let i = card.getStapelPos(); i < size; i++) {
-			stapel.addCard(this.popCard());
+	updateCards () {
+		for (let i = 0; i < this.cards.length; i++) {
+			const card = this.cards[i];
+			card.setPosition(this.x, this.y + card.height / 2 + i * cardDist + padding);
+		}
+
+		if (this.cards.length >= 2) {
+			const height = cardHeight + cardDist * (this.cards.length - 1) + padding * 2;
+			this.setSize(cardWidth + padding * 2, height);
+		} else {
+			this.setSize(cardWidth + padding * 2, cardHeight + padding * 2);
 		}
 	}
 }

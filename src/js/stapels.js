@@ -24,8 +24,8 @@ export class abstractStapel extends Phaser.GameObjects.Zone {
 	}
 
 	addCard (card) {
-		this.cards.push(card);
-		card.setStapel(this);
+		card.stapelIndex = this.cards.push(card) - 1;
+		card.stapel = this;
 	}
 
 	popCard () {
@@ -39,28 +39,42 @@ export class abstractStapel extends Phaser.GameObjects.Zone {
 		return (this.cards.includes(card));
 	}
 
-	dragEnter (card) {
+	dragEnter (cards) {
 		console.error("This stapel shouldn't receive a dragenter event!");
 	}
 
-	dragLeave (card) {
+	dragLeave (cards) {
 		console.error("This stapel shouldn't receive a drageleave event!");
 	}
 
-	dragCardsStart (card) {
-		console.error("This stapel shouldn't receive a dragStart event!");
+	checkCards (cards) {
+		return false;
 	}
 
-	dragCardsEnd (card) {
-		console.error("This stapel shouldn't receive a dragEnd event!");
+	getDragCards (card) {
+		if (this.containsCard(card)) {
+			return [card];
+		} else {
+			throw new Error("Can't get dragCards if card isn't in this stapel");
+		}
 	}
 
-	dragCards (card, dragX, dragY) {
-		console.error("This stapel shouldn't receive a drag event!");
-	}
+	removeCard (card) {
+		// Search the card in the stapel and remove it
+		// Reverse direction because the card is usually at the top
+		for (let i = this.cards.length - 1; i >= 0; i--) {
+			const stapelCard = this.cards[i];
+			if (stapelCard === card) {
+				this.cards.splice(i, 1);
 
-	dropCards (card, stapel) {
-		console.error("This stapel shouldn't receive a drop event!");
+				card.stapel = null;
+				card.stapelIndex = undefined;
+
+				return card;
+			}
+		}
+
+		throw new Error("Can't remove a card that's not in this stapel");
 	}
 }
 
