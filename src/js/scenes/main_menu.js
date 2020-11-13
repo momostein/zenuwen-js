@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { TextButton } from '../button';
 import { style } from '../style';
 export default class MainMenu extends Phaser.Scene {
 	constructor () {
