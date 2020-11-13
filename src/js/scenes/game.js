@@ -42,7 +42,7 @@ export default class Game extends Phaser.Scene {
 			}
 		};
 
-		this.dealText = this.add.text(75, 350, ['deal cards']).setFontSize(20).setColor(style.colors.textColor).setInteractive();
+		this.dealText = this.add.text(75, 350, ['Add 5 cards']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 		this.dealText.setFontFamily('sans-serif');
 
 		this.dealText.on('pointerdown', function () {
@@ -50,18 +50,18 @@ export default class Game extends Phaser.Scene {
 		});
 
 		this.dealText.on('pointerover', function () {
-			self.dealText.setColor(style.colors.textHover);
+			self.dealText.setColor(style.colors.textHover.rgba);
 		});
 
 		this.dealText.on('pointerout', function () {
-			self.dealText.setColor(style.colors.textColor);
+			self.dealText.setColor(style.colors.textColor.rgba);
 		});
 
 		/*
 		 * Stop button
 		 */
 
-		this.stopText = this.add.text(1000, 350, ['Stop']).setFontSize(20).setColor(style.colors.textColor).setInteractive();
+		this.stopText = this.add.text(1000, 350, ['Stop']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 		this.stopText.setFontFamily('sans-serif');
 
 		this.stopText.on('pointerdown', function () {
@@ -69,18 +69,18 @@ export default class Game extends Phaser.Scene {
 		}, this);
 
 		this.stopText.on('pointerover', function () {
-			self.stopText.setColor(style.colors.textHover);
+			self.stopText.setColor(style.colors.textHover.rgba);
 		});
 
 		this.stopText.on('pointerout', function () {
-			self.stopText.setColor(style.colors.textColor);
+			self.stopText.setColor(style.colors.textColor.rgba);
 		});
 
 		/*
 		 * Pause button
 		 */
 
-		this.pauseText = this.add.text(1000, 370, ['Pause']).setFontSize(20).setColor(style.colors.textColor).setInteractive();
+		this.pauseText = this.add.text(1000, 370, ['Pause']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 		this.pauseText.setFontFamily('sans-serif');
 
 		this.pauseText.on('pointerdown', function () {
@@ -88,11 +88,11 @@ export default class Game extends Phaser.Scene {
 		}, this);
 
 		this.pauseText.on('pointerover', function () {
-			self.pauseText.setColor(style.colors.textHover);
+			self.pauseText.setColor(style.colors.textHover.rgba);
 		});
 
 		this.pauseText.on('pointerout', function () {
-			self.pauseText.setColor(style.colors.textColor);
+			self.pauseText.setColor(style.colors.textColor.rgba);
 		});
 	}
 }
