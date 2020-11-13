@@ -4,8 +4,12 @@ import { style } from './js/style';
 
 const config = {
 	type: Phaser.AUTO,
-	width: 1200,
-	height: 800,
+	scale: {
+		width: 1920,
+		height: 1080,
+		mode: Phaser.Scale.FIT,
+		autoCenter: Phaser.Scale.CENTER_BOTH,
+	},
 	physics: {
 		default: 'arcade',
 		arcade: {
