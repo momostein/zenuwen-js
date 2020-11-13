@@ -5,8 +5,8 @@ import { style } from './js/style';
 const config = {
 	type: Phaser.AUTO,
 	scale: {
-		width: 1600,
-		height: 900,
+		width: 1920,
+		height: 1080,
 		mode: Phaser.Scale.FIT,
 		autoCenter: Phaser.Scale.CENTER_BOTH,
 	},
