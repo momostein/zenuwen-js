@@ -1,4 +1,4 @@
-import { abstractStapel } from './stapels';
+import { AbstractStapel } from './stapels';
 import { style } from './style';
 
 const colorStapelBorderIdle = style.colors.primary.color32;
@@ -10,7 +10,7 @@ const cardWidth = 140;
 const cardHeight = 190;
 const padding = 5;
 
-export class PatienceStapel extends abstractStapel {
+export class PatienceStapel extends AbstractStapel {
 	constructor (scene, x, y, width, height) {
 		super(scene, x, y, cardWidth + padding * 2, cardHeight + padding * 2);
 

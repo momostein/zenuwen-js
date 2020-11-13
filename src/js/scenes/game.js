@@ -1,7 +1,5 @@
 import Phaser from 'phaser';
 import { Card } from '../card';
-import { AflegStapel } from '../stapels';
-import { Stapel } from '../stapel';
 import { PatienceStapel } from '../patience_stapel';
 import { style } from '../style';
 
