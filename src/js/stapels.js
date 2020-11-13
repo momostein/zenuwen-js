@@ -25,7 +25,7 @@ export class abstractStapel extends Phaser.GameObjects.Zone {
 
 	addCard (card) {
 		this.cards.push(card);
-		card.setStapel(this);
+		card.stapel = this;
 	}
 
 	popCard () {
@@ -39,12 +39,41 @@ export class abstractStapel extends Phaser.GameObjects.Zone {
 		return (this.cards.includes(card));
 	}
 
-	dragEnter (card) {
+	dragEnter (cards) {
 		console.error("This stapel shouldn't receive a dragenter event!");
 	}
 
-	dragLeave (card) {
+	dragLeave (cards) {
 		console.error("This stapel shouldn't receive a drageleave event!");
+	}
+
+	checkCards (cards) {
+		return false;
+	}
+
+	getDragCards (card) {
+		if (this.containsCard(card)) {
+			return [card];
+		} else {
+			throw new Error("Can't get dragCards if card isn't in this stapel");
+		}
+	}
+
+	removeCard (card) {
+		// Search the card in the stapel and remove it
+		// Reverse direction because the card is usually at the top
+		for (let i = this.cards.length - 1; i >= 0; i--) {
+			const stapelCard = this.cards[i];
+			if (stapelCard === card) {
+				this.cards.splice(i, 1);
+
+				card.stapel = null;
+
+				return card;
+			}
+		}
+
+		throw new Error("Can't remove a card that's not in this stapel");
 	}
 }
 
@@ -56,7 +85,7 @@ export class AflegStapel extends abstractStapel {
 		// This makes it resizable
 		this.setInteractive(undefined, undefined, true);
 
-		this.border = scene.add.rectangle(this.x, this.y, this.width, this.height).setFillStyle().setStrokeStyle(5, 0xff0000, 1);
+		this.border = scene.add.rectangle(this.x, this.y, this.width, this.height).setFillStyle().setStrokeStyle(5, colorStapelBorderIdle, 1);
 
 		this.setOrigin(0.5, 0.0);
 		this.border.setOrigin(0.5, 0.0);

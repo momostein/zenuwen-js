@@ -67,7 +67,49 @@ export default class MainMenu extends Phaser.Scene {
 		});
 
 		this.spelVerlaten.on('pointerout', function () {
+<<<<<<< HEAD
 			self.spelVerlaten.setScale(0.5);
+=======
+		});
+
+
+		/*
+		 * Main Menu button
+		 */
+
+		this.startText = this.add.text(1000, 350, ['Start']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
+		this.startText.setFontFamily('sans-serif');
+
+		this.startText.on('pointerdown', function () {
+			self.scene.start('game');
+		});
+
+		this.startText.on('pointerover', function () {
+			self.startText.setColor(style.colors.textHover.rgba);
+		});
+
+		this.startText.on('pointerout', function () {
+			self.startText.setColor(style.colors.textColor.rgba);
+		});
+
+		/*
+		 * Info button
+		 */
+
+		this.infoText = this.add.text(1000, 370, ['Info']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
+		this.infoText.setFontFamily('sans-serif');
+
+		this.infoText.on('pointerdown', function () {
+			self.scene.start('gameInfo');
+		});
+
+		this.infoText.on('pointerover', function () {
+			self.infoText.setColor(style.colors.textHover.rgba);
+		});
+
+		this.infoText.on('pointerout', function () {
+			self.infoText.setColor(style.colors.textColor.rgba);
+>>>>>>> menuImprovement
 		});
 	}
 }
