@@ -1,9 +1,9 @@
 import { AbstractStapel } from './stapels';
 import { style } from './style';
 
-const colorStapelBorderIdle = style.colors.primary.color32;
-const colorStapelBorderHover = style.colors.secondary.color32;
-const colorStapelBorderWrong = 0xFF0000;
+const colorStapelBorderIdle = style.colors.subtle.color32;
+const colorStapelBorderGood = style.colors.hoverGood.color32;
+const colorStapelBorderBad = style.colors.hoverBad.color32;
 
 const cardDist = 35;
 const cardWidth = 140;
@@ -46,9 +46,9 @@ export class PatienceStapel extends AbstractStapel {
 
 	dragEnter (cards) {
 		if (this.checkCards(cards)) {
-			this.border.setStrokeStyle(5, colorStapelBorderHover, 1);
+			this.border.setStrokeStyle(5, colorStapelBorderGood, 1);
 		} else {
-			this.border.setStrokeStyle(5, colorStapelBorderWrong, 1);
+			this.border.setStrokeStyle(5, colorStapelBorderBad, 1);
 		}
 
 		this.border.setVisible(true);
