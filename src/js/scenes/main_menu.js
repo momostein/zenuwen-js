@@ -1,5 +1,15 @@
 import Phaser from 'phaser';
+import { TextButton } from '../button';
 import { style } from '../style';
+
+const buttonOptions = {
+	x: 500,
+	y: 100,
+	textColor: { rest: '#000', hover: '#fff' },
+	buttonColor: { rest: style.colors.textColor, hover: style.colors.textHover },
+	height: 50,
+	width: 100,
+};
 
 export default class MainMenu extends Phaser.Scene {
 	constructor () {
@@ -10,6 +20,8 @@ export default class MainMenu extends Phaser.Scene {
 		const self = this;
 
 		this.add.text(20, 20, 'Main Menu').setColor(style.colors.textColor.rgba);
+
+		this.startButton = new TextButton(this, 'Button', buttonOptions, () => console.log('Test'));
 
 		/*
 		 * Main Menu button
