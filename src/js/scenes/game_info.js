@@ -18,7 +18,7 @@ export default class GameInfo extends Phaser.Scene {
 		this.mainMenu.setInteractive();
 		this.mainMenu.setScale(.4);
 
-		//Start spel
+		//main Menu
 		this.mainMenu.on('pointerdown', function () {
 			self.scene.start('mainMenu');
 		});
