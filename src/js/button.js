@@ -1,21 +1,27 @@
 import Phaser from 'phaser';
 
-// import { style } from '../style';
-
 export class TextButton extends Phaser.GameObjects.Container {
-	constructor (scene, text, options, event) {
-		super(scene);
-		this.options = options;
-
-		this.setSize(options.width, options.height);
-		this.setPosition(options.x, options.y);
+	constructor (
+		scene,
+		x,
+		y,
+		width = 100,
+		height = 50,
+		text = 'Button',
+		fontSize = 20,
+		textColor = Phaser.Display.Color.HexStringToColor('#000'),
+		buttonColor = Phaser.Display.Color.HexStringToColor('#fff'),
+		event,
+	) {
+		super(scene, x, y);
+		this.setSize(width, height);
 
 		this.graphic = new Phaser.GameObjects.Graphics(scene);
-		this.graphic.fillRoundedRect(-this.options.width / 2, -this.options.height / 2, this.options.width, this.options.height, 10);
+		this.graphic.fillRoundedRect(-this.width / 2, -this.height / 2, this.width, this.height, 10).fillStyle(buttonColor.color);
 		this.add(this.graphic);
 
 		this.text = new Phaser.GameObjects.Text(scene, 0, 0, text);
-		this.text.setOrigin(0.5);
+		this.text.setOrigin(0.5).setColor(textColor.rgba).setFontSize(fontSize);
 		this.add(this.text);
 
 		this.enterButtonRestState();
@@ -32,12 +38,10 @@ export class TextButton extends Phaser.GameObjects.Container {
 	}
 
 	enterButtonRestState () {
-		this.graphic.fillStyle(this.options.buttonColor.rest.color);
-		this.text.setColor(this.options.textColor.rest);
+		this.setScale(1);
 	}
 
 	enterButtonHoverState () {
-		this.graphic.fillStyle(this.options.buttonColor.hover.color);
-		this.text.setColor(this.options.textColor.hover);
+		this.setScale(1.2);
 	}
 }
