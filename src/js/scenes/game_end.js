@@ -9,13 +9,13 @@ export default class GameEnd extends Phaser.Scene {
 	create () {
 		const self = this;
 
-		this.add.text(20, 20, 'Game End').setColor(style.colors.textColor);
+		this.add.text(20, 20, 'Game End').setColor(style.colors.textColor.rgba);
 
 		/*
 		 * Main Menu button
 		 */
 
-		this.mainMenuText = this.add.text(1000, 350, ['Main Menu']).setFontSize(20).setColor(style.colors.textColor).setInteractive();
+		this.mainMenuText = this.add.text(1000, 350, ['Main Menu']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 		this.mainMenuText.setFontFamily('sans-serif');
 
 		this.mainMenuText.on('pointerdown', function () {
@@ -23,11 +23,11 @@ export default class GameEnd extends Phaser.Scene {
 		}, this);
 
 		this.mainMenuText.on('pointerover', function () {
-			self.mainMenuText.setColor(style.colors.textHover);
+			self.mainMenuText.setColor(style.colors.textHover.rgba);
 		});
 
 		this.mainMenuText.on('pointerout', function () {
-			self.mainMenuText.setColor(style.colors.textColor);
+			self.mainMenuText.setColor(style.colors.textColor.rgba);
 		});
 	}
 }
