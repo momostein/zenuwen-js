@@ -1,6 +1,8 @@
 import Phaser from 'phaser';
 import { Card } from '../card';
 import { AflegStapel } from '../stapels';
+import { Stapel } from '../stapel';
+import { PatienceStapel } from '../patience_stapel';
 import { style } from '../style';
 
 export default class Game extends Phaser.Scene {
@@ -16,24 +18,31 @@ export default class Game extends Phaser.Scene {
 
 	create () {
 		const self = this;
+		var stapels = [];
 
-		this.stapel1 = new AflegStapel(this, 300, 200, 150, 220);
-		this.stapel2 = new AflegStapel(this, 500, 200, 150, 220);
-		this.stapel3 = new AflegStapel(this, 700, 200, 150, 220);
-
+		for (let i = 0; i < 5; i++) {
+			stapels.push(new PatienceStapel(this, 250 + 160 * i, 300, 150, 220));
+		}
 		/*
 		 * Deal cards button
 		 */
 
 		this.dealCards = () => {
 			for (let i = 0; i < 5; i++) {
-				this.stapel1.addCard(
-					new Card(this, 0, 0, i + 1, 'C'),
-				);
+				const stapel = stapels[i];
+				for (let j = 4 - i; j < 5; j++) {
+					const playerCard = new Card(this, 300 + (j * 100), 600, j + 1, 'C');
+					playerCard.disableInteractive().close();
+					stapel.addCard(playerCard);
+				}
+			}
+
+			for (const stapel of stapels) {
+				stapel.openTop();
 			}
 		};
 
-		this.dealText = this.add.text(75, 350, ['Add 5 cards']).setFontSize(20).setColor(style.colors.textColor).setInteractive();
+		this.dealText = this.add.text(75, 350, ['Add 5 cards']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 		this.dealText.setFontFamily('sans-serif');
 
 		this.dealText.on('pointerdown', function () {
@@ -41,18 +50,18 @@ export default class Game extends Phaser.Scene {
 		});
 
 		this.dealText.on('pointerover', function () {
-			self.dealText.setColor(style.colors.textHover);
+			self.dealText.setColor(style.colors.textHover.rgba);
 		});
 
 		this.dealText.on('pointerout', function () {
-			self.dealText.setColor(style.colors.textColor);
+			self.dealText.setColor(style.colors.textColor.rgba);
 		});
 
 		/*
 		 * Stop button
 		 */
 
-		this.stopText = this.add.text(1000, 350, ['Stop']).setFontSize(20).setColor(style.colors.textColor).setInteractive();
+		this.stopText = this.add.text(1000, 350, ['Stop']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 		this.stopText.setFontFamily('sans-serif');
 
 		this.stopText.on('pointerdown', function () {
@@ -60,18 +69,18 @@ export default class Game extends Phaser.Scene {
 		}, this);
 
 		this.stopText.on('pointerover', function () {
-			self.stopText.setColor(style.colors.textHover);
+			self.stopText.setColor(style.colors.textHover.rgba);
 		});
 
 		this.stopText.on('pointerout', function () {
-			self.stopText.setColor(style.colors.textColor);
+			self.stopText.setColor(style.colors.textColor.rgba);
 		});
 
 		/*
 		 * Pause button
 		 */
 
-		this.pauseText = this.add.text(1000, 370, ['Pause']).setFontSize(20).setColor(style.colors.textColor).setInteractive();
+		this.pauseText = this.add.text(1000, 370, ['Pause']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 		this.pauseText.setFontFamily('sans-serif');
 
 		this.pauseText.on('pointerdown', function () {
@@ -79,11 +88,11 @@ export default class Game extends Phaser.Scene {
 		}, this);
 
 		this.pauseText.on('pointerover', function () {
-			self.pauseText.setColor(style.colors.textHover);
+			self.pauseText.setColor(style.colors.textHover.rgba);
 		});
 
 		this.pauseText.on('pointerout', function () {
-			self.pauseText.setColor(style.colors.textColor);
+			self.pauseText.setColor(style.colors.textColor.rgba);
 		});
 	}
 }
