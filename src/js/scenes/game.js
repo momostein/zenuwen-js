@@ -14,8 +14,8 @@ export default class Game extends Phaser.Scene {
 		// this.load.setBaseURL('http://labs.phaser.io'); // Files are now hosted locally
 		this.load.image('cardback', 'assets/PNG/Cards/cardBack_green3.png');
 		this.load.atlasXML('playingCards', 'assets/Spritesheets/playingCards.png', 'assets/Spritesheets/playingCards.xml');
-		this.load.image("stop","./assets/Menu/stop.png");
-		this.load.image("pause","./assets/Menu/pause.png");
+		this.load.image('stop', './assets/Menu/stop.png');
+		this.load.image('pause', './assets/Menu/pause.png');
 	}
 
 	create () {
@@ -44,7 +44,7 @@ export default class Game extends Phaser.Scene {
 			}
 		};
 
-		this.dealText = this.add.text(40, 260, 'Add 5 cards' ,{fontFamily: 'lemonMilk'}).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
+		this.dealText = this.add.text(40, 260, 'Add 5 cards', { fontFamily: 'lemonMilk' }).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 
 		this.dealText.on('pointerdown', function () {
 			self.dealCards();
@@ -58,10 +58,10 @@ export default class Game extends Phaser.Scene {
 			self.dealText.setColor(style.colors.textColor.rgba);
 		});
 
-		/*Stop knop*/
-		this.stop = this.add.image(this.game.renderer.width / 2 +480, this.game.renderer.height / 2 -360, "stop").setDepth(1);
+		/* Stop knop */
+		this.stop = this.add.image(this.game.renderer.width / 2 + 480, this.game.renderer.height / 2 - 360, 'stop').setDepth(1);
 		this.stop.setInteractive();
-		this.stop.setScale(.2);
+		this.stop.setScale(0.2);
 
 		this.stop.on('pointerdown', function () {
 			self.scene.start('gameEnd');
@@ -74,10 +74,10 @@ export default class Game extends Phaser.Scene {
 		this.stop.on('pointerout', function () {
 			self.stop.setScale(0.2);
 		});
-		/*pause knop*/
-		this.pause = this.add.image(this.game.renderer.width / 2 +480, this.game.renderer.height / 2 -300, "pause").setDepth(1);
+		/* pause knop */
+		this.pause = this.add.image(this.game.renderer.width / 2 + 480, this.game.renderer.height / 2 - 300, 'pause').setDepth(1);
 		this.pause.setInteractive();
-		this.pause.setScale(.2);
+		this.pause.setScale(0.2);
 
 		this.pause.on('pointerdown', function () {
 			self.scene.start('pauseMenu');
@@ -90,7 +90,7 @@ export default class Game extends Phaser.Scene {
 		this.pause.on('pointerout', function () {
 			self.pause.setScale(0.2);
 		});
-		
+
 		/*
 		this.stopText = this.add.text(1000, 350, ['Stop']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 		this.stopText.setFontFamily('sans-serif');
@@ -107,8 +107,6 @@ export default class Game extends Phaser.Scene {
 			self.stopText.setColor(style.colors.textColor.rgba);
 		});
 
-		
-
 		this.pauseText = this.add.text(1000, 370, ['Pause']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 		this.pauseText.setFontFamily('sans-serif');
 
@@ -122,6 +120,6 @@ export default class Game extends Phaser.Scene {
 
 		this.pauseText.on('pointerout', function () {
 			self.pauseText.setColor(style.colors.textColor.rgba);
-		});*/
+		}); */
 	}
 }

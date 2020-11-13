@@ -21,7 +21,7 @@ export class TextButton extends Phaser.GameObjects.Container {
 		this.add(this.graphic);
 
 		this.text = new Phaser.GameObjects.Text(scene, 0, 0, text);
-		this.text.setOrigin(0.5).setColor(textColor.rgba).setFontSize(fontSize);
+		this.text.setOrigin(0.5).setColor(textColor.rgba).setFontSize(fontSize).setFontFamily('lemonMilk');
 		this.add(this.text);
 
 		this.enterButtonRestState();
