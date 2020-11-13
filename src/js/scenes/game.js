@@ -44,8 +44,7 @@ export default class Game extends Phaser.Scene {
 			}
 		};
 
-		this.dealText = this.add.text(75, 350, ['Add 5 cards']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
-		this.dealText.setFontFamily('sans-serif');
+		this.dealText = this.add.text(40, 260, 'Add 5 cards' ,{fontFamily: 'lemonMilk'}).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 
 		this.dealText.on('pointerdown', function () {
 			self.dealCards();

@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import { style } from '../style';
-
 export default class MainMenu extends Phaser.Scene {
 	constructor () {
 		super('mainMenu'); // id of Scene
@@ -13,10 +12,7 @@ export default class MainMenu extends Phaser.Scene {
 	}
 	create () {
 		const self = this;
-
-		//this.add.text(20, 20, 'Main Menu').setColor(style.colors.textColor.rgba);
-		
-		//Title 
+		this.add.text(20, 20, 'Main Menu',{fontFamily: 'lemonMilk',}).setColor(style.colors.textColor.rgba);
 		this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 -250, "title").setDepth(1);
 		/*MENU with images*/
 		this.startButton = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 -50, "StartSpel").setDepth(1);
@@ -71,3 +67,7 @@ export default class MainMenu extends Phaser.Scene {
 		});
 	}
 }
+
+
+/**/
+

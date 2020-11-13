@@ -12,7 +12,7 @@ export default class GameInfo extends Phaser.Scene {
 	create () {
 		const self = this;
 
-		this.add.text(475, 350, 'Game Info placeholder text').setColor(style.colors.textColor.rgba);
+		this.add.text(475, 350, 'Game Info placeholder text',{fontFamily: 'lemonMilk',}).setColor(style.colors.textColor.rgba);
 
 		this.mainMenu = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 +300, "mainMenu").setDepth(1);
 		this.mainMenu.setInteractive();

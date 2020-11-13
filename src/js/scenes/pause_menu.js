@@ -12,7 +12,7 @@ export default class PauseMenu extends Phaser.Scene {
 	create () {
 		const self = this;
 
-		this.add.text(20, 20, 'Pause Menu').setColor(style.colors.textColor.rgba);
+		this.add.text(20, 20, 'Pause Menu',{fontFamily: 'lemonMilk',}).setColor(style.colors.textColor.rgba);
 
 		this.continue = this.add.image(this.game.renderer.width / 2, this.game.renderer.height / 2 +300, "continue").setDepth(1);
 		this.continue.setInteractive();

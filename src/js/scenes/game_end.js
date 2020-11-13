@@ -11,7 +11,7 @@ export default class GameEnd extends Phaser.Scene {
 	create () {
 		const self = this;
 
-		this.add.text(20, 20, 'Game End').setColor(style.colors.textColor.rgba);
+		this.add.text(20, 20, 'Game End',{fontFamily: 'lemonMilk'}).setColor(style.colors.textColor.rgba);
 
 		//this.add.text(475, 350, 'Game Info placeholder text').setColor(style.colors.textColor.rgba);
 
