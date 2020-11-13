@@ -70,11 +70,11 @@ export class Card extends Phaser.GameObjects.Image {
 			if (stapel.checkCards(this.dragCards)) {
 				// place the card(s) on the new pile
 				for (const card of this.dragCards) {
+					// if (card.stapel !== stapel) {
 					console.log('removing card', card);
-
 					card.stapel.removeCard(card);
-
 					stapel.addCard(card);
+					// }
 				}
 			} else {
 				// place the card(s) back on the pile

@@ -45,17 +45,24 @@ export class PatienceStapel extends AbstractStapel {
 	}
 
 	dragEnter (cards) {
+		this.border.setVisible(true);
+
 		if (this.checkCards(cards)) {
 			this.border.setStrokeStyle(5, colorStapelBorderGood, 1);
+		} else if (this.cards.includes(cards[0])) {
+			this.border.setVisible(false);
 		} else {
 			this.border.setStrokeStyle(5, colorStapelBorderBad, 1);
 		}
-
-		this.border.setVisible(true);
 	}
 
 	dragLeave (cards) {
-		this.border.setVisible(false);
+		if (this.cards.length === 0) {
+			this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
+			this.border.setVisible(true);
+		} else {
+			this.border.setVisible(false);
+		}
 	}
 
 	getDragCards (card) {
@@ -82,7 +89,7 @@ export class PatienceStapel extends AbstractStapel {
 		} else {
 			const topcard = this.cards[this.cards.length - 1];
 			for (const card of cards) {
-				if (card.value !== topcard.value) {
+				if (card.value !== topcard.value || this.cards.includes(card)) {
 					return false;
 				}
 			}
