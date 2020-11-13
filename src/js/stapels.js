@@ -4,10 +4,10 @@ import { style } from './style';
 const colorStapelBorderIdle = style.colors.primary.color32;
 const colorStapelBorderHover = style.colors.secondary.color32;
 
-export class abstractStapel extends Phaser.GameObjects.Zone {
+export class AbstractStapel extends Phaser.GameObjects.Zone {
 	/* constructor() {
-        if (this.constructor === abstractStapel) {
-            throw new TypeError('Abstract class "abstractStapel" cannot be instantiated directly.');
+        if (this.constructor === AbstractStapel) {
+            throw new TypeError('Abstract class "AbstractStapel" cannot be instantiated directly.');
         }
 
     } */
@@ -77,7 +77,7 @@ export class abstractStapel extends Phaser.GameObjects.Zone {
 	}
 }
 
-export class AflegStapel extends abstractStapel {
+export class AflegStapel extends AbstractStapel {
 	constructor (scene, x, y, width, height) {
 		super(scene, x, y, width, height);
 

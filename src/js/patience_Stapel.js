@@ -1,13 +1,16 @@
-import { abstractStapel } from './stapels';
+import { AbstractStapel } from './stapels';
 import { style } from './style';
 
 const colorStapelBorderIdle = style.colors.primary.color32;
 const colorStapelBorderHover = style.colors.secondary.color32;
+const colorStapelBorderWrong = 0xFF0000;
+
 const cardDist = 35;
 const cardWidth = 140;
 const cardHeight = 190;
 const padding = 5;
-export class PatienceStapel extends abstractStapel {
+
+export class PatienceStapel extends AbstractStapel {
 	constructor (scene, x, y, width, height) {
 		super(scene, x, y, cardWidth + padding * 2, cardHeight + padding * 2);
 
@@ -18,6 +21,7 @@ export class PatienceStapel extends abstractStapel {
 
 		this.cards = [];
 		this.border = scene.add.rectangle(this.x, this.y, this.width, this.height).setFillStyle().setStrokeStyle(5, colorStapelBorderIdle, 1);
+		this.border.setVisible(false);
 
 		this.setOrigin(0.5, 0.0);
 		this.border.setOrigin(0.5, 0.0);
@@ -40,14 +44,18 @@ export class PatienceStapel extends abstractStapel {
 		return card;
 	}
 
-	dragEnter (card) {
-		if (!this.containsCard(card)) {
+	dragEnter (cards) {
+		if (this.checkCards(cards)) {
 			this.border.setStrokeStyle(5, colorStapelBorderHover, 1);
+		} else {
+			this.border.setStrokeStyle(5, colorStapelBorderWrong, 1);
 		}
+
+		this.border.setVisible(true);
 	}
 
-	dragLeave (card) {
-		this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
+	dragLeave (cards) {
+		this.border.setVisible(false);
 	}
 
 	getDragCards (card) {
@@ -74,7 +82,7 @@ export class PatienceStapel extends abstractStapel {
 		} else {
 			const topcard = this.cards[this.cards.length - 1];
 			for (const card of cards) {
-				if (card.value !== topcard.value || this.containsCard(card)) {
+				if (card.value !== topcard.value) {
 					return false;
 				}
 			}
@@ -108,6 +116,13 @@ export class PatienceStapel extends abstractStapel {
 			this.setSize(cardWidth + padding * 2, height);
 		} else {
 			this.setSize(cardWidth + padding * 2, cardHeight + padding * 2);
+		}
+
+		if (this.cards.length === 0) {
+			this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
+			this.border.setVisible(true);
+		} else {
+			this.border.setVisible(false);
 		}
 	}
 }
