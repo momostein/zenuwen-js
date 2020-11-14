@@ -18,16 +18,19 @@ export default class Game extends Phaser.Scene {
 	create () {
 		const self = this;
 		var stapels = [];
-		var stapel;
+		var aflegStapels = [];
 		for (let i = 0; i < 5; i++) {
 			stapels.push(new PatienceStapel(this, 250 + 160 * i, 300, 150, 220));
 		}
 		for (let i = 0; i < 2; i++) {
-			stapel = new AflegStapel(this, 250 + 160 * i, 50, 150, 220);
+			aflegStapels.push(new AflegStapel(this, 450 + 180 * i, 50, 150, 220));
 		}
-		const playerCard = new Card(this, 0, 0, 4, 'C');
-		playerCard.disableInteractive();
-		stapel.addCard(playerCard);
+		for (let i = 0; i < aflegStapels.length; i++) {
+			const stapel = aflegStapels[i];
+			const playerCard = new Card(this, 0, 0, 4, 'C');
+			playerCard.disableInteractive();
+			stapel.addCard(playerCard);
+		}
 		/*
 		 * Deal cards button
 		 */

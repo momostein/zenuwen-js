@@ -2,14 +2,14 @@ import { AbstractStapel } from './stapels';
 import { style } from './style';
 import Phaser from 'phaser';
 
-const colorStapelBorderIdle = style.colors.primary.color32;
-const colorStapelBorderHover = style.colors.secondary.color32;
-const colorStapelBorderWrong = 0xFF0000;
+const colorStapelBorderIdle = style.colors.subtle.color32;
+const colorStapelBorderGood = style.colors.hoverGood.color32;
+const colorStapelBorderBad = style.colors.hoverBad.color32;
 
-const cardDist = -2;
+const cardDist = 2;
 const cardWidth = 140;
 const cardHeight = 190;
-const padding = 5;
+const padding = 10;
 
 export class AflegStapel extends AbstractStapel {
 	constructor (scene, x, y, width, height) {
@@ -21,11 +21,11 @@ export class AflegStapel extends AbstractStapel {
 		this.setInteractive(undefined, undefined, true);
 
 		this.cards = [];
-		this.border = scene.add.rectangle(this.x, this.y, this.width, this.height).setFillStyle().setStrokeStyle(5, colorStapelBorderIdle, 1);
+		this.border = scene.add.rectangle(this.x, this.y + this.height, this.width, this.height).setFillStyle().setStrokeStyle(5, colorStapelBorderIdle, 1);
 		this.border.setVisible(false);
-
-		this.setOrigin(0.5, 0.0);
-		this.border.setOrigin(0.5, 0.0);
+		this.setPosition(this.x, this.y + this.height);
+		this.setOrigin(0.5, 1);
+		this.border.setOrigin(0.5, 1);
 	}
 
 	addCard (card) {
@@ -34,8 +34,8 @@ export class AflegStapel extends AbstractStapel {
 		// Bring this card to the top
 		this.scene.children.bringToTop(card);
 
-		card.setPosition(this.x, this.y + card.height / 2);
 		card.angle = Phaser.Math.RND.between(-5, 5);
+
 		this.updateCards();
 	}
 
@@ -48,13 +48,15 @@ export class AflegStapel extends AbstractStapel {
 	}
 
 	dragEnter (cards) {
-		if (this.checkCards(cards)) {
-			this.border.setStrokeStyle(5, colorStapelBorderHover, 1);
-		} else {
-			this.border.setStrokeStyle(5, colorStapelBorderWrong, 1);
-		}
-
 		this.border.setVisible(true);
+
+		if (this.checkCards(cards)) {
+			this.border.setStrokeStyle(5, colorStapelBorderGood, 1);
+		} else if (this.cards.includes(cards[0])) {
+			this.border.setVisible(false);
+		} else {
+			this.border.setStrokeStyle(5, colorStapelBorderBad, 1);
+		}
 	}
 
 	dragLeave (cards) {
@@ -79,8 +81,8 @@ export class AflegStapel extends AbstractStapel {
 		} else if (topCard.value === 1) {
 			cardMin = 13;
 		}
-		if (size === 0) {
-			return true;
+		if (cards.length > 1 || size === 0) {
+			return false;
 		} else {
 			for (const card of cards) {
 				if ((card.value !== cardPlus) && (card.value !== cardMin)) {
@@ -92,8 +94,8 @@ export class AflegStapel extends AbstractStapel {
 	}
 
 	removeCard (card) {
+		card.angle = 0;
 		super.removeCard(card);
-
 		this.updateCards();
 	}
 
@@ -101,9 +103,8 @@ export class AflegStapel extends AbstractStapel {
 		for (let i = 0; i < this.cards.length; i++) {
 			const card = this.cards[i];
 			card.disableInteractive();
-			card.setPosition(this.x, this.y + card.height / 2 + i * cardDist + padding);
+			card.setPosition(this.x, this.y - card.height / 2 - i * cardDist - padding);
 		}
-
 		if (this.cards.length >= 2) {
 			const height = cardHeight + cardDist * (this.cards.length - 1) + padding * 2;
 			this.setSize(cardWidth + padding * 2, height);
