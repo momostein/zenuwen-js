@@ -6,13 +6,13 @@ const colorStapelBorderIdle = style.colors.subtle.color32;
 const colorStapelBorderGood = style.colors.hoverGood.color32;
 const colorStapelBorderBad = style.colors.hoverBad.color32;
 
-const cardDist = 2;
+const cardDist = 0.5;
 const cardWidth = 140;
 const cardHeight = 190;
 const padding = 10;
 
 export class TrekStapel extends AbstractStapel {
-	constructor (scene, x, y, width, height) {
+	constructor (scene, x, y) {
 		super(scene, x, y, cardWidth + padding * 2, cardHeight + padding * 2);
 
 		scene.add.existing(this);
@@ -21,7 +21,7 @@ export class TrekStapel extends AbstractStapel {
 		this.setInteractive(undefined, undefined, false);
 
 		this.cards = [];
-		this.border = scene.add.rectangle(this.x, this.y + this.height, this.width, this.height).setFillStyle().setStrokeStyle(5, colorStapelBorderIdle, 1);
+		this.border = scene.add.rectangle(this.x, this.y, this.width, this.height).setFillStyle().setStrokeStyle(5, colorStapelBorderIdle, 1);
 		this.border.setVisible(false);
 
 		this.setOrigin(0.5, 1);
@@ -30,6 +30,7 @@ export class TrekStapel extends AbstractStapel {
 
 	addCard (card) {
 		super.addCard(card);
+		card.close();
 
 		// Bring this card to the top
 		this.scene.children.bringToTop(card);
@@ -77,10 +78,15 @@ export class TrekStapel extends AbstractStapel {
 	}
 
 	updateCards () {
+		// TODO: enable and disable interactive
+
 		for (let i = 0; i < this.cards.length; i++) {
 			const card = this.cards[i];
 			card.disableInteractive();
-			card.setPosition(this.x, this.y + card.height / 2 + i * cardDist - padding);
+
+			this.scene.children.bringToTop(card);
+
+			card.setPosition(this.x, this.y - card.height / 2 - i * cardDist - padding);
 		}
 		if (this.cards.length >= 2) {
 			const height = cardHeight + cardDist * (this.cards.length - 1) + padding * 2;

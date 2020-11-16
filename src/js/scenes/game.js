@@ -2,7 +2,10 @@ import Phaser from 'phaser';
 import { Card } from '../card';
 import { PatienceStapel } from '../patience_stapel';
 import { AflegStapel } from '../afleg_stapel';
+import { TrekStapel } from '../trek_stapel';
 import { style } from '../style';
+
+const suits = ['C', 'D', 'H', 'S'];
 
 export default class Game extends Phaser.Scene {
 	constructor () {
@@ -17,13 +20,26 @@ export default class Game extends Phaser.Scene {
 
 	create () {
 		const self = this;
-		var stapels = [];
+
+		const trekStapel = new TrekStapel(this, 800, 400);
+
+		// Add cards to the trekstapel
+		for (const suit of suits) {
+			for (let value = 1; value <= 13; value++) {
+				trekStapel.addCard(new Card(this, 0, 0, value, suit));
+			}
+		}
+
+		// Shuffle the trekstapel
+		trekStapel.shuffle();
+
+		var patiencestapels = [];
 		var aflegStapels = [];
 		for (let i = 0; i < 5; i++) {
-			stapels.push(new PatienceStapel(this, 250 + 160 * i, 300, 150, 220));
+			patiencestapels.push(new PatienceStapel(this, 250 + 160 * i, 500));
 		}
 		for (let i = 0; i < 2; i++) {
-			aflegStapels.push(new AflegStapel(this, 450 + 180 * i, 50, 150, 220));
+			aflegStapels.push(new AflegStapel(this, 450 + 180 * i, 400));
 		}
 		for (let i = 0; i < aflegStapels.length; i++) {
 			const stapel = aflegStapels[i];
@@ -32,31 +48,36 @@ export default class Game extends Phaser.Scene {
 			stapel.addCard(playerCard);
 		}
 
+		trekStapel.on('pointerdown', () => {
+			// TODO: Check if the trekstapel has cards
+			aflegStapels[1].addCard(trekStapel.popCard());
+		});
+
 		/*
 		 * Deal cards button
 		 */
 
-		this.dealCards = () => {
+		function dealCards () {
 			for (let i = 0; i < 5; i++) {
-				const stapel = stapels[i];
+				const stapel = patiencestapels[i];
 				for (let j = 4 - i; j < 5; j++) {
-					const playerCard = new Card(this, 300 + (j * 100), 600, j + 1, 'C');
+					const playerCard = trekStapel.popCard();
+
 					playerCard.disableInteractive().close();
+
 					stapel.addCard(playerCard);
 				}
 			}
 
-			for (const stapel of stapels) {
+			for (const stapel of patiencestapels) {
 				stapel.openTop();
 			}
-		};
+		}
 
-		this.dealText = this.add.text(75, 350, ['Add 5 cards']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
+		this.dealText = this.add.text(75, 350, ['Deal Cards']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 		this.dealText.setFontFamily('sans-serif');
 
-		this.dealText.on('pointerdown', function () {
-			self.dealCards();
-		});
+		this.dealText.on('pointerdown', dealCards);
 
 		this.dealText.on('pointerover', function () {
 			self.dealText.setColor(style.colors.textHover.rgba);

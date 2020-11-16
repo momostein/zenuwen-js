@@ -30,7 +30,7 @@ export class AbstractStapel extends Phaser.GameObjects.Zone {
 
 	popCard () {
 		const card = this.cards.pop();
-		card.setStapel(null);
+		card.stapel = null;
 		return card;
 	}
 

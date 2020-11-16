@@ -11,7 +11,7 @@ const cardHeight = 190;
 const padding = 5;
 
 export class PatienceStapel extends AbstractStapel {
-	constructor (scene, x, y, width, height) {
+	constructor (scene, x, y) {
 		super(scene, x, y, cardWidth + padding * 2, cardHeight + padding * 2);
 
 		scene.add.existing(this);
