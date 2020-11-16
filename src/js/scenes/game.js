@@ -31,6 +31,7 @@ export default class Game extends Phaser.Scene {
 			playerCard.disableInteractive();
 			stapel.addCard(playerCard);
 		}
+
 		/*
 		 * Deal cards button
 		 */

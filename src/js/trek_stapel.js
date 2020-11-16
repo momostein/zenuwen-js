@@ -1,30 +1,31 @@
 import { AbstractStapel } from './stapels';
 import { style } from './style';
+import Phaser from 'phaser';
 
 const colorStapelBorderIdle = style.colors.subtle.color32;
 const colorStapelBorderGood = style.colors.hoverGood.color32;
 const colorStapelBorderBad = style.colors.hoverBad.color32;
 
-const cardDist = 35;
+const cardDist = 2;
 const cardWidth = 140;
 const cardHeight = 190;
-const padding = 5;
+const padding = 10;
 
-export class PatienceStapel extends AbstractStapel {
+export class TrekStapel extends AbstractStapel {
 	constructor (scene, x, y, width, height) {
 		super(scene, x, y, cardWidth + padding * 2, cardHeight + padding * 2);
 
 		scene.add.existing(this);
-		// Make this a dropzone with default shape without a callback
-		// This makes it resizable
-		this.setInteractive(undefined, undefined, true);
+
+		// Make this stapel interactive, but not a dropzone
+		this.setInteractive(undefined, undefined, false);
 
 		this.cards = [];
-		this.border = scene.add.rectangle(this.x, this.y, this.width, this.height).setFillStyle().setStrokeStyle(5, colorStapelBorderIdle, 1);
+		this.border = scene.add.rectangle(this.x, this.y + this.height, this.width, this.height).setFillStyle().setStrokeStyle(5, colorStapelBorderIdle, 1);
 		this.border.setVisible(false);
 
-		this.setOrigin(0.5, 0.0);
-		this.border.setOrigin(0.5, 0.0);
+		this.setOrigin(0.5, 1);
+		this.border.setOrigin(0.5, 1);
 	}
 
 	addCard (card) {
@@ -40,7 +41,6 @@ export class PatienceStapel extends AbstractStapel {
 		const card = super.popCard();
 
 		this.updateCards();
-		this.openTop();
 
 		return card;
 	}
@@ -58,22 +58,7 @@ export class PatienceStapel extends AbstractStapel {
 	}
 
 	dragLeave (cards) {
-		if (this.cards.length === 0) {
-			this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
-			this.border.setVisible(true);
-		} else {
-			this.border.setVisible(false);
-		}
-	}
-
-	getDragCards (card) {
-		if (this.containsCard(card)) {
-			// Just slice the array from the index of the card till the end
-
-			return this.cards.slice(this.cards.indexOf(card));
-		} else {
-			throw new Error("Can't get dragCards if card isn't in this stapel");
-		}
+		this.border.setVisible(false);
 	}
 
 	setSize (width, height, resizeInput = true) {
@@ -83,42 +68,20 @@ export class PatienceStapel extends AbstractStapel {
 	}
 
 	checkCards (cards) {
-		// Return true if it is possible to place card on pile
-		var size = this.getSize();
-		if (size === 0) {
-			return true;
-		} else {
-			const topcard = this.cards[this.cards.length - 1];
-			for (const card of cards) {
-				if (card.value !== topcard.value || this.cards.includes(card)) {
-					return false;
-				}
-			}
-			return true;
-		}
+		return false;
 	}
 
 	removeCard (card) {
 		super.removeCard(card);
-
 		this.updateCards();
-
-		this.openTop();
-	}
-
-	openTop () {
-		if (this.cards.length) {
-			const topCard = this.cards[this.cards.length - 1];
-			topCard.setInteractive().open();
-		}
 	}
 
 	updateCards () {
 		for (let i = 0; i < this.cards.length; i++) {
 			const card = this.cards[i];
-			card.setPosition(this.x, this.y + card.height / 2 + i * cardDist + padding);
+			card.disableInteractive();
+			card.setPosition(this.x, this.y + card.height / 2 + i * cardDist - padding);
 		}
-
 		if (this.cards.length >= 2) {
 			const height = cardHeight + cardDist * (this.cards.length - 1) + padding * 2;
 			this.setSize(cardWidth + padding * 2, height);
@@ -132,6 +95,18 @@ export class PatienceStapel extends AbstractStapel {
 		} else {
 			this.border.setVisible(false);
 		}
+	}
+
+	shuffle () {
+		// Modern Durstenfield shuffle
+		for (let i = 0; i < this.cards.length; i++) {
+			const j = Phaser.Math.RND.integerInRange(i, this.cards.length - 1);
+			const card = this.cards[i];
+			this.cards[i] = this.cards[j];
+			this.cards[j] = card;
+		}
+
+		this.updateCards();
 	}
 }
 
