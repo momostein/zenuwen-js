@@ -71,6 +71,7 @@ export default class Game extends Phaser.Scene {
 			// TODO: Check if the trekstapel has cards
 			for (let i = 0; i < 2; i++) {
 				const card = trekStapels[i].popCard();
+
 				if (card) {
 					aflegStapels[i].addCard(card);
 				}
@@ -87,9 +88,13 @@ export default class Game extends Phaser.Scene {
 				for (let j = 4 - i; j < 5; j++) {
 					const playerCard = trekStapels[1].popCard();
 
-					playerCard.disableInteractive().close();
+					if (playerCard) {
+						playerCard.disableInteractive().close();
 
-					stapel.addCard(playerCard);
+						stapel.addCard(playerCard);
+					} else {
+						break;
+					}
 				}
 			}
 
