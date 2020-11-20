@@ -4,12 +4,15 @@ import { PatienceStapel } from '../patience_stapel';
 import { AflegStapel } from '../afleg_stapel';
 import { TrekStapel } from '../trek_stapel';
 import { style } from '../style';
+import { HandStapel } from '../hand_stapel';
 
 const suits = ['C', 'D', 'H', 'S'];
 
 export default class Game extends Phaser.Scene {
 	constructor () {
 		super('game'); // id of Scene
+		this.patiencestapels = [];
+		this.handstapel = null;
 	}
 
 	preload () {
@@ -46,12 +49,13 @@ export default class Game extends Phaser.Scene {
 			trekStapel.shuffle();
 		}
 
-		var patiencestapels = [];
 		var aflegStapels = [];
-
+		this.handstapel = new HandStapel(this, 700, 650);
+		var patiencestapels = [];
 		for (let i = 0; i < 5; i++) {
 			patiencestapels.push(new PatienceStapel(this, 380 + 160 * i, 500));
 		}
+		this.patiencestapels = patiencestapels;
 
 		for (let i = 0; i < 2; i++) {
 			aflegStapels.push(new AflegStapel(this, 600 + 200 * i, 400));
@@ -81,7 +85,8 @@ export default class Game extends Phaser.Scene {
 
 		function dealCards () {
 			for (let i = 0; i < 5; i++) {
-				const stapel = patiencestapels[i];
+				const stapel = this.patiencestapels[i];
+				stapel.setInteractive();
 				for (let j = 4 - i; j < 5; j++) {
 					const playerCard = trekStapels[1].popCard();
 
@@ -91,15 +96,16 @@ export default class Game extends Phaser.Scene {
 				}
 			}
 
-			for (const stapel of patiencestapels) {
+			for (const stapel of this.patiencestapels) {
 				stapel.openTop();
 			}
+			this.checkStapels();
 		}
 
 		this.dealText = this.add.text(75, 350, ['Deal Cards']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 		this.dealText.setFontFamily('sans-serif');
 
-		this.dealText.on('pointerdown', dealCards);
+		this.dealText.on('pointerdown', dealCards, this);
 
 		this.dealText.on('pointerover', function () {
 			self.dealText.setColor(style.colors.textHover.rgba);
@@ -146,5 +152,22 @@ export default class Game extends Phaser.Scene {
 		this.pauseText.on('pointerout', function () {
 			self.pauseText.setColor(style.colors.textColor.rgba);
 		});
+	}
+
+	checkStapels () {
+		var aantal = 0;
+		for (const stapel of this.patiencestapels) {
+			aantal += stapel.getSize();
+		}
+		if (aantal <= 3) {
+			for (const stapel of this.patiencestapels) {
+				var card = stapel.popCard();
+				while (card) {
+					this.handstapel.addCard(card);
+					card = stapel.popCard();
+				}
+				stapel.disableInteractive();
+			}
+		}
 	}
 }
