@@ -1,33 +1,18 @@
 import Phaser from 'phaser';
 import { style } from '../style';
-
+import { TextButton } from '../button';
 export default class GameEnd extends Phaser.Scene {
 	constructor () {
 		super('gameEnd'); // id of Scene
 	}
 
+	preload () {
+	}
+
 	create () {
 		const self = this;
 
-		this.add.text(20, 20, 'Game End').setColor(style.colors.textColor.rgba);
-
-		/*
-		 * Main Menu button
-		 */
-
-		this.mainMenuText = this.add.text(1000, 350, ['Main Menu']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
-		this.mainMenuText.setFontFamily('sans-serif');
-
-		this.mainMenuText.on('pointerdown', function () {
-			this.scene.start('mainMenu');
-		}, this);
-
-		this.mainMenuText.on('pointerover', function () {
-			self.mainMenuText.setColor(style.colors.textHover.rgba);
-		});
-
-		this.mainMenuText.on('pointerout', function () {
-			self.mainMenuText.setColor(style.colors.textColor.rgba);
-		});
+		this.add.text(20, 20, 'Game End', { fontFamily: 'lemonMilk' }).setColor(style.colors.textColor.rgba);
+		this.mainMenu = new TextButton(this, 600, 700, 230, 100, 'Menu', 30, undefined, undefined, () => this.scene.start('mainMenu'));
 	}
 }

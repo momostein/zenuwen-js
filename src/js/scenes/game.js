@@ -1,12 +1,12 @@
-import Phaser from 'phaser';
+import { AflegStapel } from '../afleg_stapel';
 import { Card } from '../card';
 import { PatienceStapel } from '../patience_stapel';
-import { AflegStapel } from '../afleg_stapel';
+import Phaser from 'phaser';
+import { TextButton } from '../button';
 import { TrekStapel } from '../trek_stapel';
 import { style } from '../style';
 
 const suits = ['C', 'D', 'H', 'S'];
-
 export default class Game extends Phaser.Scene {
 	constructor () {
 		super('game'); // id of Scene
@@ -16,6 +16,8 @@ export default class Game extends Phaser.Scene {
 		// this.load.setBaseURL('http://labs.phaser.io'); // Files are now hosted locally
 		this.load.image('cardback', 'assets/PNG/Cards/cardBack_green3.png');
 		this.load.atlasXML('playingCards', 'assets/Spritesheets/playingCards.png', 'assets/Spritesheets/playingCards.xml');
+		this.load.image('stop', './assets/Menu/stop.png');
+		this.load.image('pause', './assets/Menu/pause.png');
 	}
 
 	create () {
@@ -97,8 +99,8 @@ export default class Game extends Phaser.Scene {
 		}
 
 		this.dealText = this.add.text(75, 350, ['Deal Cards']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
-		this.dealText.setFontFamily('sans-serif');
-
+		this.pause = new TextButton(this, 1120, 50, 100, 50, 'Pause', 20, undefined, undefined, () => this.scene.start('pauseMenu'));
+		this.stop = new TextButton(this, 1120, 125, 100, 50, 'Stop', 20, undefined, undefined, () => this.scene.start('gameEnd'));
 		this.dealText.on('pointerdown', dealCards);
 
 		this.dealText.on('pointerover', function () {
@@ -107,44 +109,6 @@ export default class Game extends Phaser.Scene {
 
 		this.dealText.on('pointerout', function () {
 			self.dealText.setColor(style.colors.textColor.rgba);
-		});
-
-		/*
-		 * Stop button
-		 */
-
-		this.stopText = this.add.text(1500, 350, ['Stop']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
-		this.stopText.setFontFamily('sans-serif');
-
-		this.stopText.on('pointerdown', function () {
-			this.scene.start('gameEnd');
-		}, this);
-
-		this.stopText.on('pointerover', function () {
-			self.stopText.setColor(style.colors.textHover.rgba);
-		});
-
-		this.stopText.on('pointerout', function () {
-			self.stopText.setColor(style.colors.textColor.rgba);
-		});
-
-		/*
-		 * Pause button
-		 */
-
-		this.pauseText = this.add.text(1500, 370, ['Pause']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
-		this.pauseText.setFontFamily('sans-serif');
-
-		this.pauseText.on('pointerdown', function () {
-			this.scene.switch('pauseMenu');
-		}, this);
-
-		this.pauseText.on('pointerover', function () {
-			self.pauseText.setColor(style.colors.textHover.rgba);
-		});
-
-		this.pauseText.on('pointerout', function () {
-			self.pauseText.setColor(style.colors.textColor.rgba);
 		});
 	}
 }

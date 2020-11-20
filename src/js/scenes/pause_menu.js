@@ -1,33 +1,18 @@
 import Phaser from 'phaser';
 import { style } from '../style';
-
+import { TextButton } from '../button';
 export default class PauseMenu extends Phaser.Scene {
 	constructor () {
 		super('pauseMenu'); // id of Scene
 	}
 
+	preload () {
+	}
+
 	create () {
 		const self = this;
 
-		this.add.text(20, 20, 'Pause Menu').setColor(style.colors.textColor.rgba);
-
-		/*
-		 * Pause button
-		 */
-
-		this.continueText = this.add.text(1000, 350, ['Continue']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
-		this.continueText.setFontFamily('sans-serif');
-
-		this.continueText.on('pointerdown', function () {
-			this.scene.switch('game');
-		}, this);
-
-		this.continueText.on('pointerover', function () {
-			self.continueText.setColor(style.colors.textHover.rgba);
-		});
-
-		this.continueText.on('pointerout', function () {
-			self.continueText.setColor(style.colors.textColor.rgba);
-		});
+		this.add.text(20, 20, 'Pause Menu', { fontFamily: 'lemonMilk' }).setColor(style.colors.textColor.rgba);
+		this.mainMenu = new TextButton(this, 600, 700, 230, 100, 'continue', 30, undefined, undefined, () => this.scene.start('game'));
 	}
 }
