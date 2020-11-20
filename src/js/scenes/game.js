@@ -99,7 +99,7 @@ export default class Game extends Phaser.Scene {
 		}
 
 		this.dealText = this.add.text(75, 350, ['Deal Cards']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
-		this.pause = new TextButton(this, 1120, 50, 100, 50, 'Pause', 20, undefined, undefined, () => this.scene.start('pauseMenu'));
+		this.pause = new TextButton(this, 1120, 50, 100, 50, 'Pause', 20, undefined, undefined, () => this.scene.switch('pauseMenu'));
 		this.stop = new TextButton(this, 1120, 125, 100, 50, 'Stop', 20, undefined, undefined, () => this.scene.start('gameEnd'));
 		this.dealText.on('pointerdown', dealCards);
 
