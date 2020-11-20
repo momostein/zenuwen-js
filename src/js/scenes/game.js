@@ -16,16 +16,14 @@ export default class Game extends Phaser.Scene {
 		// this.load.setBaseURL('http://labs.phaser.io'); // Files are now hosted locally
 		this.load.image('cardback', 'assets/PNG/Cards/cardBack_green3.png');
 		this.load.atlasXML('playingCards', 'assets/Spritesheets/playingCards.png', 'assets/Spritesheets/playingCards.xml');
-		this.load.image('stop', './assets/Menu/stop.png');
-		this.load.image('pause', './assets/Menu/pause.png');
 	}
 
 	create () {
 		const self = this;
-
+		const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2; // x for auto center
 		const trekStapels = [
-			new TrekStapel(this, 400, 400),
-			new TrekStapel(this, 1000, 400),
+			new TrekStapel(this, screenCenterX - 300, 400),
+			new TrekStapel(this, screenCenterX + 300, 400),
 		];
 
 		// Add cards to the trekstapel
@@ -52,11 +50,11 @@ export default class Game extends Phaser.Scene {
 		var aflegStapels = [];
 
 		for (let i = 0; i < 5; i++) {
-			patiencestapels.push(new PatienceStapel(this, 380 + 160 * i, 500));
+			patiencestapels.push(new PatienceStapel(this, screenCenterX - 300 + 150 * i, 500));
 		}
 
 		for (let i = 0; i < 2; i++) {
-			aflegStapels.push(new AflegStapel(this, 600 + 200 * i, 400));
+			aflegStapels.push(new AflegStapel(this, screenCenterX - 100 + 200 * i, 400));
 		}
 
 		// // Add some cards to the aflegstapel
@@ -103,17 +101,8 @@ export default class Game extends Phaser.Scene {
 			}
 		}
 
-		this.dealText = this.add.text(75, 350, ['Deal Cards']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
-		this.pause = new TextButton(this, 1120, 50, 100, 50, 'Pause', 20, undefined, undefined, () => this.scene.switch('pauseMenu'));
-		this.stop = new TextButton(this, 1120, 125, 100, 50, 'Stop', 20, undefined, undefined, () => this.scene.start('gameEnd'));
-		this.dealText.on('pointerdown', dealCards);
-
-		this.dealText.on('pointerover', function () {
-			self.dealText.setColor(style.colors.textHover.rgba);
-		});
-
-		this.dealText.on('pointerout', function () {
-			self.dealText.setColor(style.colors.textColor.rgba);
-		});
+		this.pause = new TextButton(this, 1850, 50, 100, 50, 'Pause', 20, undefined, undefined, () => this.scene.switch('pauseMenu'));
+		this.stop = new TextButton(this, 1850, 125, 100, 50, 'Stop', 20, undefined, undefined, () => this.scene.start('gameEnd'));
+		this.stop = new TextButton(this, 450, 545, 165, 65, 'Deal Cards', 20, undefined, undefined, () => dealCards());
 	}
 }
