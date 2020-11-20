@@ -1,9 +1,9 @@
-import { AflegStapel } from '../afleg_stapel';
-import { Card } from '../card';
-import { PatienceStapel } from '../patience_stapel';
+import { AflegStapel } from '../stapels/afleg_stapel';
+import { Card } from '../cards/card';
+import { PatienceStapel } from '../stapels/patience_stapel';
 import Phaser from 'phaser';
 import { TextButton } from '../button';
-import { TrekStapel } from '../trek_stapel';
+import { TrekStapel } from '../stapels/trek_stapel';
 import { style } from '../style';
 
 const suits = ['C', 'D', 'H', 'S'];
