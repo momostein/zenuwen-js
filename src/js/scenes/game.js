@@ -21,36 +21,53 @@ export default class Game extends Phaser.Scene {
 	create () {
 		const self = this;
 
-		const trekStapel = new TrekStapel(this, 800, 400);
+		const trekStapels = [
+			new TrekStapel(this, 400, 400),
+			new TrekStapel(this, 1000, 400),
+		];
 
 		// Add cards to the trekstapel
 		for (const suit of suits) {
 			for (let value = 1; value <= 13; value++) {
-				trekStapel.addCard(new Card(this, 0, 0, value, suit));
+				trekStapels[0].addCard(new Card(this, 0, 0, value, suit));
 			}
 		}
 
 		// Shuffle the trekstapel
-		trekStapel.shuffle();
+		trekStapels[0].shuffle();
+
+		// Split the cards in the trekstapel
+		for (let i = 0; i < 26; i++) {
+			trekStapels[1].addCard(trekStapels[0].popCard());
+		}
 
 		var patiencestapels = [];
 		var aflegStapels = [];
+
 		for (let i = 0; i < 5; i++) {
-			patiencestapels.push(new PatienceStapel(this, 250 + 160 * i, 500));
-		}
-		for (let i = 0; i < 2; i++) {
-			aflegStapels.push(new AflegStapel(this, 450 + 180 * i, 400));
-		}
-		for (let i = 0; i < aflegStapels.length; i++) {
-			const stapel = aflegStapels[i];
-			const playerCard = new Card(this, 0, 0, 4, 'C');
-			playerCard.disableInteractive();
-			stapel.addCard(playerCard);
+			patiencestapels.push(new PatienceStapel(this, 380 + 160 * i, 500));
 		}
 
-		trekStapel.on('pointerdown', () => {
+		for (let i = 0; i < 2; i++) {
+			aflegStapels.push(new AflegStapel(this, 600 + 200 * i, 400));
+		}
+
+		// // Add some cards to the aflegstapel
+		// for (let i = 0; i < aflegStapels.length; i++) {
+		// 	const stapel = aflegStapels[i];
+		// 	const playerCard = new Card(this, 0, 0, 4, 'C');
+		// 	playerCard.disableInteractive();
+		// 	stapel.addCard(playerCard);
+		// }
+
+		trekStapels[1].on('pointerdown', () => {
 			// TODO: Check if the trekstapel has cards
-			aflegStapels[1].addCard(trekStapel.popCard());
+			for (let i = 0; i < 2; i++) {
+				const card = trekStapels[i].popCard();
+				if (card) {
+					aflegStapels[i].addCard(card);
+				}
+			}
 		});
 
 		/*
@@ -61,7 +78,7 @@ export default class Game extends Phaser.Scene {
 			for (let i = 0; i < 5; i++) {
 				const stapel = patiencestapels[i];
 				for (let j = 4 - i; j < 5; j++) {
-					const playerCard = trekStapel.popCard();
+					const playerCard = trekStapels[1].popCard();
 
 					playerCard.disableInteractive().close();
 
@@ -91,7 +108,7 @@ export default class Game extends Phaser.Scene {
 		 * Stop button
 		 */
 
-		this.stopText = this.add.text(1000, 350, ['Stop']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
+		this.stopText = this.add.text(1500, 350, ['Stop']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 		this.stopText.setFontFamily('sans-serif');
 
 		this.stopText.on('pointerdown', function () {
@@ -110,7 +127,7 @@ export default class Game extends Phaser.Scene {
 		 * Pause button
 		 */
 
-		this.pauseText = this.add.text(1000, 370, ['Pause']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
+		this.pauseText = this.add.text(1500, 370, ['Pause']).setFontSize(20).setColor(style.colors.textColor.rgba).setInteractive();
 		this.pauseText.setFontFamily('sans-serif');
 
 		this.pauseText.on('pointerdown', function () {
