@@ -41,6 +41,11 @@ export default class Game extends Phaser.Scene {
 			trekStapels[1].addCard(trekStapels[0].popCard());
 		}
 
+		// Shuffle these stapels again
+		for (const trekStapel of trekStapels) {
+			trekStapel.shuffle();
+		}
+
 		var patiencestapels = [];
 		var aflegStapels = [];
 
