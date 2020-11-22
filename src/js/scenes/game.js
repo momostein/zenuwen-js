@@ -19,9 +19,10 @@ export default class Game extends Phaser.Scene {
 
 	create () {
 		const screenCenter = { x: this.cameras.main.worldView.x + this.cameras.main.width / 2, y: this.cameras.main.worldView.y + this.cameras.main.height / 2 };
+
 		const trekStapels = [
-			new TrekStapel(this, screenCenter.x - 300, screenCenter.y),
-			new TrekStapel(this, screenCenter.x + 300, screenCenter.y),
+			new TrekStapel(this, screenCenter.x - 450, screenCenter.y),
+			new TrekStapel(this, screenCenter.x + 450, screenCenter.y),
 		];
 
 		// Add cards to the trekstapel
@@ -48,11 +49,11 @@ export default class Game extends Phaser.Scene {
 		var aflegStapels = [];
 
 		for (let i = 0; i < 5; i++) {
-			patiencestapels.push(new PatienceStapel(this, screenCenter.x - 360 + 180 * i, screenCenter.y + 150));
+			patiencestapels.push(new PatienceStapel(this, screenCenter.x - 400 + 200 * i, screenCenter.y + 150));
 		}
 
 		for (let i = 0; i < 2; i++) {
-			aflegStapels.push(new AflegStapel(this, screenCenter.x - 100 + 200 * i, screenCenter.y));
+			aflegStapels.push(new AflegStapel(this, screenCenter.x - 150 + 300 * i, screenCenter.y));
 		}
 
 		// // Add some cards to the aflegstapel
@@ -101,6 +102,6 @@ export default class Game extends Phaser.Scene {
 
 		this.pause = new TextButton(this, this.cameras.main.width - 75, 50, 100, 50, 'Pause', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
 		this.stop = new TextButton(this, this.cameras.main.width - 75, 125, 100, 50, 'Stop', 20, 0, undefined, undefined, () => this.scene.start('gameEnd'));
-		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 165, 65, 'Deal', 25, 5, undefined, undefined, () => { dealCards(); this.deal.setVisible(false); });
+		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 200, 75, 'Delen', 35, 4, undefined, undefined, () => { dealCards(); this.deal.setVisible(false); });
 	}
 }
