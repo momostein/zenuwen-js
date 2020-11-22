@@ -4,7 +4,6 @@ import { PatienceStapel } from '../stapels/patience_stapel';
 import Phaser from 'phaser';
 import { TextButton } from '../button';
 import { TrekStapel } from '../stapels/trek_stapel';
-import { style } from '../style';
 
 const suits = ['C', 'D', 'H', 'S'];
 export default class Game extends Phaser.Scene {
@@ -19,11 +18,10 @@ export default class Game extends Phaser.Scene {
 	}
 
 	create () {
-		const self = this;
-		const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2; // x for auto center
+		const screenCenter = { x: this.cameras.main.worldView.x + this.cameras.main.width / 2, y: this.cameras.main.worldView.y + this.cameras.main.height / 2 };
 		const trekStapels = [
-			new TrekStapel(this, screenCenterX - 300, 400),
-			new TrekStapel(this, screenCenterX + 300, 400),
+			new TrekStapel(this, screenCenter.x - 300, screenCenter.y),
+			new TrekStapel(this, screenCenter.x + 300, screenCenter.y),
 		];
 
 		// Add cards to the trekstapel
@@ -50,11 +48,11 @@ export default class Game extends Phaser.Scene {
 		var aflegStapels = [];
 
 		for (let i = 0; i < 5; i++) {
-			patiencestapels.push(new PatienceStapel(this, screenCenterX - 300 + 150 * i, 500));
+			patiencestapels.push(new PatienceStapel(this, screenCenter.x - 360 + 180 * i, screenCenter.y + 150));
 		}
 
 		for (let i = 0; i < 2; i++) {
-			aflegStapels.push(new AflegStapel(this, screenCenterX - 100 + 200 * i, 400));
+			aflegStapels.push(new AflegStapel(this, screenCenter.x - 100 + 200 * i, screenCenter.y));
 		}
 
 		// // Add some cards to the aflegstapel
@@ -101,8 +99,8 @@ export default class Game extends Phaser.Scene {
 			}
 		}
 
-		this.pause = new TextButton(this, 1850, 50, 100, 50, 'Pause', 20, undefined, undefined, () => this.scene.switch('pauseMenu'));
-		this.stop = new TextButton(this, 1850, 125, 100, 50, 'Stop', 20, undefined, undefined, () => this.scene.start('gameEnd'));
-		this.stop = new TextButton(this, 450, 545, 165, 65, 'Deal Cards', 20, undefined, undefined, () => dealCards());
+		this.pause = new TextButton(this, this.cameras.main.width - 75, 50, 100, 50, 'Pause', 20, undefined, undefined, () => this.scene.switch('pauseMenu'));
+		this.stop = new TextButton(this, this.cameras.main.width - 75, 125, 100, 50, 'Stop', 20, undefined, undefined, () => this.scene.start('gameEnd'));
+		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 165, 65, 'Deal', 25, undefined, undefined, () => { dealCards(); this.deal.setVisible(false); });
 	}
 }
