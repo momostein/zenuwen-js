@@ -9,7 +9,8 @@ export class TextButton extends Phaser.GameObjects.Container {
 		height = 50,
 		text = 'Button',
 		fontSize = 20,
-		textColor = Phaser.Display.Color.HexStringToColor('#000'),
+		borderWidth = 8,
+		textColor = Phaser.Display.Color.HexStringToColor('#2a2a2a'),
 		buttonColor = Phaser.Display.Color.HexStringToColor('#fff'),
 		event,
 	) {
@@ -17,7 +18,9 @@ export class TextButton extends Phaser.GameObjects.Container {
 		this.setSize(width, height);
 
 		this.graphic = new Phaser.GameObjects.Graphics(scene);
-		this.graphic.fillRoundedRect(-this.width / 2, -this.height / 2, this.width, this.height, 10).fillStyle(buttonColor.color);
+		this.graphic.fillStyle(buttonColor.color).fillRoundedRect(-this.width / 2, -this.height / 2, this.width, this.height, 10);
+		// this.graphic.lineStyle(borderWidth + 2, Phaser.Display.Color.HexStringToColor('#bbbbbb').color).strokeRoundedRect(-this.width / 2 - (borderWidth + 2) / 4, -this.height / 2 - (borderWidth + 2) / 4, this.width + (borderWidth + 2) / 2, this.height + (borderWidth + 2) / 2, 10);
+		this.graphic.lineStyle(borderWidth, textColor.color).strokeRoundedRect(-this.width / 2, -this.height / 2, this.width, this.height, 10);
 		this.add(this.graphic);
 
 		this.text = new Phaser.GameObjects.Text(scene, 0, 0, text);
