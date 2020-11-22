@@ -6,7 +6,7 @@ const colorStapelBorderIdle = style.colors.subtle.color32;
 const colorStapelBorderGood = style.colors.hoverGood.color32;
 const colorStapelBorderBad = style.colors.hoverBad.color32;
 
-const cardDist = 2;
+const cardDist = 1;
 const cardWidth = 140;
 const cardHeight = 190;
 const padding = 12;
@@ -21,11 +21,11 @@ export class AflegStapel extends AbstractStapel {
 		this.setInteractive(undefined, undefined, true);
 
 		this.cards = [];
-		this.border = scene.add.rectangle(this.x, this.y, this.width, this.height).setFillStyle().setStrokeStyle(5, colorStapelBorderIdle, 1);
+		this.border = scene.add.rectangle(this.x, this.y + cardHeight / 2, this.width, this.height).setFillStyle().setStrokeStyle(5, colorStapelBorderIdle, 1);
 
 		this.updateCards();
 
-		this.setOrigin(0.5, 1);
+		this.setOrigin(0.5);
 		this.border.setOrigin(0.5, 1);
 	}
 
@@ -115,7 +115,7 @@ export class AflegStapel extends AbstractStapel {
 		for (let i = 0; i < this.cards.length; i++) {
 			const card = this.cards[i];
 			card.disableInteractive();
-			card.setPosition(this.x, this.y - card.height / 2 - i * cardDist - padding);
+			card.setPosition(this.x, this.y - i * cardDist - padding);
 		}
 		if (this.cards.length >= 2) {
 			const height = cardHeight + cardDist * (this.cards.length - 1) + padding * 2;

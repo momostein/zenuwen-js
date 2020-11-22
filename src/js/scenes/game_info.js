@@ -10,9 +10,8 @@ export default class GameInfo extends Phaser.Scene {
 	}
 
 	create () {
-		const self = this;
-
-		this.add.text(475, 350, 'Game Info placeholder text', { fontFamily: 'lemonMilk' }).setColor(style.colors.textColor.rgba);
-		this.mainMenu = new TextButton(this, 600, 700, 230, 100, 'Menu', 30, undefined, undefined, () => this.scene.start('mainMenu'));
+		const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2; // x for auto center
+		this.add.text(screenCenterX, 350, 'Game Info placeholder text', { fontFamily: 'lemonMilk' }).setColor(style.colors.textColor.rgba).setOrigin(0.5);
+		this.mainMenu = new TextButton(this, screenCenterX, 700, 230, 100, 'Menu', 30, undefined, undefined, () => this.scene.start('mainMenu'));
 	}
 }

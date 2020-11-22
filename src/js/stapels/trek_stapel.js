@@ -21,11 +21,11 @@ export class TrekStapel extends AbstractStapel {
 		this.setInteractive(undefined, undefined, false);
 
 		this.cards = [];
-		this.border = scene.add.rectangle(this.x, this.y, this.width, this.height).setFillStyle().setStrokeStyle(5, colorStapelBorderIdle, 1);
+		this.border = scene.add.rectangle(this.x, this.y - padding, this.width, this.height).setFillStyle().setStrokeStyle(5, colorStapelBorderIdle, 1);
 		this.border.setVisible(false);
 
-		this.setOrigin(0.5, 1);
-		this.border.setOrigin(0.5, 1);
+		this.setOrigin(0.5);
+		this.border.setOrigin(0.5);
 	}
 
 	addCard (card) {
@@ -86,7 +86,7 @@ export class TrekStapel extends AbstractStapel {
 
 			this.scene.children.bringToTop(card);
 
-			card.setPosition(this.x, this.y - card.height / 2 - i * cardDist - padding);
+			card.setPosition(this.x, this.y - i * cardDist - padding);
 		}
 		if (this.cards.length >= 2) {
 			const height = cardHeight + cardDist * (this.cards.length - 1) + padding * 2;
