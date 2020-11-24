@@ -17,7 +17,6 @@ export default class Game extends Phaser.Scene {
 	}
 
 	create () {
-		const scene = this;
 		const screenCenter = { x: this.cameras.main.worldView.x + this.cameras.main.width / 2, y: this.cameras.main.worldView.y + this.cameras.main.height / 2 };
 
 		const trekStapels = [
@@ -45,8 +44,8 @@ export default class Game extends Phaser.Scene {
 			trekStapel.shuffle();
 		}
 
-		var patienceStapelsPlayer = makePatienceStapels(screenCenter.y + 150, false);
-		var patienceStapelsAI = makePatienceStapels(screenCenter.y - 150, true);
+		var patienceStapelsPlayer = makePatienceStapels(this, screenCenter.x, screenCenter.y + 150, false);
+		var patienceStapelsAI = makePatienceStapels(this, screenCenter.x, screenCenter.y - 150, true);
 		var aflegStapels = [];
 
 		for (let i = 0; i < 2; i++) {
@@ -72,45 +71,44 @@ export default class Game extends Phaser.Scene {
 			}
 		});
 
-		function dealCards (patienceStapels, trekstapel, AI = false) {
-			for (let i = 0; i < 5; i++) {
-				const stapel = AI ? patienceStapels[4 - i] : patienceStapels[i];
-				for (let j = 4 - i; j < 5; j++) {
-					const playerCard = trekstapel.popCard();
-
-					if (playerCard) {
-						playerCard.disableInteractive().close();
-
-						stapel.addCard(playerCard);
-					} else {
-						break;
-					}
-				}
-			}
-
-			for (const stapel of patienceStapels) {
-				stapel.openTop();
-			}
-		}
-
-		function dealButton (button) {
-			dealCards(patienceStapelsPlayer, trekStapels[1]);
-			dealCards(patienceStapelsAI, trekStapels[0], true);
-			button.setVisible(false);
-		}
-
-		function makePatienceStapels (y, AI) {
-			const stapels = [];
-			for (let i = 0; i < 5; i++) {
-				stapels.push(new PatienceStapel(scene, screenCenter.x - 400 + 200 * i, y, AI));
-			}
-			return stapels;
-		}
-
 		// Buttons
 		this.fullscreen = new TextButton(this, this.cameras.main.width - 110, 50, 160, 50, 'Fullscreen', 20, 0, undefined, undefined, () => this.scale.toggleFullscreen());
 		this.pause = new TextButton(this, this.cameras.main.width - 110, 125, 160, 50, 'Pause', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
 		this.stop = new TextButton(this, this.cameras.main.width - 110, 200, 160, 50, 'Stop', 20, 0, undefined, undefined, () => this.scene.start('gameEnd'));
-		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 200, 75, 'Delen', 35, 4, undefined, undefined, () => dealButton(this.deal));
+		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 200, 75, 'Delen', 35, 4, undefined, undefined, () => {
+			dealCards(patienceStapelsPlayer, trekStapels[1]);
+			dealCards(patienceStapelsAI, trekStapels[0], true);
+			this.deal.setVisible(false);
+		},
+		);
+	}
+}
+
+function makePatienceStapels (scene, centerX, y, AI) {
+	const stapels = [];
+	for (let i = 0; i < 5; i++) {
+		stapels.push(new PatienceStapel(scene, centerX - 400 + 200 * i, y, AI));
+	}
+	return stapels;
+}
+
+function dealCards (patienceStapels, trekstapel, AI = false) {
+	for (let i = 0; i < 5; i++) {
+		const stapel = AI ? patienceStapels[4 - i] : patienceStapels[i];
+		for (let j = 4 - i; j < 5; j++) {
+			const playerCard = trekstapel.popCard();
+
+			if (playerCard) {
+				playerCard.disableInteractive().close();
+
+				stapel.addCard(playerCard);
+			} else {
+				break;
+			}
+		}
+	}
+
+	for (const stapel of patienceStapels) {
+		stapel.openTop();
 	}
 }

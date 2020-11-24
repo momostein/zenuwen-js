@@ -128,9 +128,16 @@ export class PatienceStapel extends AbstractStapel {
 	updateCards () {
 		for (let i = 0; i < this.cards.length; i++) {
 			const card = this.cards[i];
+			var dist;
+			if (this.cards.length > 7) {
+				dist = cardDist * 0.75;
+			} else {
+				dist = cardDist;
+			}
 			const height = this.AI
-				? this.y - card.height / 2 - i * cardDist - padding
-				: this.y + card.height / 2 + i * cardDist + padding;
+				? this.y - card.height / 2 - i * dist - padding
+				: this.y + card.height / 2 + i * dist + padding;
+
 			card.setPosition(this.x, height);
 		}
 
