@@ -1,4 +1,4 @@
-import { AflegStapel, PatienceStapel, TrekStapel } from '../stapels';
+import { AflegStapel, PatienceStapel, TrekStapel, HandStapel } from '../stapels';
 
 import { Card } from '../cards/card';
 import Phaser from 'phaser';
@@ -44,9 +44,10 @@ export default class Game extends Phaser.Scene {
 			trekStapel.shuffle();
 		}
 
-		var patienceStapelsPlayer = makePatienceStapels(this, screenCenter.x, screenCenter.y + 150, false);
+		this.patienceStapelsPlayer = makePatienceStapels(this, screenCenter.x, screenCenter.y + 150, false);
 		var patienceStapelsAI = makePatienceStapels(this, screenCenter.x, screenCenter.y - 150, true);
 		var aflegStapels = [];
+		this.handstapel = new HandStapel(this, screenCenter.x, screenCenter.y + 300, true);
 
 		for (let i = 0; i < 2; i++) {
 			aflegStapels.push(new AflegStapel(this, screenCenter.x - 150 + 300 * i, screenCenter.y));
@@ -76,10 +77,28 @@ export default class Game extends Phaser.Scene {
 		this.pause = new TextButton(this, this.cameras.main.width - 110, 125, 160, 50, 'Pause', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
 		this.stop = new TextButton(this, this.cameras.main.width - 110, 200, 160, 50, 'Stop', 20, 0, undefined, undefined, () => this.scene.start('gameEnd'));
 		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 200, 75, 'Delen', 35, 4, undefined, undefined, () => {
-			dealCards(patienceStapelsPlayer, trekStapels[1]);
-			dealCards(patienceStapelsAI, trekStapels[0], true);
+			dealCards(this.patienceStapelsPlayer, trekStapels[1], this);
+			dealCards(patienceStapelsAI, trekStapels[0], this, true);
 			this.deal.setVisible(false);
 		});
+	}
+
+	checkStapels () {
+		var aantal = 0;
+		for (const stapel of this.patienceStapelsPlayer) {
+			aantal += stapel.getSize();
+		}
+		console.log(aantal);
+		if (aantal <= 3) {
+			for (const stapel of this.patienceStapelsPlayer) {
+				var card = stapel.popCard();
+				while (card) {
+					this.handstapel.addCard(card);
+					card = stapel.popCard();
+				}
+				stapel.disableInteractive();
+			}
+		}
 	}
 }
 
@@ -91,7 +110,7 @@ function makePatienceStapels (scene, centerX, y, AI) {
 	return stapels;
 }
 
-function dealCards (patienceStapels, trekstapel, AI = false) {
+function dealCards (patienceStapels, trekstapel, scene, AI = false) {
 	for (let i = 0; i < 5; i++) {
 		const stapel = AI ? patienceStapels[4 - i] : patienceStapels[i];
 		for (let j = 4 - i; j < 5; j++) {
@@ -106,6 +125,7 @@ function dealCards (patienceStapels, trekstapel, AI = false) {
 			}
 		}
 	}
+	scene.checkStapels();
 
 	for (const stapel of patienceStapels) {
 		stapel.openTop();

@@ -48,8 +48,8 @@ export class Card extends Phaser.GameObjects.Image {
 			// if the card is not dropped on a stapel,
 			// Move them to their original position
 			if (!dropped) {
-				for (const card of this.dragCards) {
-					card.loadPos();
+				if (this.stapel) {
+					this.stapel.updateCards();
 				}
 			}
 		});
@@ -76,10 +76,11 @@ export class Card extends Phaser.GameObjects.Image {
 					stapel.addCard(card);
 					// }
 				}
+				this.scene.checkStapels();
 			} else {
 				// place the card(s) back on the pile
-				for (const card of this.dragCards) {
-					card.loadPos();
+				if (this.stapel) {
+					this.stapel.updateCards();
 				}
 			}
 		});
@@ -117,9 +118,5 @@ export class Card extends Phaser.GameObjects.Image {
 	savePos () {
 		this.savedPosX = this.x;
 		this.savedPosY = this.y;
-	}
-
-	loadPos () {
-		this.setPosition(this.savedPosX, this.savedPosY);
 	}
 }
