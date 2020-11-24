@@ -1,9 +1,10 @@
-import { AflegStapel } from '../stapels/afleg_stapel';
-import { Card } from '../cards/card';
-import { PatienceStapel } from '../stapels/patience_stapel';
 import Phaser from 'phaser';
+
+import { Card } from '../cards/card';
+
+import { AflegStapel, PatienceStapel, TrekStapel } from '../stapels';
+
 import { TextButton } from '../button';
-import { TrekStapel } from '../stapels/trek_stapel';
 
 const suits = ['C', 'D', 'H', 'S'];
 export default class Game extends Phaser.Scene {
