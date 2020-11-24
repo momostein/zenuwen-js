@@ -126,9 +126,14 @@ export class PatienceStapel extends AbstractStapel {
 	}
 
 	updateCards () {
+		var dist;
+		if (this.cards.length > 7) {
+			dist = cardDist * 0.75;
+		} else {
+			dist = cardDist;
+		}
 		for (let i = 0; i < this.cards.length; i++) {
 			const card = this.cards[i];
-			var dist;
 			if (this.cards.length > 7) {
 				dist = cardDist * 0.75;
 			} else {
@@ -142,7 +147,7 @@ export class PatienceStapel extends AbstractStapel {
 		}
 
 		if (this.cards.length >= 2) {
-			const height = cardHeight + cardDist * (this.cards.length - 1) + padding * 2;
+			const height = cardHeight + dist * (this.cards.length - 1) + padding * 2;
 			this.setSize(cardWidth + padding * 2, height);
 		} else {
 			this.setSize(cardWidth + padding * 2, cardHeight + padding * 2);

@@ -79,8 +79,7 @@ export default class Game extends Phaser.Scene {
 			dealCards(patienceStapelsPlayer, trekStapels[1]);
 			dealCards(patienceStapelsAI, trekStapels[0], true);
 			this.deal.setVisible(false);
-		},
-		);
+		});
 	}
 }
 
