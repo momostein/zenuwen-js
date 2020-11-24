@@ -1,6 +1,7 @@
 import { AbstractStapel } from './stapels';
 import { style } from './style';
 import Phaser from 'phaser';
+import { resizeRect } from './functions';
 
 const colorStapelBorderIdle = style.colors.subtle.color32;
 const colorStapelBorderGood = style.colors.hoverGood.color32;
@@ -114,15 +115,4 @@ export class TrekStapel extends AbstractStapel {
 
 		this.updateCards();
 	}
-}
-
-function resizeRect (rect, w, h) {
-	// This will properly resize a rectangle without scaling the stroke
-
-	// Resize the rectangle and its geometry
-	rect.geom.setSize(w, h);
-	rect.setSize(w, h);
-
-	// update internal data
-	rect.updateDisplayOrigin().updateData();
 }
