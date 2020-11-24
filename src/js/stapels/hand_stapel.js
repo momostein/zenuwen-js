@@ -7,14 +7,19 @@ const angelFactor = 10;
 const distFactor = 20;
 
 export class HandStapel extends AbstractStapel {
-	constructor (scene, x, y) {
+	constructor (scene, x, y, AI = false) {
 		super(scene, x, y, cardWidth + padding * 2, cardHeight + padding * 2);
+
+		this.AI = AI;
 
 		scene.add.existing(this);
 
 		this.cards = [];
-
-		this.setOrigin(0.5, 0.0);
+		if (!this.AI) {
+			this.setOrigin(0.5, 0.0);
+		} else {
+			this.setOrigin(0.5, 1.0);
+		}
 	}
 
 	addCard (card) {
@@ -76,9 +81,15 @@ export class HandStapel extends AbstractStapel {
 	updateCards () {
 		for (let i = 0; i < this.cards.length; i++) {
 			const card = this.cards[i];
-			card.angle = ((i * angelFactor) - (this.cards.length - 1) * angelFactor / 2);
+			var angle = ((i * angelFactor) - (this.cards.length - 1) * angelFactor / 2);
 			card.setPosition(this.x + (i * distFactor) - this.cards.length * distFactor / 2, this.y);
-			card.setInteractive().open();
+			if (!this.AI) {
+				card.angle = angle;
+				card.setInteractive().open();
+			} else {
+				card.angle = -angle;
+				card.disableInteractive().close();
+			}
 			this.scene.children.bringToTop(card);
 		}
 	}
