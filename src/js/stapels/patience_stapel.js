@@ -11,20 +11,29 @@ const cardHeight = 190;
 const padding = 5;
 
 export class PatienceStapel extends AbstractStapel {
-	constructor (scene, x, y) {
+	constructor (scene, x, y, AI = false) {
 		super(scene, x, y, cardWidth + padding * 2, cardHeight + padding * 2);
+
+		this.AI = AI;
 
 		scene.add.existing(this);
 		// Make this a dropzone with default shape without a callback
 		// This makes it resizable
-		this.setInteractive(undefined, undefined, true);
+		if (!this.AI) {
+			this.setInteractive(undefined, undefined, true);
+		}
 
 		this.cards = [];
 		this.border = scene.add.rectangle(this.x, this.y, this.width, this.height).setFillStyle().setStrokeStyle(5, colorStapelBorderIdle, 1);
 		this.border.setVisible(false);
 
-		this.setOrigin(0.5, 0.0);
-		this.border.setOrigin(0.5, 0.0);
+		if (!this.AI) {
+			this.setOrigin(0.5, 0.0);
+			this.border.setOrigin(0.5, 0.0);
+		} else {
+			this.setOrigin(0.5, 1.0);
+			this.border.setOrigin(0.5, 1.0);
+		}
 	}
 
 	addCard (card) {
@@ -109,14 +118,20 @@ export class PatienceStapel extends AbstractStapel {
 	openTop () {
 		if (this.cards.length) {
 			const topCard = this.cards[this.cards.length - 1];
-			topCard.setInteractive().open();
+			if (!this.AI) {
+				topCard.setInteractive();
+			}
+			topCard.open();
 		}
 	}
 
 	updateCards () {
 		for (let i = 0; i < this.cards.length; i++) {
 			const card = this.cards[i];
-			card.setPosition(this.x, this.y + card.height / 2 + i * cardDist + padding);
+			const height = this.AI
+				? this.y - card.height / 2 - i * cardDist - padding
+				: this.y + card.height / 2 + i * cardDist + padding;
+			card.setPosition(this.x, height);
 		}
 
 		if (this.cards.length >= 2) {
