@@ -108,8 +108,9 @@ export default class Game extends Phaser.Scene {
 		}
 
 		// Buttons
-		this.pause = new TextButton(this, this.cameras.main.width - 75, 50, 100, 50, 'Pause', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
-		this.stop = new TextButton(this, this.cameras.main.width - 75, 125, 100, 50, 'Stop', 20, 0, undefined, undefined, () => this.scene.start('gameEnd'));
+		this.fullscreen = new TextButton(this, this.cameras.main.width - 110, 50, 160, 50, 'Fullscreen', 20, 0, undefined, undefined, () => this.scale.toggleFullscreen());
+		this.pause = new TextButton(this, this.cameras.main.width - 110, 125, 160, 50, 'Pause', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
+		this.stop = new TextButton(this, this.cameras.main.width - 110, 200, 160, 50, 'Stop', 20, 0, undefined, undefined, () => this.scene.start('gameEnd'));
 		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 200, 75, 'Delen', 35, 4, undefined, undefined, () => dealButton(this.deal));
 	}
 }
