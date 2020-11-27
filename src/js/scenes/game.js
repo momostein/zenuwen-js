@@ -113,8 +113,8 @@ function makePatienceStapels (scene, centerX, y, AI) {
 
 function dealCards (patienceStapels, trekstapel, scene, AI = false) {
 	for (let i = 0; i < 5; i++) {
-		const stapel = AI ? patienceStapels[4 - i] : patienceStapels[i];
-		for (let j = 4 - i; j < 5; j++) {
+		for (let j = i; j < 5; j++) {
+			const stapel = AI ? patienceStapels[4 - j] : patienceStapels[j];
 			const playerCard = trekstapel.popCard();
 
 			if (playerCard) {
