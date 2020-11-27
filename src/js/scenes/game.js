@@ -3,11 +3,14 @@ import { AflegStapel, HandStapel, PatienceStapel, TrekStapel } from '../stapels'
 import { Card } from '../cards/card';
 import Phaser from 'phaser';
 import { TextButton } from '../button';
+import { BasicAI } from '../ai';
 
 const suits = ['C', 'D', 'H', 'S'];
 export default class Game extends Phaser.Scene {
 	constructor () {
 		super('game'); // id of Scene
+
+		this.ai = null;
 	}
 
 	preload () {
@@ -28,6 +31,7 @@ export default class Game extends Phaser.Scene {
 		for (const suit of suits) {
 			for (let value = 1; value <= 13; value++) {
 				trekStapels[0].addCard(new Card(this, 0, 0, value, suit));
+				// trekStapels[0].addCard(new Card(this, 0, 0, 1, suit));
 			}
 		}
 
@@ -82,6 +86,17 @@ export default class Game extends Phaser.Scene {
 			dealCards(patienceStapelsAI, trekStapels[0], this, true);
 			this.deal.setVisible(false);
 		});
+
+		// AI
+		this.ai = new BasicAI(
+			patienceStapelsAI, this.handstapelAI,
+			this.patienceStapelsPlayer, HandStapel,
+			aflegStapels, trekStapels,
+		);
+	}
+
+	update (time, delta) {
+		this.ai.update(time, delta);
 	}
 
 	checkStapels () {

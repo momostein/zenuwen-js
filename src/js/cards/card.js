@@ -58,7 +58,13 @@ export class Card extends Phaser.GameObjects.Image {
 		this.on('drag', function (pointer, dragX, dragY) {
 			// Make all dragged cards follow the mouse
 			for (let i = 0; i < this.dragCards.length; i++) {
-				this.dragCards[i].setPosition(dragX, dragY + i * cardDist);
+				const card = this.dragCards[i];
+
+				// Move the cards and stagger them
+				card.setPosition(dragX, dragY + i * cardDist);
+
+				// Also bring cards dragged by the player to the top
+				card.scene.children.bringToTop(card);
 			}
 		});
 
@@ -73,7 +79,10 @@ export class Card extends Phaser.GameObjects.Image {
 				for (const card of this.dragCards) {
 					// if (card.stapel !== stapel) {
 					console.log('removing card', card);
+
+					// TODO: Maybe check if the card is on a stapel before removing?
 					card.stapel.removeCard(card);
+
 					stapel.addCard(card);
 					// }
 				}

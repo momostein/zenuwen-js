@@ -36,6 +36,7 @@ export class AflegStapel extends AbstractStapel {
 		this.scene.children.bringToTop(card);
 
 		card.angle = Phaser.Math.RND.normal() * 5;
+
 		card.open();
 		card.disableInteractive();
 
@@ -77,8 +78,6 @@ export class AflegStapel extends AbstractStapel {
 	}
 
 	checkCards (cards) {
-		console.log(cards);
-
 		// You can't put cards on this if this is empty
 		if (this.cards.length === 0) {
 			return false;
