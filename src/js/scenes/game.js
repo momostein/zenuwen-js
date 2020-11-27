@@ -1,4 +1,4 @@
-import { AflegStapel, PatienceStapel, TrekStapel, HandStapel } from '../stapels';
+import { AflegStapel, HandStapel, PatienceStapel, TrekStapel } from '../stapels';
 
 import { Card } from '../cards/card';
 import Phaser from 'phaser';
@@ -97,7 +97,7 @@ export default class Game extends Phaser.Scene {
 					this.handstapelPlayer.addCard(card);
 					card = stapel.popCard();
 				}
-				stapel.disableInteractive();
+				stapel.setHandStapel();
 			}
 		}
 	}

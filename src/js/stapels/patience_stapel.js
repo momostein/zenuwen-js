@@ -15,6 +15,7 @@ export class PatienceStapel extends AbstractStapel {
 		super(scene, x, y, cardWidth + padding * 2, cardHeight + padding * 2);
 
 		this.AI = AI;
+		this.handStapel = false;
 
 		scene.add.existing(this);
 		// Make this a dropzone with default shape without a callback
@@ -153,12 +154,20 @@ export class PatienceStapel extends AbstractStapel {
 			this.setSize(cardWidth + padding * 2, cardHeight + padding * 2);
 		}
 
-		if (this.cards.length === 0) {
-			this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
-			this.border.setVisible(true);
-		} else {
-			this.border.setVisible(false);
+		if (!this.handStapel) {
+			if (this.cards.length === 0) {
+				this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
+				this.border.setVisible(true);
+			} else {
+				this.border.setVisible(false);
+			}
 		}
+	}
+
+	setHandStapel () {
+		this.handStapel = true;
+		this.disableInteractive();
+		this.border.setVisible(false);
 	}
 }
 
