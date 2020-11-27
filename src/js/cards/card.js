@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
-
 import getCardFrame from './card_frames';
+
 const cardDist = 35;
 
 export class Card extends Phaser.GameObjects.Image {
@@ -23,6 +23,7 @@ export class Card extends Phaser.GameObjects.Image {
 		this.setInteractive();
 
 		this.on('dragstart', function (pointer) {
+			this.setScale(1);
 			if (this.stapel) {
 				// If the card is in a pile, get the cards on top of it too
 				this.dragCards = this.stapel.getDragCards(this);

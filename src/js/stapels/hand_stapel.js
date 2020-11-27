@@ -3,8 +3,9 @@ import { AbstractStapel } from './abstract_stapel';
 const cardWidth = 140;
 const cardHeight = 190;
 const padding = 5;
-const angelFactor = 10;
-const distFactor = 20;
+const angelFactor = 35;
+const distFactorX = 120;
+const distFactorY = 35;
 
 export class HandStapel extends AbstractStapel {
 	constructor (scene, x, y, AI = false) {
@@ -81,8 +82,15 @@ export class HandStapel extends AbstractStapel {
 	updateCards () {
 		for (let i = 0; i < this.cards.length; i++) {
 			const card = this.cards[i];
+			card.setScale(1.7);
 			var angle = ((i * angelFactor) - (this.cards.length - 1) * angelFactor / 2);
-			card.setPosition(this.x + (i * distFactor) - this.cards.length * distFactor / 2, this.y);
+			var y;
+			if (this.cards.length === 3 && (i === 0 || i === 2)) {
+				y = this.y + distFactorY;
+			} else {
+				y = this.y;
+			}
+			card.setPosition(this.x + (i * distFactorX) - this.cards.length * distFactorX / 2, y);
 			if (!this.AI) {
 				card.angle = angle;
 				card.setInteractive().open();
