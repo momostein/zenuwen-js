@@ -46,9 +46,58 @@ export default class BasicAI extends AbstractAI {
 									aflegStapel,
 									this.aflegTime,
 								);
-								return;
+
+								break;
 							}
 						}
+					}
+
+					// Break the loop if we made a move
+					if (this.isMoving()) { break; }
+				}
+
+				// If we couldn't make a move to an aflegstapel,
+				// see if we can make a move between our stapels
+				if (!this.isMoving()) {
+					console.log("Couldn't make a move to aflegstapel...");
+
+					for (const sourceStapel of this.patienceStapelsAI) {
+						const dragCards = [];
+
+						for (let i = sourceStapel.cards.length - 1; i >= 0; i--) {
+							const card = sourceStapel.cards[i];
+
+							if (card && card.faceUp) {
+								dragCards.unshift(card);
+							} else {
+								break;
+							}
+						}
+
+						if (dragCards.length > 0) {
+							console.log(dragCards);
+
+							for (const targetStapel of this.patienceStapelsAI) {
+								if (targetStapel === sourceStapel) {
+								// Don't try to move to cards to itself
+									continue;
+								}
+
+								if (targetStapel.checkCards(dragCards)) {
+								// Move the cards but only take patienceTime
+									this.moveCards(
+										dragCards,
+										sourceStapel, targetStapel,
+										this.patienceTime,
+									);
+
+									break;
+								}
+							}
+						}
+
+						// Break the loop if we made a move
+						if (this.isMoving()) { break; }
 					}
 				}
 			}
