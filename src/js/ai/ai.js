@@ -1,4 +1,4 @@
-const moveTime = 1000;
+const DefaultMoveTime = 1000;
 const cardDist = 35;
 
 export class AbstractAI {
@@ -20,35 +20,35 @@ export class AbstractAI {
 		for (let i = this.cardAnimations.length - 1; i >= 0; i--) {
 			const cardAnimation = this.cardAnimations[i];
 
-			console.log('cardAnimation:', cardAnimation);
+			console.debug('cardAnimation:', cardAnimation);
 
 			if (cardAnimation.update(time, delta)) {
 				this.cardAnimations.splice(i, 1);
 			}
 		}
 
-		if (!this.isMoving()) {
-			const dragCard = this.patienceStapelsAI[0].cards[this.patienceStapelsAI[0].cards.length - 1];
+		// if (!this.isMoving()) {
+		// 	const dragCard = this.patienceStapelsAI[0].cards[this.patienceStapelsAI[0].cards.length - 1];
 
-			// console.log('dragCard:', dragCard);
+		// 	// console.log('dragCard:', dragCard);
 
-			if (dragCard) {
-				const dragCards = this.patienceStapelsAI[0].getDragCards(dragCard);
+		// 	if (dragCard) {
+		// 		const dragCards = this.patienceStapelsAI[0].getDragCards(dragCard);
 
-				if (this.aflegStapels[0].checkCards(dragCards)) {
-					// Start to move the cards if it's allowed
+		// 		if (this.aflegStapels[0].checkCards(dragCards)) {
+		// 			// Start to move the cards if it's allowed
 
-					console.debug('dragCards:', dragCards);
-					console.debug('aflegstapel', this.aflegStapels[0]);
+		// 			console.debug('dragCards:', dragCards);
+		// 			console.debug('aflegstapel', this.aflegStapels[0]);
 
-					this.cardAnimations.push(new CardAnimation(dragCards, this.patienceStapelsAI[0], this.aflegStapels[0]));
-				}
-			}
-		}
+		// 			this.cardAnimations.push(new CardAnimation(dragCards, this.patienceStapelsAI[0], this.aflegStapels[0]));
+		// 		}
+		// 	}
+		// }
 	}
 
-	moveCards (cards, sourceStapel, targetStapel) {
-		this.cardAnimations.push(new CardAnimation(cards, sourceStapel, targetStapel));
+	moveCards (cards, sourceStapel, targetStapel, moveTime = DefaultMoveTime) {
+		this.cardAnimations.push(new CardAnimation(cards, sourceStapel, targetStapel, moveTime));
 	}
 
 	isMoving () {
@@ -57,7 +57,8 @@ export class AbstractAI {
 }
 
 class CardAnimation {
-	constructor (cards, sourceStapel, targetStapel) {
+	constructor (cards, sourceStapel, targetStapel, moveTime = DefaultMoveTime) {
+		// The cards we're currently moving
 		this.cards = cards;
 
 		// Bring the cards being dragged to the top
@@ -67,14 +68,20 @@ class CardAnimation {
 			card.scene.children.bringToTop(card);
 		}
 
+		// Stapels
 		this.sourceStapel = sourceStapel;
 		this.targetStapel = targetStapel;
 
+		// Stapel position vectors
+		// getCenter() gets the center vector regardless of the origin
 		this.sourceVec = sourceStapel.getCenter();
 		this.targetVec = targetStapel.getCenter();
 
+		// movetime and time counter
+		this.moveTime = moveTime;
 		this.timeCount = 0;
 
+		// If we're returning to the source stapel or not
 		this.returning = false;
 	}
 
@@ -83,35 +90,46 @@ class CardAnimation {
 
 		this.returning = !this.targetStapel.checkCards(this.cards);
 
+		// Update timestep and check if we're finished
 		if (!this.returning) {
+			// increment if we're moving towards targetstapel
 			this.timeCount += delta;
 
-			finished = this.timeCount >= moveTime;
+			// Check if we're at the target
+			finished = this.timeCount >= this.moveTime;
 		} else {
+			// Decrement if we're returning towards the source stapel
 			this.timeCount -= delta;
 
+			// Check if we're back at the source
 			finished = this.timeCount <= 0;
 		}
 
 		if (!finished) {
 			// Move cards if we aren't finished
-			const t = this.timeCount / moveTime;
 
-			// Linearly interpolate between the position vectors
+			// Get the timecount in a percentage 0. - 1.0
+			const t = this.timeCount / this.moveTime;
+
+			// Linearly interpolate between the position vectors with the time percentage
 			const lerpVec = this.sourceVec.clone().lerp(this.targetVec, t);
 
+			// Move all cards
 			for (let i = 0; i < this.cards.length; i++) {
 				const card = this.cards[i];
 
+				// Add cumulative card distance to the additional cards to stagger them
 				card.setPosition(lerpVec.x, lerpVec.y + i * cardDist);
 			}
 		} else if (!this.returning) {
 			// Move cards to the other stapel if we're finished and not returning
 			for (const card of this.cards) {
+				// Remove from source stapel
 				if (card.stapel) {
 					card.stapel.removeCard(card);
 				}
 
+				// Add to targetstapel
 				this.targetStapel.addCard(card);
 			}
 		} else {
