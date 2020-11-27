@@ -73,7 +73,10 @@ export class Card extends Phaser.GameObjects.Image {
 				for (const card of this.dragCards) {
 					// if (card.stapel !== stapel) {
 					console.log('removing card', card);
+
+					// TODO: Maybe check if the card is on a stapel before removing?
 					card.stapel.removeCard(card);
+
 					stapel.addCard(card);
 					// }
 				}
