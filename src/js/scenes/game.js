@@ -3,7 +3,7 @@ import { AflegStapel, HandStapel, PatienceStapel, TrekStapel } from '../stapels'
 import { Card } from '../cards/card';
 import Phaser from 'phaser';
 import { TextButton } from '../button';
-import { AbstractAI } from '../ai/ai';
+import { BasicAI } from '../ai';
 
 const suits = ['C', 'D', 'H', 'S'];
 export default class Game extends Phaser.Scene {
@@ -88,7 +88,7 @@ export default class Game extends Phaser.Scene {
 		});
 
 		// AI
-		this.ai = new AbstractAI(
+		this.ai = new BasicAI(
 			patienceStapelsAI, this.handstapelAI,
 			this.patienceStapelsPlayer, HandStapel,
 			aflegStapels, trekStapels,
