@@ -24,71 +24,33 @@ export default class BasicAI extends AbstractAI {
 		super.update(time, delta);
 
 		// console.debug('time:', time, '\tdelta:', delta);
-		console.debug('time passed since last move:', time - this.idleTimer);
+		// console.debug('time passed since last move:', time - this.idleTimer);
 
 		if (!this.isMoving()) {
+			this.checkStapels();
+
 			// Make a move if we've been idle for longer than idle Time
 			if ((time - this.idleTimer) > this.idleTime) {
 				console.log('AI trying to make move...');
 				this.idleTimer = time;
 
-				for (const patienceStapel of this.patienceStapelsAI) {
-					const topCard = patienceStapel.cards[patienceStapel.cards.length - 1];
+				if (!this.hand) {
+					console.log('Cards not in hand');
 
-					if (topCard) {
-						const dragCards = patienceStapel.getDragCards(topCard);
+					// Kaarten nog niet in de hand
+					for (const patienceStapel of this.patienceStapelsAI) {
+						const topCard = patienceStapel.cards[patienceStapel.cards.length - 1];
 
-						for (const aflegStapel of this.aflegStapels) {
-							if (aflegStapel.checkCards(dragCards)) {
-								this.moveCards(
-									dragCards,
-									patienceStapel,
-									aflegStapel,
-									this.aflegTime,
-								);
+						if (topCard) {
+							const dragCards = patienceStapel.getDragCards(topCard);
 
-								break;
-							}
-						}
-					}
-
-					// Break the loop if we made a move
-					if (this.isMoving()) { break; }
-				}
-
-				// If we couldn't make a move to an aflegstapel,
-				// see if we can make a move between our stapels
-				if (!this.isMoving()) {
-					console.log("Couldn't make a move to aflegstapel...");
-
-					for (const sourceStapel of this.patienceStapelsAI) {
-						const dragCards = [];
-
-						for (let i = sourceStapel.cards.length - 1; i >= 0; i--) {
-							const card = sourceStapel.cards[i];
-
-							if (card && card.faceUp) {
-								dragCards.unshift(card);
-							} else {
-								break;
-							}
-						}
-
-						if (dragCards.length > 0) {
-							console.log(dragCards);
-
-							for (const targetStapel of this.patienceStapelsAI) {
-								if (targetStapel === sourceStapel) {
-								// Don't try to move to cards to itself
-									continue;
-								}
-
-								if (targetStapel.checkCards(dragCards)) {
-								// Move the cards but only take patienceTime
+							for (const aflegStapel of this.aflegStapels) {
+								if (aflegStapel.checkCards(dragCards)) {
 									this.moveCards(
 										dragCards,
-										sourceStapel, targetStapel,
-										this.patienceTime,
+										patienceStapel,
+										aflegStapel,
+										this.aflegTime,
 									);
 
 									break;
@@ -97,6 +59,70 @@ export default class BasicAI extends AbstractAI {
 						}
 
 						// Break the loop if we made a move
+						if (this.isMoving()) { break; }
+					}
+
+					// If we couldn't make a move to an aflegstapel,
+					// see if we can make a move between our stapels
+					if (!this.isMoving()) {
+						console.log("Couldn't make a move to aflegstapel...");
+
+						for (const sourceStapel of this.patienceStapelsAI) {
+							const dragCards = [];
+
+							for (let i = sourceStapel.cards.length - 1; i >= 0; i--) {
+								const card = sourceStapel.cards[i];
+
+								if (card && card.faceUp) {
+									dragCards.unshift(card);
+								} else {
+									break;
+								}
+							}
+
+							if (dragCards.length > 0) {
+								console.log(dragCards);
+
+								for (const targetStapel of this.patienceStapelsAI) {
+									if (targetStapel === sourceStapel) {
+										// Don't try to move to cards to itself
+										continue;
+									}
+
+									if (targetStapel.checkCards(dragCards)) {
+										// Move the cards but only take patienceTime
+										this.moveCards(
+											dragCards,
+											sourceStapel, targetStapel,
+											this.patienceTime,
+										);
+
+										break;
+									}
+								}
+							}
+
+							// Break the loop if we made a move
+							if (this.isMoving()) { break; }
+						}
+					}
+				} else {
+					// Kaarten op de hand
+					for (const card of this.handstapelAI.cards) {
+						const dragCards = [card];
+
+						for (const aflegStapel of this.aflegStapels) {
+							if (aflegStapel.checkCards(dragCards)) {
+								this.moveCards(
+									dragCards,
+									this.handstapelAI,
+									aflegStapel,
+									this.aflegTime,
+								);
+
+								break;
+							}
+						}
 						if (this.isMoving()) { break; }
 					}
 				}

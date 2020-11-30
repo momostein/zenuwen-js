@@ -13,6 +13,8 @@ export default class AbstractAI {
 		this.trekStapels = trekStapels;
 
 		this.cardAnimations = [];
+
+		this.hand = false;
 	}
 
 	update (time, delta) {
@@ -20,7 +22,7 @@ export default class AbstractAI {
 		for (let i = this.cardAnimations.length - 1; i >= 0; i--) {
 			const cardAnimation = this.cardAnimations[i];
 
-			console.debug('cardAnimation:', cardAnimation);
+			// console.debug('cardAnimation:', cardAnimation);
 
 			if (cardAnimation.update(time, delta)) {
 				this.cardAnimations.splice(i, 1);
@@ -54,6 +56,27 @@ export default class AbstractAI {
 	isMoving () {
 		return this.cardAnimations.length > 0;
 	}
+
+	checkStapels () {
+		var aantal = 0;
+		for (const stapel of this.patienceStapelsAI) {
+			aantal += stapel.cards.length;
+		}
+
+		if (aantal <= 3) {
+			this.hand = true;
+			for (const stapel of this.patienceStapelsAI) {
+				var card = stapel.popCard();
+				while (card) {
+					this.handstapelAI.addCard(card);
+					card = stapel.popCard();
+				}
+				stapel.setHandStapel();
+			}
+		} else {
+			this.hand = false;
+		}
+	}
 }
 
 class CardAnimation {
@@ -66,6 +89,9 @@ class CardAnimation {
 			// Save their original position before dragging
 			card.savePos();
 			card.scene.children.bringToTop(card);
+			card.setScale(1);
+			card.setAngle(0);
+			card.open();
 		}
 
 		// Stapels

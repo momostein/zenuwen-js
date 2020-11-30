@@ -16,6 +16,7 @@ export class HandStapel extends AbstractStapel {
 		scene.add.existing(this);
 
 		this.cards = [];
+
 		if (!this.AI) {
 			this.setOrigin(0.5, 0.0);
 		} else {

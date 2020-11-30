@@ -42,6 +42,9 @@ export class Card extends Phaser.GameObjects.Image {
 				// Save their original position before dragging
 				card.savePos();
 				card.scene.children.bringToTop(card);
+				card.setScale(1);
+				card.setAngle(0);
+				card.open();
 			}
 		});
 
