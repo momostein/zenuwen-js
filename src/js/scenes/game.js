@@ -49,7 +49,7 @@ export default class Game extends Phaser.Scene {
 		}
 
 		this.patienceStapelsPlayer = makePatienceStapels(this, screenCenter.x, screenCenter.y + 150, false);
-		var patienceStapelsAI = makePatienceStapels(this, screenCenter.x, screenCenter.y - 150, true);
+		this.patienceStapelsAI = makePatienceStapels(this, screenCenter.x, screenCenter.y - 150, true);
 		var aflegStapels = [];
 		this.handstapelPlayer = new HandStapel(this, screenCenter.x, screenCenter.y + 450, false);
 		this.handstapelAI = new HandStapel(this, screenCenter.x, screenCenter.y - 300, true);
@@ -77,19 +77,25 @@ export default class Game extends Phaser.Scene {
 			}
 		});
 
+		for (let i = 0; i < 2; i++) {
+			aflegStapels[i].on('pointerdown', () => {
+				pushAflegStapel(this, aflegStapels, i, trekStapels, false);
+			});
+		}
+
 		// Buttons
 		this.fullscreen = new TextButton(this, this.cameras.main.width - 110, 50, 160, 50, 'Fullscreen', 20, 0, undefined, undefined, () => this.scale.toggleFullscreen());
 		this.pause = new TextButton(this, this.cameras.main.width - 110, 125, 160, 50, 'Pause', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
 		this.stop = new TextButton(this, this.cameras.main.width - 110, 200, 160, 50, 'Stop', 20, 0, undefined, undefined, () => this.scene.start('gameEnd'));
 		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 200, 75, 'Delen', 35, 4, undefined, undefined, () => {
 			dealCards(this.patienceStapelsPlayer, trekStapels[1], this);
-			dealCards(patienceStapelsAI, trekStapels[0], this, true);
+			dealCards(this.patienceStapelsAI, trekStapels[0], this, true);
 			this.deal.setVisible(false);
 		});
 
 		// AI
 		this.ai = new BasicAI(
-			patienceStapelsAI, this.handstapelAI,
+			this.patienceStapelsAI, this.handstapelAI,
 			this.patienceStapelsPlayer, HandStapel,
 			aflegStapels, trekStapels,
 		);
@@ -100,19 +106,61 @@ export default class Game extends Phaser.Scene {
 	}
 
 	checkStapels () {
-		var aantal = 0;
-		for (const stapel of this.patienceStapelsPlayer) {
-			aantal += stapel.getSize();
-		}
-		console.log(aantal);
-		if (aantal <= 3) {
+		if (countCards(this.patienceStapelsPlayer) <= 3) {
+			moveAllTo(this.patienceStapelsPlayer, this.handstapelPlayer);
 			for (const stapel of this.patienceStapelsPlayer) {
-				var card = stapel.popCard();
-				while (card) {
-					this.handstapelPlayer.addCard(card);
-					card = stapel.popCard();
-				}
-				stapel.setHandStapel();
+				stapel.disableStapel();
+			}
+		}
+	}
+}
+
+function countCards (stapels) {
+	var aantal = 0;
+	console.log('stapelscount:', stapels);
+	for (const stapel of stapels) {
+		aantal += stapel.getSize();
+	}
+	return aantal;
+}
+
+function moveAllTo (sourceStapels, targetStapel) {
+	for (const stapel of sourceStapels) {
+		var card = stapel.popCard();
+		while (card) {
+			card.angle = 0;
+			targetStapel.addCard(card);
+			card = stapel.popCard();
+		}
+	}
+}
+
+function pushAflegStapel (scene, aflegStapels, i, trekStapels, AI) {
+	const j = (i === 0) ? 1 : 0;
+	if (!AI) {
+		const aantal = countCards(scene.patienceStapelsPlayer) + countCards([scene.handstapelPlayer]);
+		if (aantal === 0) {
+			if (aflegStapels[i].getSize() === 0) {
+				scene.scene.start('gameEnd');
+			} else {
+				moveAllTo([aflegStapels[i]], trekStapels[1]);
+				moveAllTo([aflegStapels[j]], trekStapels[0]);
+				moveAllTo(scene.patienceStapelsPlayer, trekStapels[1]);
+				moveAllTo(scene.patienceStapelsAI, trekStapels[0]);
+				scene.deal.setVisible(true);
+			}
+		}
+	} else {
+		const aantal = countCards(scene.patienceStapelsAI) + countCards([scene.handstapelPlayer]);
+		if (aantal === 0) {
+			if (aflegStapels[i].getSize() === 0) {
+				scene.scene.start('gameEnd');
+			} else {
+				moveAllTo([aflegStapels[i]], trekStapels[0]);
+				moveAllTo([aflegStapels[j]], trekStapels[1]);
+				moveAllTo(scene.patienceStapelsPlayer, trekStapels[1]);
+				moveAllTo(scene.patienceStapelsAI, trekStapels[0]);
+				scene.deal.setVisible(true);
 			}
 		}
 	}
@@ -144,6 +192,7 @@ function dealCards (patienceStapels, trekstapel, scene, AI = false) {
 	scene.checkStapels();
 
 	for (const stapel of patienceStapels) {
+		stapel.enableStapel();
 		stapel.openTop();
 	}
 }

@@ -164,10 +164,15 @@ export class PatienceStapel extends AbstractStapel {
 		}
 	}
 
-	setHandStapel () {
+	disableStapel () {
 		this.handStapel = true;
 		this.disableInteractive();
 		this.border.setVisible(false);
+	}
+
+	enableStapel () {
+		this.handStapel = false;
+		this.setInteractive();
 	}
 }
 

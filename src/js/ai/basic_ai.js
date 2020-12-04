@@ -24,12 +24,12 @@ export default class BasicAI extends AbstractAI {
 		super.update(time, delta);
 
 		// console.debug('time:', time, '\tdelta:', delta);
-		console.debug('time passed since last move:', time - this.idleTimer);
+		// console.debug('time passed since last move:', time - this.idleTimer);
 
 		if (!this.isMoving()) {
 			// Make a move if we've been idle for longer than idle Time
 			if ((time - this.idleTimer) > this.idleTime) {
-				console.log('AI trying to make move...');
+				// console.log('AI trying to make move...');
 				this.idleTimer = time;
 
 				for (const patienceStapel of this.patienceStapelsAI) {
@@ -59,7 +59,7 @@ export default class BasicAI extends AbstractAI {
 				// If we couldn't make a move to an aflegstapel,
 				// see if we can make a move between our stapels
 				if (!this.isMoving()) {
-					console.log("Couldn't make a move to aflegstapel...");
+					// console.log("Couldn't make a move to aflegstapel...");
 
 					for (const sourceStapel of this.patienceStapelsAI) {
 						const dragCards = [];
@@ -75,7 +75,7 @@ export default class BasicAI extends AbstractAI {
 						}
 
 						if (dragCards.length > 0) {
-							console.log(dragCards);
+							// console.log(dragCards);
 
 							for (const targetStapel of this.patienceStapelsAI) {
 								if (targetStapel === sourceStapel) {

@@ -20,7 +20,7 @@ export default class AbstractAI {
 		for (let i = this.cardAnimations.length - 1; i >= 0; i--) {
 			const cardAnimation = this.cardAnimations[i];
 
-			console.debug('cardAnimation:', cardAnimation);
+			// console.debug('cardAnimation:', cardAnimation);
 
 			if (cardAnimation.update(time, delta)) {
 				this.cardAnimations.splice(i, 1);
