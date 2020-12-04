@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import Scenes from './js/scenes';
 import { style } from './js/style';
 
-const config = {
+var config = {
 	type: Phaser.AUTO,
 	scale: {
 		width: 1920,
@@ -25,4 +25,5 @@ const config = {
 };
 
 // eslint-disable-next-line no-unused-vars
-const game = new Phaser.Game(config);
+var game = new Phaser.Game(config);
+game.config.difficulty = 'easy';
