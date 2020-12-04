@@ -24,7 +24,7 @@ export default class MainMenu extends Phaser.Scene {
 
 		this.startButton = new TextButton(this, screenCenter.x, screenCenter.y * 1.5, 400, 175, 'Nieuw Spel', 50, 8, undefined, undefined, () => this.scene.start('game'));
 
-		this.spelInfo = new TextButton(this, screenCenter.x * 0.5, screenCenter.y * 1.5, 200, 100, 'Speluitleg', 30, 6, undefined, undefined, () => this.scene.start('gameInfo'));
+		this.spelInfo = new TextButton(this, screenCenter.x * 0.5, screenCenter.y * 1.5, 230, 100, 'Speluitleg', 30, 6, undefined, undefined, () => this.scene.start('gameInfo'));
 		this.fullscreen = new TextButton(this, screenCenter.x * 1.5, screenCenter.y * 1.5, 230, 100, 'Fullscreen', 30, 6, undefined, undefined, () => { this.scale.toggleFullscreen(); });
 	}
 }
