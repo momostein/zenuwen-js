@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import Scenes from './js/scenes';
 import { style } from './js/style';
+import { difficulties } from './js/ai';
 
 var config = {
 	type: Phaser.AUTO,
@@ -26,4 +27,6 @@ var config = {
 
 // eslint-disable-next-line no-unused-vars
 var game = new Phaser.Game(config);
-game.config.difficulty = 1;
+
+// Set default difficulty to easy
+game.config.difficulty = difficulties.easy;
