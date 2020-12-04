@@ -92,7 +92,7 @@ export default class Game extends Phaser.Scene {
 			patienceStapelsAI, this.handstapelAI,
 			this.patienceStapelsPlayer, HandStapel,
 			aflegStapels, trekStapels,
-			difficulties.easy,
+			this.game.config.difficulty,
 		);
 	}
 

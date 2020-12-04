@@ -26,4 +26,4 @@ var config = {
 
 // eslint-disable-next-line no-unused-vars
 var game = new Phaser.Game(config);
-game.config.difficulty = 'easy';
+game.config.difficulty = 1;
