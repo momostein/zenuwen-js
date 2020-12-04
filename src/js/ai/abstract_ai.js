@@ -1,7 +1,13 @@
 const DefaultMoveTime = 1000;
 const cardDist = 35;
 
-export default class AbstractAI {
+export const difficulties = {
+	easy: 1,
+	normal: 2,
+	hard: 3,
+};
+
+export class AbstractAI {
 	constructor (patienceStapelsAI, handstapelAI, patienceStapelsPlayer, handstapelPlayer, aflegStapels, trekStapels) {
 		this.patienceStapelsAI = patienceStapelsAI;
 		this.handstapelAI = handstapelAI;

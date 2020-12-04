@@ -1,11 +1,29 @@
-import AbstractAI from './abstract_ai';
+import { AbstractAI, difficulties } from './abstract_ai';
 
-export default class BasicAI extends AbstractAI {
+const timing = {
+	easy: {
+		afleg: 2000,
+		patience: 1000,
+		idle: 2000,
+	},
+	normal: {
+		afleg: 1000,
+		patience: 500,
+		idle: 1000,
+	},
+	hard: {
+		afleg: 500,
+		patience: 250,
+		idle: 500,
+	},
+};
+
+export class BasicAI extends AbstractAI {
 	constructor (
 		patienceStapelsAI, handstapelAI,
 		patienceStapelsPlayer, handstapelPlayer,
 		aflegStapels, trekStapels,
-		aflegTime = 1000, patienceTime = 500, idleTime = 1000,
+		difficulty = difficulties.normal,
 	) {
 		super(
 			patienceStapelsAI, handstapelAI,
@@ -13,9 +31,24 @@ export default class BasicAI extends AbstractAI {
 			aflegStapels, trekStapels,
 		);
 
-		this.moveTime = aflegTime;
-		this.patienceTime = patienceTime;
-		this.idleTime = idleTime;
+		switch (difficulty) {
+			case difficulties.easy:
+				this.timing = timing.easy;
+				break;
+			case difficulties.normal:
+				this.timing = timing.normal;
+				break;
+			case difficulties.hard:
+				this.timing = timing.hard;
+				break;
+			default:
+				this.timing = timing.normal;
+				break;
+		}
+
+		this.moveTime = this.timing.afleg;
+		this.patienceTime = this.timing.patience;
+		this.idleTime = this.timing.idle;
 
 		this.idleTimer = 0;
 	}
