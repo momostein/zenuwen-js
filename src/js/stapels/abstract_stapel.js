@@ -7,7 +7,7 @@ export class AbstractStapel extends Phaser.GameObjects.Zone {
         }
 
     } */
-	constructor (scene, x, y, width, height) {
+	constructor (scene, x, y, width = 0, height = 0) {
 		super(scene, x, y, width, height);
 		scene.add.existing(this);
 
