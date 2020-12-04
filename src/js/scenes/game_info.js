@@ -35,13 +35,13 @@ export default class GameInfo extends Phaser.Scene {
 		this.Box2 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '2. De kaarten worden verdeeld in twee trekstapels en vanuit de trekstapels worden er 5 patiencestapels gemaakt voor iedere speler.', 18, 6, undefined, undefined);
 		this.Box2.add(img2);
 		this.regelArray.push(this.Box2);
-		this.Box3 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '3. De speler kan op de trekstapels klikken om het spel te starten. Er worden dan twee aflegstapels gemaakt waarop de speler kaarten van zijn patience stapels kan leggen. ', 18, 6, undefined, undefined);
+		this.Box3 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '3. De speler kan op de trekstapels klikken om het spel te starten. Er worden dan twee aflegstapels gemaakt waarop de speler kaarten van zijn patiencestapels kan leggen. ', 18, 6, undefined, undefined);
 		this.Box3.add(img3);
 		this.regelArray.push(this.Box3);
-		this.Box4 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '4. De speler kan kaarten kwijtgeraken door kaarten van zijn patiencestapels op de aflegstapels te leggen. Men een kaart afleggen op een andere kaart met een waarde die er aan grenst. Bijvoorbeeld een 3 op een 2 of een 2 op een Aas. Er wordt een groene kader rond een geldige afleglocatie getekend.', 18, 6, undefined, undefined);
+		this.Box4 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '4. De speler kan kaarten kwijtgeraken door kaarten van zijn patiencestapels op de aflegstapels te leggen. Men kan een kaart afleggen op een andere kaart met een waarde die er aan grenst. Bijvoorbeeld een 3 op een 2 of een 2 op een Aas. Er wordt een groene kader rond een geldige afleglocatie getekend.', 18, 6, undefined, undefined);
 		this.Box4.add(img4);
 		this.regelArray.push(this.Box4);
-		this.Box5 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '5. Men kan kaarten tussen patiencestapels verplaatsen en op elkaar leggen als deze dezelfde waarde hebben. Ook kan men andere kaarten op lege patience stapels leggen.', 18, 6, undefined, undefined);
+		this.Box5 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '5. Men kan kaarten tussen patiencestapels verplaatsen en op elkaar leggen als deze dezelfde waarde hebben. Ook kan men andere kaarten op lege patiencestapels leggen.', 18, 6, undefined, undefined);
 		this.Box5.add(img5);
 		this.regelArray.push(this.Box5);
 		this.Box6 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '6. Als de speler en Ai geen kaarten meer kunnen leggen dan kan men op een trekstapel drukken om een nieuwe kaart op de aflegstapel te leggen.', 18, 6, undefined, undefined);
@@ -52,7 +52,7 @@ export default class GameInfo extends Phaser.Scene {
 		this.Box8 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '8. Men wint als men op een lege aflegstapel kan klikken en dus geen extra kaarten meer over heeft in de trekstapel en patiencestapel.', 18, 6, undefined, undefined);
 		this.regelArray.push(this.Box8);
 		this.mainMenu = new TextButton(this, screenCenter.x, screenCenter.y * 1.7, 230, 100, 'Menu', 30, 6, undefined, undefined, () => this.scene.start('mainMenu'));
-		this.back = new TextButton(this, screenCenter.x * 0.5, screenCenter.y * 1.7, 200, 100, 'Terug', 30, 6, undefined, undefined, () => { this.backFunc(); });
+		this.back = new TextButton(this, screenCenter.x * 0.5, screenCenter.y * 1.7, 200, 100, 'Vorige', 30, 6, undefined, undefined, () => { this.backFunc(); });
 		this.next = new TextButton(this, screenCenter.x * 1.5, screenCenter.y * 1.7, 230, 100, 'Volgende', 30, 6, undefined, undefined, () => { this.nextFunc(); });
 		this.back.visible = false;
 		this.allOff();
