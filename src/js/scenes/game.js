@@ -89,10 +89,10 @@ export default class Game extends Phaser.Scene {
 				if (card) {
 					this.aflegStapels[i].addCard(card);
 				}
-				if (aflegStapels[i].getSize() > 0) {
-					aflegStapels[i].setShowBorder(false);
+				if (this.aflegStapels[i].getSize() > 0) {
+					this.aflegStapels[i].setShowBorder(false);
 				} else {
-					aflegStapels[i].setShowBorder(true);
+					this.aflegStapels[i].setShowBorder(true);
 				}
 			}
 		});
