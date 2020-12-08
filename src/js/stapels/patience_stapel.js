@@ -94,7 +94,7 @@ export class PatienceStapel extends AbstractStapel {
 
 	checkCards (cards) {
 		// Return true if it is possible to place card on pile
-		var size = this.getSize();
+		const size = this.getSize();
 		if (size === 0) {
 			return true;
 		} else {
@@ -127,7 +127,7 @@ export class PatienceStapel extends AbstractStapel {
 	}
 
 	updateCards () {
-		var dist;
+		let dist;
 		if (this.cards.length > 7) {
 			dist = cardDist * 0.75;
 		} else {

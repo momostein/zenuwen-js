@@ -3,7 +3,7 @@ import Scenes from './js/scenes';
 import { style } from './js/style';
 import { difficulties } from './js/ai';
 
-var config = {
+const config = {
 	type: Phaser.AUTO,
 	scale: {
 		width: 1920,
@@ -26,7 +26,7 @@ var config = {
 };
 
 // eslint-disable-next-line no-unused-vars
-var game = new Phaser.Game(config);
+const game = new Phaser.Game(config);
 
 // Set default difficulty to easy
 game.config.difficulty = difficulties.easy;

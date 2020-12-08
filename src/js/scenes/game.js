@@ -51,6 +51,7 @@ export default class Game extends Phaser.Scene {
 		this.patienceStapelsPlayer = makePatienceStapels(this, screenCenter.x, screenCenter.y + 150, false);
 		const patienceStapelsAI = makePatienceStapels(this, screenCenter.x, screenCenter.y - 150, true);
 		const aflegStapels = [];
+
 		this.handstapelPlayer = new HandStapel(this, screenCenter.x, screenCenter.y + 310, false);
 		this.handstapelAI = new HandStapel(this, screenCenter.x, screenCenter.y - 370, true);
 
