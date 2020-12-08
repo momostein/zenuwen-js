@@ -9,6 +9,7 @@ export default class GameEnd extends Phaser.Scene {
 	}
 
 	init (data) {
+		this.scene.remove('game');
 		if (data.winner === 'player') {
 			this.text = 'Gewonnen';
 			this.cameras.main.setBackgroundColor(0xaeffab);
@@ -22,7 +23,6 @@ export default class GameEnd extends Phaser.Scene {
 	}
 
 	create () {
-		console.log(this.winner);
 		const screenCenter =
 			{ x: this.cameras.main.worldView.x + this.cameras.main.width / 2, y: this.cameras.main.worldView.y + this.cameras.main.height / 2 };
 		this.add
