@@ -165,6 +165,7 @@ function pushAflegStapel (scene, aflegStapels, i, trekStapels, AI) {
 			} else {
 				moveAllTo([aflegStapels[i]], trekStapels[1]);
 				moveAllTo([aflegStapels[j]], trekStapels[0]);
+				moveAllTo([scene.handstapelAI], trekStapels[0]);
 				moveAllTo(scene.patienceStapelsPlayer, trekStapels[1]);
 				moveAllTo(scene.patienceStapelsAI, trekStapels[0]);
 				scene.deal.setVisible(true);
@@ -188,6 +189,7 @@ function pushAflegStapel (scene, aflegStapels, i, trekStapels, AI) {
 				moveAllTo([aflegStapels[j]], trekStapels[1]);
 				moveAllTo(scene.patienceStapelsPlayer, trekStapels[1]);
 				moveAllTo(scene.patienceStapelsAI, trekStapels[0]);
+				moveAllTo([scene.handstapelPlayer], trekStapels[1]);
 				scene.deal.setVisible(true);
 				for (const aflegStapel of aflegStapels) {
 					aflegStapel.setShowBorder(false);
