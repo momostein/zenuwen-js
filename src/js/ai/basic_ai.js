@@ -122,6 +122,14 @@ export class BasicAI extends AbstractAI {
 										continue;
 									}
 
+									if (
+										dragCards.length 			=== sourceStapel.cards.length &&
+										targetStapel.cards.length 	=== 0
+									) {
+										// Moving a full stapel to an empty spot is not a good idea
+										continue;
+									}
+
 									if (targetStapel.checkCards(dragCards)) {
 										// Move the cards but only take patienceTime
 										this.moveCards(
