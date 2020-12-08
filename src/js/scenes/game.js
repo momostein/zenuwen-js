@@ -49,8 +49,8 @@ export default class Game extends Phaser.Scene {
 		}
 
 		this.patienceStapelsPlayer = makePatienceStapels(this, screenCenter.x, screenCenter.y + 150, false);
-		var patienceStapelsAI = makePatienceStapels(this, screenCenter.x, screenCenter.y - 150, true);
-		var aflegStapels = [];
+		const patienceStapelsAI = makePatienceStapels(this, screenCenter.x, screenCenter.y - 150, true);
+		const aflegStapels = [];
 		this.handstapelPlayer = new HandStapel(this, screenCenter.x, screenCenter.y + 310, false);
 		this.handstapelAI = new HandStapel(this, screenCenter.x, screenCenter.y - 370, true);
 
@@ -77,16 +77,6 @@ export default class Game extends Phaser.Scene {
 			}
 		});
 
-		// Buttons
-		this.fullscreen = new TextButton(this, this.cameras.main.width - 110, 50, 160, 50, 'Fullscreen', 20, 0, undefined, undefined, () => this.scale.toggleFullscreen());
-		this.pause = new TextButton(this, this.cameras.main.width - 110, 125, 160, 50, 'Pause', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
-		this.stop = new TextButton(this, this.cameras.main.width - 110, 200, 160, 50, 'Stop', 20, 0, undefined, undefined, () => this.scene.start('gameEnd'));
-		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 200, 75, 'Delen', 35, 4, undefined, undefined, () => {
-			dealCards(this.patienceStapelsPlayer, trekStapels[1], this);
-			dealCards(patienceStapelsAI, trekStapels[0], this, true);
-			this.deal.setVisible(false);
-		});
-
 		// AI
 		this.ai = new BasicAI(
 			patienceStapelsAI, this.handstapelAI,
@@ -94,6 +84,19 @@ export default class Game extends Phaser.Scene {
 			aflegStapels, trekStapels,
 			this.game.config.difficulty,
 		);
+
+		// Buttons
+		this.fullscreen = new TextButton(this, this.cameras.main.width - 110, 50, 160, 50, 'Fullscreen', 20, 0, undefined, undefined, () => {
+			this.scale.toggleFullscreen();
+		});
+
+		this.pause = new TextButton(this, this.cameras.main.width - 110, 125, 160, 50, 'Pause', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
+		this.stop = new TextButton(this, this.cameras.main.width - 110, 200, 160, 50, 'Stop', 20, 0, undefined, undefined, () => this.scene.start('gameEnd'));
+		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 200, 75, 'Delen', 35, 4, undefined, undefined, () => {
+			dealCards(this.patienceStapelsPlayer, trekStapels[1], this);
+			dealCards(patienceStapelsAI, trekStapels[0], this, true);
+			this.deal.setVisible(false);
+		});
 	}
 
 	update (time, delta) {
@@ -101,14 +104,14 @@ export default class Game extends Phaser.Scene {
 	}
 
 	checkStapels () {
-		var aantal = 0;
+		let aantal = 0;
 		for (const stapel of this.patienceStapelsPlayer) {
 			aantal += stapel.getSize();
 		}
 		console.log(aantal);
 		if (aantal <= 3) {
 			for (const stapel of this.patienceStapelsPlayer) {
-				var card = stapel.popCard();
+				let card = stapel.popCard();
 				while (card) {
 					this.handstapelPlayer.addCard(card);
 					card = stapel.popCard();

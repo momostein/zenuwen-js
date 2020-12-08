@@ -73,4 +73,8 @@ export class AbstractStapel extends Phaser.GameObjects.Zone {
 
 		throw new Error("Can't remove a card that's not in this stapel");
 	}
+
+	updateCards () {
+		console.error("This stapel shouldn't get updated!");
+	}
 }
