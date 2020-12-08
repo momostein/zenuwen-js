@@ -155,13 +155,20 @@ function moveAllTo (sourceStapels, targetStapel) {
 
 function pushAflegStapel (scene, aflegStapels, i, trekStapels, ai, clickedByAI) {
 	const j = i === 0 ? 1 : 0;
-	if (!clickedByAI) {
-		const aantal =
+
+	const numCardsPlayer =
 			countCards(scene.patienceStapelsPlayer) +
 			countCards([scene.handstapelPlayer]);
-		if (aantal === 0) {
-			ai.cancelAllMoves();
 
+	const numCardsAI =
+			countCards(scene.patienceStapelsAI) +
+			countCards([scene.handstapelPlayer]);
+
+	if (numCardsPlayer === 0 || numCardsAI === 0) {
+		// Cancel all moves being made by AI
+		ai.cancelAllMoves();
+
+		if (!clickedByAI) {
 			if (aflegStapels[i].getSize() === 0) {
 				scene.scene.start('gameEnd', { winner: 'player' });
 			} else {
@@ -178,14 +185,7 @@ function pushAflegStapel (scene, aflegStapels, i, trekStapels, ai, clickedByAI) 
 					trekStapel.shuffle();
 				}
 			}
-		}
-	} else {
-		const aantal =
-			countCards(scene.patienceStapelsAI) +
-			countCards([scene.handstapelPlayer]);
-		if (aantal === 0) {
-			ai.cancelAllMoves();
-
+		} else {
 			if (aflegStapels[i].getSize() === 0) {
 				scene.scene.start('gameEnd', { winner: 'ai' });
 			} else {
