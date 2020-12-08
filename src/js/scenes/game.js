@@ -88,8 +88,8 @@ export default class Game extends Phaser.Scene {
 		this.pause = new TextButton(this, this.cameras.main.width - 110, 125, 160, 50, 'Pause', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
 		this.stop = new TextButton(this, this.cameras.main.width - 110, 200, 160, 50, 'Stop', 20, 0, undefined, undefined, () => this.scene.start('gameEnd'));
 		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 200, 75, 'Delen', 35, 4, undefined, undefined, () => {
-			dealCards(this.patienceStapelsPlayer, trekStapels[1], this);
-			dealCards(this.patienceStapelsAI, trekStapels[0], this, true);
+			dealCards(this.patienceStapelsPlayer, trekStapels[1], aflegStapels, this);
+			dealCards(this.patienceStapelsAI, trekStapels[0], aflegStapels, this, true);
 			this.deal.setVisible(false);
 		});
 
@@ -148,6 +148,12 @@ function pushAflegStapel (scene, aflegStapels, i, trekStapels, AI) {
 				moveAllTo(scene.patienceStapelsPlayer, trekStapels[1]);
 				moveAllTo(scene.patienceStapelsAI, trekStapels[0]);
 				scene.deal.setVisible(true);
+				for (const aflegStapel of aflegStapels) {
+					aflegStapel.setShowBorder(false);
+				}
+				for (const trekStapel of trekStapels) {
+					trekStapel.shuffle();
+				}
 			}
 		}
 	} else {
@@ -161,6 +167,12 @@ function pushAflegStapel (scene, aflegStapels, i, trekStapels, AI) {
 				moveAllTo(scene.patienceStapelsPlayer, trekStapels[1]);
 				moveAllTo(scene.patienceStapelsAI, trekStapels[0]);
 				scene.deal.setVisible(true);
+				for (const aflegStapel of aflegStapels) {
+					aflegStapel.setShowBorder(false);
+				}
+				for (const trekStapel of trekStapels) {
+					trekStapel.shuffle();
+				}
 			}
 		}
 	}
@@ -174,7 +186,7 @@ function makePatienceStapels (scene, centerX, y, AI) {
 	return stapels;
 }
 
-function dealCards (patienceStapels, trekstapel, scene, AI = false) {
+function dealCards (patienceStapels, trekstapel, aflegStapels, scene, AI = false) {
 	for (let i = 0; i < 5; i++) {
 		for (let j = i; j < 5; j++) {
 			const stapel = AI ? patienceStapels[4 - j] : patienceStapels[j];
@@ -194,5 +206,8 @@ function dealCards (patienceStapels, trekstapel, scene, AI = false) {
 	for (const stapel of patienceStapels) {
 		stapel.enableStapel();
 		stapel.openTop();
+	}
+	for (const aflegStapel of aflegStapels) {
+		aflegStapel.setShowBorder(true);
 	}
 }

@@ -27,6 +27,8 @@ export class AflegStapel extends AbstractStapel {
 
 		this.setOrigin(0.5);
 		this.border.setOrigin(0.5, 1);
+
+		this.showBorder = false;
 	}
 
 	addCard (card) {
@@ -56,7 +58,7 @@ export class AflegStapel extends AbstractStapel {
 		if (this.cards.length === 0) {
 			this.border.setVisible(false);
 		} else {
-			this.border.setVisible(true);
+			this.border.setVisible(this.showBorder);
 			if (this.checkCards(cards)) {
 				this.border.setStrokeStyle(5, colorStapelBorderGood, 1);
 			} else if (this.cards.includes(cards[0])) {
@@ -122,8 +124,17 @@ export class AflegStapel extends AbstractStapel {
 		} else {
 			this.setSize(cardWidth + padding * 2, cardHeight + padding * 2);
 		}
+		if (this.cards.length === 0) {
+			this.border.setVisible(this.showBorder);
+			this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
+		} else {
+			this.border.setVisible(false);
+		}
+	}
 
-		this.border.setVisible(false);
+	setShowBorder (showBorder) {
+		this.showBorder = showBorder;
+		this.updateCards();
 	}
 }
 
