@@ -1,9 +1,14 @@
-import { AflegStapel, HandStapel, PatienceStapel, TrekStapel } from '../stapels';
+import {
+	AflegStapel,
+	HandStapel,
+	PatienceStapel,
+	TrekStapel,
+} from '../stapels';
 
+import { BasicAI } from '../ai';
 import { Card } from '../cards/card';
 import Phaser from 'phaser';
 import { TextButton } from '../button';
-import { BasicAI } from '../ai';
 
 const suits = ['C', 'D', 'H', 'S'];
 export default class Game extends Phaser.Scene {
@@ -16,11 +21,18 @@ export default class Game extends Phaser.Scene {
 	preload () {
 		// this.load.setBaseURL('http://labs.phaser.io'); // Files are now hosted locally
 		this.load.image('cardback', 'assets/PNG/Cards/cardBack_green3.png');
-		this.load.atlasXML('playingCards', 'assets/Spritesheets/playingCards.png', 'assets/Spritesheets/playingCards.xml');
+		this.load.atlasXML(
+			'playingCards',
+			'assets/Spritesheets/playingCards.png',
+			'assets/Spritesheets/playingCards.xml',
+		);
 	}
 
 	create () {
-		const screenCenter = { x: this.cameras.main.worldView.x + this.cameras.main.width / 2, y: this.cameras.main.worldView.y + this.cameras.main.height / 2 };
+		const screenCenter = {
+			x: this.cameras.main.worldView.x + this.cameras.main.width / 2,
+			y: this.cameras.main.worldView.y + this.cameras.main.height / 2,
+		};
 
 		const trekStapels = [
 			new TrekStapel(this, screenCenter.x - 450, screenCenter.y),
@@ -48,14 +60,36 @@ export default class Game extends Phaser.Scene {
 			trekStapel.shuffle();
 		}
 
-		this.patienceStapelsPlayer = makePatienceStapels(this, screenCenter.x, screenCenter.y + 150, false);
-		this.patienceStapelsAI = makePatienceStapels(this, screenCenter.x, screenCenter.y - 150, true);
+		this.patienceStapelsPlayer = makePatienceStapels(
+			this,
+			screenCenter.x,
+			screenCenter.y + 150,
+			false,
+		);
+		this.patienceStapelsAI = makePatienceStapels(
+			this,
+			screenCenter.x,
+			screenCenter.y - 150,
+			true,
+		);
 		var aflegStapels = [];
-		this.handstapelPlayer = new HandStapel(this, screenCenter.x, screenCenter.y + 450, false);
-		this.handstapelAI = new HandStapel(this, screenCenter.x, screenCenter.y - 300, true);
+		this.handstapelPlayer = new HandStapel(
+			this,
+			screenCenter.x,
+			screenCenter.y + 450,
+			false,
+		);
+		this.handstapelAI = new HandStapel(
+			this,
+			screenCenter.x,
+			screenCenter.y - 300,
+			true,
+		);
 
 		for (let i = 0; i < 2; i++) {
-			aflegStapels.push(new AflegStapel(this, screenCenter.x - 150 + 300 * i, screenCenter.y));
+			aflegStapels.push(
+				new AflegStapel(this, screenCenter.x - 150 + 300 * i, screenCenter.y),
+			);
 		}
 
 		// // Add some cards to the aflegstapel
@@ -84,20 +118,71 @@ export default class Game extends Phaser.Scene {
 		}
 
 		// Buttons
-		this.fullscreen = new TextButton(this, this.cameras.main.width - 110, 50, 160, 50, 'Fullscreen', 20, 0, undefined, undefined, () => this.scale.toggleFullscreen());
-		this.pause = new TextButton(this, this.cameras.main.width - 110, 125, 160, 50, 'Pause', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
-		this.stop = new TextButton(this, this.cameras.main.width - 110, 200, 160, 50, 'Stop', 20, 0, undefined, undefined, () => this.scene.start('gameEnd'));
-		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 200, 75, 'Delen', 35, 4, undefined, undefined, () => {
-			dealCards(this.patienceStapelsPlayer, trekStapels[1], this);
-			dealCards(this.patienceStapelsAI, trekStapels[0], this, true);
-			this.deal.setVisible(false);
-		});
+		this.fullscreen = new TextButton(
+			this,
+			this.cameras.main.width - 110,
+			50,
+			160,
+			50,
+			'Fullscreen',
+			20,
+			0,
+			undefined,
+			undefined,
+			() => this.scale.toggleFullscreen(),
+		);
+		this.pause = new TextButton(
+			this,
+			this.cameras.main.width - 110,
+			125,
+			160,
+			50,
+			'Pause',
+			20,
+			0,
+			undefined,
+			undefined,
+			() => this.scene.switch('pauseMenu'),
+		);
+		this.stop = new TextButton(
+			this,
+			this.cameras.main.width - 110,
+			200,
+			160,
+			50,
+			'Stop',
+			20,
+			0,
+			undefined,
+			undefined,
+			() => this.scene.start('gameEnd'),
+		);
+		this.deal = new TextButton(
+			this,
+			screenCenter.x,
+			screenCenter.y,
+			200,
+			75,
+			'Delen',
+			35,
+			4,
+			undefined,
+			undefined,
+			() => {
+				dealCards(this.patienceStapelsPlayer, trekStapels[1], this);
+				dealCards(this.patienceStapelsAI, trekStapels[0], this, true);
+				this.deal.setVisible(false);
+			},
+		);
 
 		// AI
 		this.ai = new BasicAI(
-			this.patienceStapelsAI, this.handstapelAI,
-			this.patienceStapelsPlayer, HandStapel,
-			aflegStapels, trekStapels,
+			this.patienceStapelsAI,
+			this.handstapelAI,
+			this.patienceStapelsPlayer,
+			HandStapel,
+			aflegStapels,
+			trekStapels,
 		);
 	}
 
@@ -136,12 +221,14 @@ function moveAllTo (sourceStapels, targetStapel) {
 }
 
 function pushAflegStapel (scene, aflegStapels, i, trekStapels, AI) {
-	const j = (i === 0) ? 1 : 0;
+	const j = i === 0 ? 1 : 0;
 	if (!AI) {
-		const aantal = countCards(scene.patienceStapelsPlayer) + countCards([scene.handstapelPlayer]);
+		const aantal =
+			countCards(scene.patienceStapelsPlayer) +
+			countCards([scene.handstapelPlayer]);
 		if (aantal === 0) {
 			if (aflegStapels[i].getSize() === 0) {
-				scene.scene.start('gameEnd');
+				scene.scene.start('gameEnd', { winner: 'player' });
 			} else {
 				moveAllTo([aflegStapels[i]], trekStapels[1]);
 				moveAllTo([aflegStapels[j]], trekStapels[0]);
@@ -151,10 +238,12 @@ function pushAflegStapel (scene, aflegStapels, i, trekStapels, AI) {
 			}
 		}
 	} else {
-		const aantal = countCards(scene.patienceStapelsAI) + countCards([scene.handstapelPlayer]);
+		const aantal =
+			countCards(scene.patienceStapelsAI) +
+			countCards([scene.handstapelPlayer]);
 		if (aantal === 0) {
 			if (aflegStapels[i].getSize() === 0) {
-				scene.scene.start('gameEnd');
+				scene.scene.start('gameEnd', { winner: 'ai' });
 			} else {
 				moveAllTo([aflegStapels[i]], trekStapels[0]);
 				moveAllTo([aflegStapels[j]], trekStapels[1]);

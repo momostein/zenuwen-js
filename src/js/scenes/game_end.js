@@ -5,14 +5,42 @@ import { style } from '../style';
 export default class GameEnd extends Phaser.Scene {
 	constructor () {
 		super('gameEnd'); // id of Scene
+		this.text = '';
+	}
+
+	init (data) {
+		if (data.winner === 'player') {
+			this.text = 'Gewonnen';
+			this.cameras.main.setBackgroundColor(0xaeffab);
+		} else {
+			this.text = 'Verloren';
+			this.cameras.main.setBackgroundColor(0xffb3b3);
+		}
 	}
 
 	preload () {
 	}
 
 	create () {
-		const screenCenterX = this.cameras.main.worldView.x + this.cameras.main.width / 2; // x for auto center
-		this.add.text(20, 20, 'Game End', { fontFamily: 'lemonMilk' }).setColor(style.colors.textColor.rgba);
-		this.mainMenu = new TextButton(this, screenCenterX, 700, 230, 100, 'Menu', 30, 6, undefined, undefined, () => this.scene.start('mainMenu'));
+		console.log(this.winner);
+		const screenCenter =
+			{ x: this.cameras.main.worldView.x + this.cameras.main.width / 2, y: this.cameras.main.worldView.y + this.cameras.main.height / 2 };
+		this.add
+			.text(screenCenter.x, screenCenter.y * 0.8, this.text, { fontFamily: 'lemonMilk', fontSize: 100 })
+			.setColor(style.colors.textColor.rgba)
+			.setOrigin(0.5);
+		this.mainMenu = new TextButton(
+			this,
+			screenCenter.x,
+			700,
+			230,
+			100,
+			'Menu',
+			30,
+			6,
+			undefined,
+			undefined,
+			() => this.scene.start('mainMenu'),
+		);
 	}
 }
