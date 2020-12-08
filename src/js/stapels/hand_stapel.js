@@ -1,21 +1,18 @@
 import { AbstractStapel } from './abstract_stapel';
 
-const cardWidth = 140;
-const cardHeight = 190;
-const padding = 5;
-const angelFactor = 35;
-const distFactorX = 120;
-const distFactorY = 35;
+const layoutPlayer = { x: 110, y: 34, angle: 35 };
+const layoutAI = { x: 97, y: -17, angle: 20 };
 
 export class HandStapel extends AbstractStapel {
 	constructor (scene, x, y, AI = false) {
-		super(scene, x, y, cardWidth + padding * 2, cardHeight + padding * 2);
+		super(scene, x, y);
 
 		this.AI = AI;
 
 		scene.add.existing(this);
 
 		this.cards = [];
+
 		if (!this.AI) {
 			this.setOrigin(0.5, 0.0);
 		} else {
@@ -80,17 +77,39 @@ export class HandStapel extends AbstractStapel {
 	}
 
 	updateCards () {
-		for (let i = 0; i < this.cards.length; i++) {
-			const card = this.cards[i];
-			card.setScale(1.7);
-			var angle = ((i * angelFactor) - (this.cards.length - 1) * angelFactor / 2);
-			var y;
-			if (this.cards.length === 3 && (i === 0 || i === 2)) {
-				y = this.y + distFactorY;
+		for (let i = -1; i < this.cards.length - 1; i++) {
+			const card = this.cards[i + 1];
+			if (!this.AI) {
+				card.setScale(1.5);
+			}
+
+			let layout;
+			if (!this.AI) {
+				layout = layoutPlayer;
 			} else {
+				layout = layoutAI;
+			}
+
+			let angle, x, y;
+			if (this.cards.length === 3) {
+				angle = i * layout.angle;
+				x = this.x + (i * layout.x);
+				if (Math.abs(i) === 1) {
+					y = this.y + layout.y;
+				} else {
+					y = this.y;
+				}
+			} else if (this.cards.length === 2) {
+				angle = (i + 1) * layout.angle - (layout.angle / 2);
+				x = this.x + (i + 1) * layout.x - (layout.x / 2);
+				y = this.y;
+			} else {
+				angle = 0;
+				x = this.x;
 				y = this.y;
 			}
-			card.setPosition(this.x + (i * distFactorX) - this.cards.length * distFactorX / 2, y);
+
+			card.setPosition(x, y);
 			if (!this.AI) {
 				card.angle = angle;
 				card.setInteractive().open();

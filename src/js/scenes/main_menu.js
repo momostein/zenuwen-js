@@ -12,7 +12,6 @@ export default class MainMenu extends Phaser.Scene {
 
 	create () {
 		const screenCenter = { x: this.cameras.main.worldView.x + this.cameras.main.width / 2, y: this.cameras.main.worldView.y + this.cameras.main.height / 2 };
-
 		this.backgroundRect = new Phaser.GameObjects.Graphics(this);
 		this.backgroundRect.fillStyle(Phaser.Display.Color.HexStringToColor('#3f7cb6').color);
 		this.backgroundRect.fillRoundedRect(screenCenter.x - (this.cameras.main.width - 400) / 2, screenCenter.y - (this.cameras.main.height - 200) / 2, this.cameras.main.width - 400, this.cameras.main.height - 200, 50);
@@ -25,6 +24,6 @@ export default class MainMenu extends Phaser.Scene {
 		this.startButton = new TextButton(this, screenCenter.x, screenCenter.y * 1.5, 400, 175, 'Nieuw Spel', 50, 8, undefined, undefined, () => this.scene.start('game'));
 
 		this.spelInfo = new TextButton(this, screenCenter.x * 0.5, screenCenter.y * 1.5, 230, 100, 'Speluitleg', 30, 6, undefined, undefined, () => this.scene.start('gameInfo'));
-		this.fullscreen = new TextButton(this, screenCenter.x * 1.5, screenCenter.y * 1.5, 230, 100, 'Fullscreen', 30, 6, undefined, undefined, () => { this.scale.toggleFullscreen(); });
+		this.fullscreen = new TextButton(this, screenCenter.x * 1.5, screenCenter.y * 1.5, 250, 100, 'Niveau', 30, 6, undefined, undefined, () => this.scene.start('difficulty'));
 	}
 }

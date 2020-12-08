@@ -17,9 +17,11 @@ export class TextButton extends Phaser.GameObjects.Container {
 		super(scene, x, y);
 		this.setSize(width, height);
 
+		this.borderWidth = borderWidth;
+		this.textColor = textColor;
+
 		this.graphic = new Phaser.GameObjects.Graphics(scene);
 		this.graphic.fillStyle(buttonColor.color).fillRoundedRect(-this.width / 2, -this.height / 2, this.width, this.height, 10);
-		// this.graphic.lineStyle(borderWidth + 2, Phaser.Display.Color.HexStringToColor('#bbbbbb').color).strokeRoundedRect(-this.width / 2 - (borderWidth + 2) / 4, -this.height / 2 - (borderWidth + 2) / 4, this.width + (borderWidth + 2) / 2, this.height + (borderWidth + 2) / 2, 10);
 		this.graphic.lineStyle(borderWidth, textColor.color).strokeRoundedRect(-this.width / 2, -this.height / 2, this.width, this.height, 10);
 		this.add(this.graphic);
 
@@ -46,5 +48,11 @@ export class TextButton extends Phaser.GameObjects.Container {
 
 	enterButtonHoverState () {
 		this.setScale(1.2);
+	}
+
+	setBackgroundColor (color) {
+		this.graphic.clear();
+		this.graphic.fillStyle(color.color).fillRoundedRect(-this.width / 2, -this.height / 2, this.width, this.height, 10);
+		this.graphic.lineStyle(this.borderWidth, this.textColor.color).strokeRoundedRect(-this.width / 2, -this.height / 2, this.width, this.height, 10);
 	}
 }

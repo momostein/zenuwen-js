@@ -1,7 +1,13 @@
 const DefaultMoveTime = 1000;
 const cardDist = 35;
 
-export default class AbstractAI {
+export const difficulties = {
+	easy: 1,
+	normal: 2,
+	hard: 3,
+};
+
+export class AbstractAI {
 	constructor (patienceStapelsAI, handstapelAI, patienceStapelsPlayer, handstapelPlayer, aflegStapels, trekStapels) {
 		this.patienceStapelsAI = patienceStapelsAI;
 		this.handstapelAI = handstapelAI;
@@ -13,6 +19,8 @@ export default class AbstractAI {
 		this.trekStapels = trekStapels;
 
 		this.cardAnimations = [];
+
+		this.hand = false;
 	}
 
 	update (time, delta) {
@@ -54,6 +62,35 @@ export default class AbstractAI {
 	isMoving () {
 		return this.cardAnimations.length > 0;
 	}
+
+	checkStapels () {
+		let aantal = 0;
+		for (const stapel of this.patienceStapelsAI) {
+			aantal += stapel.cards.length;
+		}
+
+		if (aantal <= 3) {
+			this.hand = true;
+			for (const stapel of this.patienceStapelsAI) {
+				let card = stapel.popCard();
+				while (card) {
+					this.handstapelAI.addCard(card);
+					card = stapel.popCard();
+				}
+				stapel.disableStapel();
+			}
+		} else {
+			this.hand = false;
+		}
+	}
+
+	cancelAllMoves () {
+		for (const cardAnimation of this.cardAnimations) {
+			cardAnimation.cancel();
+		}
+
+		this.cardAnimations = [];
+	}
 }
 
 class CardAnimation {
@@ -66,6 +103,9 @@ class CardAnimation {
 			// Save their original position before dragging
 			card.savePos();
 			card.scene.children.bringToTop(card);
+			card.setScale(1);
+			card.setAngle(0);
+			card.open();
 		}
 
 		// Stapels
@@ -86,6 +126,10 @@ class CardAnimation {
 	}
 
 	update (time, delta) {
+		if (this.canceled) {
+			return true;
+		}
+
 		let finished = false;
 
 		this.returning = !this.targetStapel.checkCards(this.cards);
@@ -142,5 +186,10 @@ class CardAnimation {
 		}
 
 		return finished;
+	}
+
+	cancel () {
+		this.canceled = true;
+		this.sourceStapel.updateCards();
 	}
 }
