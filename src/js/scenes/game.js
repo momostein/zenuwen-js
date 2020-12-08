@@ -34,7 +34,7 @@ export default class Game extends Phaser.Scene {
 			y: this.cameras.main.worldView.y + this.cameras.main.height / 2,
 		};
 
-		const trekStapels = [
+		this.trekStapels = [
 			new TrekStapel(this, screenCenter.x - 450, screenCenter.y),
 			new TrekStapel(this, screenCenter.x + 450, screenCenter.y),
 		];
@@ -42,52 +42,52 @@ export default class Game extends Phaser.Scene {
 		// Add cards to the trekstapel
 		for (const suit of suits) {
 			for (let value = 1; value <= 13; value++) {
-				trekStapels[0].addCard(new Card(this, 0, 0, value, suit));
-				// trekStapels[0].addCard(new Card(this, 0, 0, 1, suit));
+				this.trekStapels[0].addCard(new Card(this, 0, 0, value, suit));
+				// this.trekStapels[0].addCard(new Card(this, 0, 0, 1, suit));
 			}
 		}
 
 		// Shuffle the trekstapel
-		trekStapels[0].shuffle();
+		this.trekStapels[0].shuffle();
 
 		// Split the cards in the trekstapel
 		for (let i = 0; i < 26; i++) {
-			trekStapels[1].addCard(trekStapels[0].popCard());
+			this.trekStapels[1].addCard(this.trekStapels[0].popCard());
 		}
 
 		// Shuffle these stapels again
-		for (const trekStapel of trekStapels) {
+		for (const trekStapel of this.trekStapels) {
 			trekStapel.shuffle();
 		}
 
 		this.patienceStapelsPlayer = makePatienceStapels(this, screenCenter.x, screenCenter.y + 150, false);
 		this.patienceStapelsAI = makePatienceStapels(this, screenCenter.x, screenCenter.y - 150, true);
-		const aflegStapels = [];
+		this.aflegStapels = [];
 
 		this.handstapelPlayer = new HandStapel(this, screenCenter.x, screenCenter.y + 310, false);
 		this.handstapelAI = new HandStapel(this, screenCenter.x, screenCenter.y - 370, true);
 
 		for (let i = 0; i < 2; i++) {
-			aflegStapels.push(
+			this.aflegStapels.push(
 				new AflegStapel(this, screenCenter.x - 150 + 300 * i, screenCenter.y),
 			);
 		}
 
 		// // Add some cards to the aflegstapel
-		// for (let i = 0; i < aflegStapels.length; i++) {
-		// 	const stapel = aflegStapels[i];
+		// for (let i = 0; i < this.aflegStapels.length; i++) {
+		// 	const stapel = this.aflegStapels[i];
 		// 	const playerCard = new Card(this, 0, 0, 4, 'C');
 		// 	playerCard.disableInteractive();
 		// 	stapel.addCard(playerCard);
 		// }
 
-		trekStapels[1].on('pointerdown', () => {
+		this.trekStapels[1].on('pointerdown', () => {
 			// TODO: Check if the trekstapel has cards
-			for (let i = 0; i < 2; i++) {
-				const card = trekStapels[i].popCard();
+			for (let i = 0; i < this.trekStapels.length; i++) {
+				const card = this.trekStapels[i].popCard();
 
 				if (card) {
-					aflegStapels[i].addCard(card);
+					this.aflegStapels[i].addCard(card);
 				}
 			}
 		});
@@ -96,13 +96,13 @@ export default class Game extends Phaser.Scene {
 		this.ai = new BasicAI(
 			this.patienceStapelsAI, this.handstapelAI,
 			this.patienceStapelsPlayer, HandStapel,
-			aflegStapels, trekStapels,
+			this.aflegStapels, this.trekStapels,
 			this.game.config.difficulty,
 		);
 
-		for (let i = 0; i < 2; i++) {
-			aflegStapels[i].on('pointerdown', () => {
-				pushAflegStapel(this, aflegStapels, i, trekStapels, false);
+		for (let i = 0; i < this.aflegStapels.length; i++) {
+			this.aflegStapels[i].on('pointerdown', () => {
+				pushAflegStapel(this, this.aflegStapels, i, this.trekStapels, this.ai, false);
 			});
 		}
 
@@ -114,8 +114,8 @@ export default class Game extends Phaser.Scene {
 		this.pause = new TextButton(this, this.cameras.main.width - 110, 125, 160, 50, 'Pause', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
 		this.stop = new TextButton(this, this.cameras.main.width - 110, 200, 160, 50, 'Stop', 20, 0, undefined, undefined, () => this.scene.start('gameEnd'));
 		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 200, 75, 'Delen', 35, 4, undefined, undefined, () => {
-			dealCards(this.patienceStapelsPlayer, trekStapels[1], aflegStapels, this);
-			dealCards(this.patienceStapelsAI, trekStapels[0], aflegStapels, this, true);
+			dealCards(this.patienceStapelsPlayer, this.trekStapels[1], this.aflegStapels, this);
+			dealCards(this.patienceStapelsAI, this.trekStapels[0], this.aflegStapels, this, true);
 			this.deal.setVisible(false);
 		});
 	}
@@ -153,13 +153,15 @@ function moveAllTo (sourceStapels, targetStapel) {
 	}
 }
 
-function pushAflegStapel (scene, aflegStapels, i, trekStapels, AI) {
+function pushAflegStapel (scene, aflegStapels, i, trekStapels, ai, clickedByAI) {
 	const j = i === 0 ? 1 : 0;
-	if (!AI) {
+	if (!clickedByAI) {
 		const aantal =
 			countCards(scene.patienceStapelsPlayer) +
 			countCards([scene.handstapelPlayer]);
 		if (aantal === 0) {
+			ai.cancelAllMoves();
+
 			if (aflegStapels[i].getSize() === 0) {
 				scene.scene.start('gameEnd', { winner: 'player' });
 			} else {
@@ -182,6 +184,8 @@ function pushAflegStapel (scene, aflegStapels, i, trekStapels, AI) {
 			countCards(scene.patienceStapelsAI) +
 			countCards([scene.handstapelPlayer]);
 		if (aantal === 0) {
+			ai.cancelAllMoves();
+
 			if (aflegStapels[i].getSize() === 0) {
 				scene.scene.start('gameEnd', { winner: 'ai' });
 			} else {
