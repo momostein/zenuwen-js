@@ -49,8 +49,9 @@ export default class Game extends Phaser.Scene {
 		}
 
 		this.patienceStapelsPlayer = makePatienceStapels(this, screenCenter.x, screenCenter.y + 150, false);
-		var patienceStapelsAI = makePatienceStapels(this, screenCenter.x, screenCenter.y - 150, true);
-		var aflegStapels = [];
+		const patienceStapelsAI = makePatienceStapels(this, screenCenter.x, screenCenter.y - 150, true);
+		const aflegStapels = [];
+
 		this.handstapelPlayer = new HandStapel(this, screenCenter.x, screenCenter.y + 310, false);
 		this.handstapelAI = new HandStapel(this, screenCenter.x, screenCenter.y - 370, true);
 
@@ -101,14 +102,14 @@ export default class Game extends Phaser.Scene {
 	}
 
 	checkStapels () {
-		var aantal = 0;
+		let aantal = 0;
 		for (const stapel of this.patienceStapelsPlayer) {
 			aantal += stapel.getSize();
 		}
 		console.log(aantal);
 		if (aantal <= 3) {
 			for (const stapel of this.patienceStapelsPlayer) {
-				var card = stapel.popCard();
+				let card = stapel.popCard();
 				while (card) {
 					this.handstapelPlayer.addCard(card);
 					card = stapel.popCard();

@@ -64,7 +64,7 @@ export class AbstractAI {
 	}
 
 	checkStapels () {
-		var aantal = 0;
+		let aantal = 0;
 		for (const stapel of this.patienceStapelsAI) {
 			aantal += stapel.cards.length;
 		}
@@ -72,7 +72,7 @@ export class AbstractAI {
 		if (aantal <= 3) {
 			this.hand = true;
 			for (const stapel of this.patienceStapelsAI) {
-				var card = stapel.popCard();
+				let card = stapel.popCard();
 				while (card) {
 					this.handstapelAI.addCard(card);
 					card = stapel.popCard();

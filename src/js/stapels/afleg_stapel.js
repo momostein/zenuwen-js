@@ -90,8 +90,8 @@ export class AflegStapel extends AbstractStapel {
 		const topCard = this.cards[this.cards.length - 1];
 		const card = cards[0];
 
-		var cardPlus = topCard.value + 1;
-		var cardMin = topCard.value - 1;
+		let cardPlus = topCard.value + 1;
+		let cardMin = topCard.value - 1;
 
 		// You can put an ace on a king and vice versa
 		if (topCard.value === 13) {

@@ -21,12 +21,12 @@ export default class GameInfo extends Phaser.Scene {
 	create () {
 		this.regelArray = [];
 		this.menuPosition = 0;
-		var img1 = this.add.image(0, -100, 'logo').setScale(0.45);
-		var img2 = this.add.image(0, -100, '2').setScale(0.45);
-		var img3 = this.add.image(0, -100, '3').setScale(0.45);
-		var img4 = this.add.image(0, -100, '4').setScale(0.45);
-		var img5 = this.add.image(0, -100, '5').setScale(0.45);
-		var img6 = this.add.image(0, -100, '6').setScale(0.45);
+		const img1 = this.add.image(0, -100, 'logo').setScale(0.45);
+		const img2 = this.add.image(0, -100, '2').setScale(0.45);
+		const img3 = this.add.image(0, -100, '3').setScale(0.45);
+		const img4 = this.add.image(0, -100, '4').setScale(0.45);
+		const img5 = this.add.image(0, -100, '5').setScale(0.45);
+		const img6 = this.add.image(0, -100, '6').setScale(0.45);
 		const screenCenter = { x: this.cameras.main.worldView.x + this.cameras.main.width / 2, y: this.cameras.main.worldView.y + this.cameras.main.height / 2 };
 		this.add.text(screenCenter.x, screenCenter.y * 0.08, 'Spelregels:', { fontFamily: 'lemonMilk' }).setColor(style.colors.textColor.rgba).setOrigin(0.5).setFontSize(30);
 		this.Box1 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '1. Het doel van het spel is om zo snel mogelijk alle kaarten kwijt te spelen.', 18, 6, undefined, undefined);
@@ -60,7 +60,7 @@ export default class GameInfo extends Phaser.Scene {
 	}
 
 	allOff () {
-		for (var i = 0; i < this.regelArray.length; i++) {
+		for (let i = 0; i < this.regelArray.length; i++) {
 			this.regelArray[i].visible = false;
 		}
 	}

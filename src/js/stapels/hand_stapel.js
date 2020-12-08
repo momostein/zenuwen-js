@@ -83,14 +83,14 @@ export class HandStapel extends AbstractStapel {
 				card.setScale(1.5);
 			}
 
-			var layout;
+			let layout;
 			if (!this.AI) {
 				layout = layoutPlayer;
 			} else {
 				layout = layoutAI;
 			}
 
-			var angle, x, y;
+			let angle, x, y;
 			if (this.cards.length === 3) {
 				angle = i * layout.angle;
 				x = this.x + (i * layout.x);
