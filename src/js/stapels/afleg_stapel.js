@@ -29,7 +29,7 @@ export class AflegStapel extends AbstractStapel {
 		this.border.setOrigin(0.5, 1);
 
 		this.showBorder = false;
-		this.border.setVisible(false);
+		this.border.setVisible(this.showBorder);
 	}
 
 	addCard (card) {
@@ -57,13 +57,13 @@ export class AflegStapel extends AbstractStapel {
 	dragEnter (cards) {
 		//  Just hide the border if this pile is empty
 		if (this.cards.length === 0) {
-			this.border.setVisible(false);
-		} else {
 			this.border.setVisible(this.showBorder);
+		} else {
+			this.border.setVisible(true);
 			if (this.checkCards(cards)) {
 				this.border.setStrokeStyle(5, colorStapelBorderGood, 1);
 			} else if (this.cards.includes(cards[0])) {
-				this.border.setVisible(false);
+				this.border.setVisible(this.showBorder);
 			} else {
 				this.border.setStrokeStyle(5, colorStapelBorderBad, 1);
 			}
@@ -71,7 +71,8 @@ export class AflegStapel extends AbstractStapel {
 	}
 
 	dragLeave (cards) {
-		this.border.setVisible(false);
+		this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
+		this.border.setVisible(this.showBorder);
 	}
 
 	setSize (width, height, resizeInput = true) {

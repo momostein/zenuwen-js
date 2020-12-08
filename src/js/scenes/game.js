@@ -89,6 +89,11 @@ export default class Game extends Phaser.Scene {
 				if (card) {
 					aflegStapels[i].addCard(card);
 				}
+				if (aflegStapels[i].getSize() > 0) {
+					aflegStapels[i].setShowBorder(false);
+				} else {
+					aflegStapels[i].setShowBorder(true);
+				}
 			}
 		});
 
@@ -230,8 +235,5 @@ function dealCards (patienceStapels, trekstapel, aflegStapels, scene, AI = false
 	for (const stapel of patienceStapels) {
 		stapel.enableStapel();
 		stapel.openTop();
-	}
-	for (const aflegStapel of aflegStapels) {
-		aflegStapel.setShowBorder(true);
 	}
 }
