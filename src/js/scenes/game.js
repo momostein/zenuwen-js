@@ -68,7 +68,7 @@ export default class Game extends Phaser.Scene {
 
 		for (let i = 0; i < 2; i++) {
 			this.aflegStapels.push(
-				new AflegStapel(this, screenCenter.x - 150 + 300 * i, screenCenter.y),
+				new AflegStapel(this, screenCenter.x - 150 + 300 * i, screenCenter.y).disableInteractive(),
 			);
 		}
 
@@ -117,6 +117,7 @@ export default class Game extends Phaser.Scene {
 		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 200, 75, 'Delen', 35, 4, undefined, undefined, () => {
 			dealCards(this.patienceStapelsPlayer, this.trekStapels[1], this.aflegStapels, this);
 			dealCards(this.patienceStapelsAI, this.trekStapels[0], this.aflegStapels, this, true);
+			this.aflegStapels.forEach(stapel => stapel.setInteractive(undefined, undefined, true));
 			this.deal.setVisible(false);
 		});
 	}
@@ -179,6 +180,7 @@ function pushAflegStapel (scene, aflegStapels, i, trekStapels, ai, clickedByAI) 
 				moveAllTo(scene.patienceStapelsPlayer, trekStapels[1]);
 				moveAllTo(scene.patienceStapelsAI, trekStapels[0]);
 				scene.deal.setVisible(true);
+				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
 				for (const aflegStapel of aflegStapels) {
 					aflegStapel.setShowBorder(false);
 				}
@@ -196,6 +198,7 @@ function pushAflegStapel (scene, aflegStapels, i, trekStapels, ai, clickedByAI) 
 				moveAllTo(scene.patienceStapelsAI, trekStapels[0]);
 				moveAllTo([scene.handstapelPlayer], trekStapels[1]);
 				scene.deal.setVisible(true);
+				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
 				for (const aflegStapel of aflegStapels) {
 					aflegStapel.setShowBorder(false);
 				}
