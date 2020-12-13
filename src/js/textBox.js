@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { style } from './style';
 
 export class TextBox extends Phaser.GameObjects.Container {
 	constructor (
@@ -10,8 +11,8 @@ export class TextBox extends Phaser.GameObjects.Container {
 		text = 'Button',
 		fontSize = 15,
 		borderWidth = 8,
-		textColor = Phaser.Display.Color.HexStringToColor('#2a2a2a'),
-		buttonColor = Phaser.Display.Color.HexStringToColor('#fff'),
+		textColor = style.colors.textColor,
+		buttonColor = style.colors.white,
 		image,
 		textPosX = -((width / 2) - 75),
 		textPosY = 200,
@@ -21,7 +22,6 @@ export class TextBox extends Phaser.GameObjects.Container {
 
 		this.graphic = new Phaser.GameObjects.Graphics(scene);
 		this.graphic.fillStyle(buttonColor.color).fillRoundedRect(-this.width / 2, -this.height / 2, this.width, this.height, 10);
-		// this.graphic.lineStyle(borderWidth + 2, Phaser.Display.Color.HexStringToColor('#bbbbbb').color).strokeRoundedRect(-this.width / 2 - (borderWidth + 2) / 4, -this.height / 2 - (borderWidth + 2) / 4, this.width + (borderWidth + 2) / 2, this.height + (borderWidth + 2) / 2, 10);
 		this.graphic.lineStyle(borderWidth, textColor.color).strokeRoundedRect(-this.width / 2, -this.height / 2, this.width, this.height, 10);
 		this.add(this.graphic);
 

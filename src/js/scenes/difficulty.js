@@ -3,8 +3,6 @@ import { TextButton } from '../button';
 import { difficulties } from '../ai';
 import { style } from '../style';
 
-const selectedColor = '#CCC';
-
 export default class Difficulty extends Phaser.Scene {
 	constructor () {
 		super('difficulty'); // id of Scene
@@ -32,19 +30,19 @@ export default class Difficulty extends Phaser.Scene {
 		// Update update active button
 		switch (difficulty) {
 			case difficulties.easy:
-				this.easy.setBackgroundColor(Phaser.Display.Color.HexStringToColor(selectedColor));
-				this.medium.setBackgroundColor(Phaser.Display.Color.HexStringToColor('#fff'));
-				this.hard.setBackgroundColor(Phaser.Display.Color.HexStringToColor('#fff'));
+				this.easy.setBackgroundColor(style.colors.levelSelected);
+				this.medium.setBackgroundColor(style.colors.white);
+				this.hard.setBackgroundColor(style.colors.white);
 				break;
 			case difficulties.normal:
-				this.easy.setBackgroundColor(Phaser.Display.Color.HexStringToColor('#fff'));
-				this.medium.setBackgroundColor(Phaser.Display.Color.HexStringToColor(selectedColor));
-				this.hard.setBackgroundColor(Phaser.Display.Color.HexStringToColor('#fff'));
+				this.easy.setBackgroundColor(style.colors.white);
+				this.medium.setBackgroundColor(style.colors.levelSelected);
+				this.hard.setBackgroundColor(style.colors.white);
 				break;
 			case difficulties.hard:
-				this.easy.setBackgroundColor(Phaser.Display.Color.HexStringToColor('#fff'));
-				this.medium.setBackgroundColor(Phaser.Display.Color.HexStringToColor('#fff'));
-				this.hard.setBackgroundColor(Phaser.Display.Color.HexStringToColor(selectedColor));
+				this.easy.setBackgroundColor(style.colors.white);
+				this.medium.setBackgroundColor(style.colors.levelSelected);
+				this.hard.setBackgroundColor(style.colors.white);
 				break;
 		}
 

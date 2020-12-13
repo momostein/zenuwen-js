@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import { style } from './style';
 
 export class TextButton extends Phaser.GameObjects.Container {
 	constructor (
@@ -10,8 +11,8 @@ export class TextButton extends Phaser.GameObjects.Container {
 		text = 'Button',
 		fontSize = 20,
 		borderWidth = 8,
-		textColor = Phaser.Display.Color.HexStringToColor('#2a2a2a'),
-		buttonColor = Phaser.Display.Color.HexStringToColor('#fff'),
+		textColor = style.colors.textColor,
+		buttonColor = style.colors.white,
 		event,
 	) {
 		super(scene, x, y);

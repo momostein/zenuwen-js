@@ -16,6 +16,9 @@ export const style = {
 		victory: Display.Color.HexStringToColor('#aeffab'),
 		lost: Display.Color.HexStringToColor('#ffb3b3'),
 
+		levelSelected: Display.Color.HexStringToColor('#CCC'),
+
+		white: Display.Color.HexStringToColor('#fff'),
 	},
 };
 

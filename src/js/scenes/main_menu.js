@@ -2,6 +2,7 @@ import { BackgroundRect } from '../backgroundRect';
 import Game from '../scenes/game';
 import Phaser from 'phaser';
 import { TextButton } from '../button';
+import { style } from '../style';
 
 export default class MainMenu extends Phaser.Scene {
 	constructor () {
@@ -15,7 +16,7 @@ export default class MainMenu extends Phaser.Scene {
 	create () {
 		const screenCenter = { x: this.cameras.main.worldView.x + this.cameras.main.width / 2, y: this.cameras.main.worldView.y + this.cameras.main.height / 2 };
 
-		this.backgroundRect = new BackgroundRect(this, Phaser.Display.Color.HexStringToColor('#3f7cb6'));
+		this.backgroundRect = new BackgroundRect(this, style.colors.primary);
 
 		this.add.image(screenCenter.x, screenCenter.y * 0.75, 'logo').setOrigin(0.5);
 
