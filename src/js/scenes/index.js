@@ -1,15 +1,13 @@
-import MainMenu from './main_menu';
-import GameInfo from './game_info';
 import Difficulty from './difficulty';
-import Game from './game';
 import GameEnd from './game_end';
+import GameInfo from './game_info';
+import MainMenu from './main_menu';
 import PauseMenu from './pause_menu';
 
 export default [
 	MainMenu,
-	Game,
 	GameInfo,
-	GameEnd,
 	PauseMenu,
+	GameEnd,
 	Difficulty,
 ];

@@ -13,8 +13,7 @@ import { TextButton } from '../button';
 const suits = ['C', 'D', 'H', 'S'];
 export default class Game extends Phaser.Scene {
 	constructor () {
-		super('game'); // id of Scene
-
+		super('game');
 		this.ai = null;
 	}
 
@@ -114,12 +113,7 @@ export default class Game extends Phaser.Scene {
 		}
 
 		// Buttons
-		this.fullscreen = new TextButton(this, this.cameras.main.width - 110, 50, 160, 50, 'Fullscreen', 20, 0, undefined, undefined, () => {
-			this.scale.toggleFullscreen();
-		});
-
-		this.pause = new TextButton(this, this.cameras.main.width - 110, 125, 160, 50, 'Pause', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
-		this.stop = new TextButton(this, this.cameras.main.width - 110, 200, 160, 50, 'Stop', 20, 0, undefined, undefined, () => this.scene.start('gameEnd'));
+		this.pause = new TextButton(this, this.cameras.main.width - 80, 55, 100, 50, 'Pause', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
 		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 200, 75, 'Delen', 35, 4, undefined, undefined, () => {
 			dealCards(this.patienceStapelsPlayer, this.trekStapels[1], this.aflegStapels, this);
 			dealCards(this.patienceStapelsAI, this.trekStapels[0], this.aflegStapels, this, true);

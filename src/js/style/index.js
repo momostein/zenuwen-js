@@ -12,6 +12,10 @@ export const style = {
 		subtle: Display.Color.HexStringToColor('#aaa'),
 		hoverGood: Display.Color.HexStringToColor('#70bd4e'),
 		hoverBad: Display.Color.HexStringToColor('#C83E3E'),
+
+		victory: Display.Color.HexStringToColor('#aeffab'),
+		lost: Display.Color.HexStringToColor('#ffb3b3'),
+
 	},
 };
 
