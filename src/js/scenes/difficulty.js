@@ -41,8 +41,8 @@ export default class Difficulty extends Phaser.Scene {
 				break;
 			case difficulties.hard:
 				this.easy.setBackgroundColor(style.colors.white);
-				this.medium.setBackgroundColor(style.colors.levelSelected);
-				this.hard.setBackgroundColor(style.colors.white);
+				this.medium.setBackgroundColor(style.colors.white);
+				this.hard.setBackgroundColor(style.colors.levelSelected);
 				break;
 		}
 
