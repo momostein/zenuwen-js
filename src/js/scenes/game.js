@@ -83,16 +83,18 @@ export default class Game extends Phaser.Scene {
 
 		this.trekStapels[1].on('pointerdown', () => {
 			// TODO: Check if the trekstapel has cards
-			for (let i = 0; i < this.trekStapels.length; i++) {
-				const card = this.trekStapels[i].popCard();
+			if (!this.ai.isMoving()) {
+				for (let i = 0; i < this.trekStapels.length; i++) {
+					const card = this.trekStapels[i].popCard();
 
-				if (card) {
-					this.aflegStapels[i].addCard(card);
-				}
-				if (this.aflegStapels[i].getSize() > 0) {
-					this.aflegStapels[i].setShowBorder(false);
-				} else {
-					this.aflegStapels[i].setShowBorder(true);
+					if (card) {
+						this.aflegStapels[i].addCard(card);
+					}
+					if (this.aflegStapels[i].getSize() > 0) {
+						this.aflegStapels[i].setShowBorder(false);
+					} else {
+						this.aflegStapels[i].setShowBorder(true);
+					}
 				}
 			}
 		});
