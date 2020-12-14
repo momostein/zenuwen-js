@@ -36,6 +36,9 @@ export class AbstractAI {
 			}
 		}
 
+		// Return if the AI slaps on the aflegstapel
+		return false;
+
 		// if (!this.isMoving()) {
 		// 	const dragCard = this.patienceStapelsAI[0].cards[this.patienceStapelsAI[0].cards.length - 1];
 

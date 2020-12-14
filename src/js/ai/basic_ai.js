@@ -70,6 +70,9 @@ export class BasicAI extends AbstractAI {
 
 			// Make a move if we've been idle for longer than idle Time
 			if ((time - this.idleTimer) > this.idleTime) {
+				// FIRST CHECK aflegstapels
+				// TODO: CHECK AFLEGSTAPELS
+
 				console.log('AI trying to make move...');
 				this.idleTimer = time;
 
@@ -186,4 +189,12 @@ export class BasicAI extends AbstractAI {
 		this.idle = false;
 		this.reset = true;
 	}
+}
+
+function countCards (stapels) {
+	let aantal = 0;
+	for (const stapel of stapels) {
+		aantal += stapel.getSize();
+	}
+	return aantal;
 }

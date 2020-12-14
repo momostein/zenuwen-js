@@ -131,7 +131,10 @@ export default class Game extends Phaser.Scene {
 
 	update (time, delta) {
 		if (this.playing) {
-			this.ai.update(time, delta);
+			// If ai.update returns true, slap the smallest aflegstapel
+			if (this.ai.update(time, delta)) {
+				// TODO: SLAPP aflegstapel
+			}
 
 			// Change aflegstapel border if AI is idle and game is started.
 			this.trekStapels[1].setClickable(this.ai.idle);
