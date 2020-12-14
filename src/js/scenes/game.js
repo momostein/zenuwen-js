@@ -34,8 +34,8 @@ export default class Game extends Phaser.Scene {
 		};
 
 		this.trekStapels = [
-			new TrekStapel(this, screenCenter.x - 450, screenCenter.y),
-			new TrekStapel(this, screenCenter.x + 450, screenCenter.y),
+			new TrekStapel(this, screenCenter.x - 450, screenCenter.y).disableInteractive(),
+			new TrekStapel(this, screenCenter.x + 450, screenCenter.y).disableInteractive(),
 		];
 
 		// Add cards to the trekstapel
@@ -118,6 +118,7 @@ export default class Game extends Phaser.Scene {
 			dealCards(this.patienceStapelsPlayer, this.trekStapels[1], this.aflegStapels, this);
 			dealCards(this.patienceStapelsAI, this.trekStapels[0], this.aflegStapels, this, true);
 			this.aflegStapels.forEach(stapel => stapel.setInteractive(undefined, undefined, true));
+			this.trekStapels[1].setInteractive(undefined, undefined, true);
 			this.deal.setVisible(false);
 		});
 	}
@@ -181,6 +182,7 @@ function pushAflegStapel (scene, aflegStapels, i, trekStapels, ai, clickedByAI) 
 				moveAllTo(scene.patienceStapelsAI, trekStapels[0]);
 				scene.deal.setVisible(true);
 				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
+				trekStapels[1].disableInteractive();
 				for (const aflegStapel of aflegStapels) {
 					aflegStapel.setShowBorder(false);
 				}
@@ -199,6 +201,7 @@ function pushAflegStapel (scene, aflegStapels, i, trekStapels, ai, clickedByAI) 
 				moveAllTo([scene.handstapelPlayer], trekStapels[1]);
 				scene.deal.setVisible(true);
 				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
+				trekStapels[1].disableInteractive();
 				for (const aflegStapel of aflegStapels) {
 					aflegStapel.setShowBorder(false);
 				}
