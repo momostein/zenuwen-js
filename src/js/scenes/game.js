@@ -172,7 +172,7 @@ function pushAflegStapel (scene, aflegStapels, i, trekStapels, ai, clickedByAI) 
 		ai.cancelAllMoves();
 
 		if (!clickedByAI) {
-			if (aflegStapels[i].getSize() === 0) {
+			if (aflegStapels[i].getSize() === 0 && trekStapels[1].getSize() === 0) {
 				scene.scene.start('gameEnd', { winner: 'player' });
 			} else {
 				moveAllTo([aflegStapels[i]], trekStapels[1]);
@@ -191,7 +191,7 @@ function pushAflegStapel (scene, aflegStapels, i, trekStapels, ai, clickedByAI) 
 				}
 			}
 		} else {
-			if (aflegStapels[i].getSize() === 0) {
+			if (aflegStapels[i].getSize() === 0 && trekStapels[1].getSize() === 0) {
 				scene.scene.start('gameEnd', { winner: 'ai' });
 			} else {
 				moveAllTo([aflegStapels[i]], trekStapels[0]);
