@@ -104,14 +104,14 @@ export default class Game extends Phaser.Scene {
 		// AI
 		this.ai = new BasicAI(
 			this.patienceStapelsAI, this.handstapelAI,
-			this.patienceStapelsPlayer, HandStapel,
+			this.patienceStapelsPlayer, this.handstapelPlayer,
 			this.aflegStapels, this.trekStapels,
 			this.game.config.difficulty,
 		);
 
 		for (let i = 0; i < this.aflegStapels.length; i++) {
 			this.aflegStapels[i].on('pointerdown', () => {
-				pushAflegStapel(this, i, this.trekStapels, false);
+				pushAflegStapel(this, i, false);
 			});
 		}
 
@@ -131,9 +131,18 @@ export default class Game extends Phaser.Scene {
 
 	update (time, delta) {
 		if (this.playing) {
-			// If ai.update returns true, slap the smallest aflegstapel
+			// If ai.update returns true, slap an aflegstapel
 			if (this.ai.update(time, delta)) {
-				// TODO: SLAPP aflegstapel
+				// TODO: let AI determine which stapel to slap
+
+				// For now, we just slap the smallest stapel
+				let smallestIndex = 0;
+				if (this.aflegStapels[0].cards.length > this.aflegStapels[1].cards.length) {
+					smallestIndex = 1;
+				}
+
+				// Slap aflegstapel
+				pushAflegStapel(this, smallestIndex, true);
 			}
 
 			// Change aflegstapel border if AI is idle and game is started.
@@ -170,7 +179,7 @@ function moveAllTo (sourceStapels, targetStapel) {
 	}
 }
 
-function pushAflegStapel (scene, stapelIndex, trekStapels, clickedByAI) {
+function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 	const j = stapelIndex === 0 ? 1 : 0;
 
 	const numCardsPlayer =
@@ -179,7 +188,7 @@ function pushAflegStapel (scene, stapelIndex, trekStapels, clickedByAI) {
 
 	const numCardsAI =
 			countCards(scene.patienceStapelsAI) +
-			countCards([scene.handstapelPlayer]);
+			countCards([scene.handstapelAI]);
 
 	console.log(numCardsAI, numCardsPlayer);
 
@@ -192,7 +201,7 @@ function pushAflegStapel (scene, stapelIndex, trekStapels, clickedByAI) {
 		scene.trekStapels[1].setClickable(false);
 
 		if (!clickedByAI) {
-			if (scene.aflegStapels[stapelIndex].getSize() === 0 && trekStapels[1].getSize() === 0) {
+			if (scene.aflegStapels[stapelIndex].getSize() === 0 && scene.trekStapels[1].getSize() === 0) {
 				scene.scene.start('gameEnd', { winner: 'player' });
 			} else {
 				moveAllTo([scene.aflegStapels[stapelIndex]], scene.trekStapels[1]);
@@ -211,7 +220,7 @@ function pushAflegStapel (scene, stapelIndex, trekStapels, clickedByAI) {
 				}
 			}
 		} else {
-			if (scene.aflegStapels[stapelIndex].getSize() === 0 && scene.trekStapels[1].getSize() === 0) {
+			if (scene.aflegStapels[stapelIndex].getSize() === 0 && scene.trekStapels[0].getSize() === 0) {
 				scene.scene.start('gameEnd', { winner: 'ai' });
 			} else {
 				moveAllTo([scene.aflegStapels[stapelIndex]], scene.trekStapels[0]);
@@ -220,7 +229,7 @@ function pushAflegStapel (scene, stapelIndex, trekStapels, clickedByAI) {
 				moveAllTo(scene.patienceStapelsAI, scene.trekStapels[0]);
 				moveAllTo([scene.handstapelPlayer], scene.trekStapels[1]);
 				scene.deal.setVisible(true);
-				scene.scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
+				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
 				scene.trekStapels[1].disableInteractive();
 				for (const aflegStapel of scene.aflegStapels) {
 					aflegStapel.setShowBorder(false);

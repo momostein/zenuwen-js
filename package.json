@@ -9,8 +9,8 @@
 	"private": true,
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start-dev-server": "webpack s -w",
-		"build": "webpack"
+		"start-dev-server": "webpack s -w --mode development",
+		"build": "webpack --mode production"
 	},
 	"keywords": [],
 	"author": "",

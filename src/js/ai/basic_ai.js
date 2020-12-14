@@ -70,8 +70,23 @@ export class BasicAI extends AbstractAI {
 
 			// Make a move if we've been idle for longer than idle Time
 			if ((time - this.idleTimer) > this.idleTime) {
-				// FIRST CHECK aflegstapels
-				// TODO: CHECK AFLEGSTAPELS
+				console.debug('AI TRYIN TO SLAPPP:', this);
+
+				// Check if we have to slap aflegstapels
+				const numCardsPlayer =
+					countCards(this.patienceStapelsPlayer) +
+					countCards([this.handstapelPlayer]);
+
+				const numCardsAI =
+					countCards(this.patienceStapelsAI) +
+					countCards([this.handstapelAI]);
+
+				if (numCardsPlayer === 0 || numCardsAI === 0) {
+					// Slap a stapel if the card counts are zero
+					this.idleTimer = time;
+					this.idle = false;
+					return true;
+				}
 
 				console.log('AI trying to make move...');
 				this.idleTimer = time;
@@ -194,7 +209,7 @@ export class BasicAI extends AbstractAI {
 function countCards (stapels) {
 	let aantal = 0;
 	for (const stapel of stapels) {
-		aantal += stapel.getSize();
+		aantal += stapel.cards.length;
 	}
 	return aantal;
 }
