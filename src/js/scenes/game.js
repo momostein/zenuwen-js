@@ -201,14 +201,17 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 		scene.trekStapels[1].setClickable(false);
 
 		if (!clickedByAI) {
-			if (scene.aflegStapels[stapelIndex].getSize() === 0 && scene.trekStapels[1].getSize() === 0) {
+			// Check if the game should end
+			if (scene.aflegStapels[stapelIndex].getSize() + scene.trekStapels[1].getSize() === 0) {
 				scene.scene.start('gameEnd', { winner: 'player' });
 			} else {
+				// Move all cards back to the trekstapels
 				moveAllTo([scene.aflegStapels[stapelIndex]], scene.trekStapels[1]);
 				moveAllTo([scene.aflegStapels[j]], scene.trekStapels[0]);
 				moveAllTo([scene.handstapelAI], scene.trekStapels[0]);
 				moveAllTo(scene.patienceStapelsPlayer, scene.trekStapels[1]);
 				moveAllTo(scene.patienceStapelsAI, scene.trekStapels[0]);
+
 				scene.deal.setVisible(true);
 				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
 				scene.trekStapels[1].disableInteractive();
@@ -218,16 +221,22 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				for (const trekStapel of scene.trekStapels) {
 					trekStapel.shuffle();
 				}
+
+				// Hide borders of all patiencestapels
+				hidePatienceborders(scene);
 			}
 		} else {
-			if (scene.aflegStapels[stapelIndex].getSize() === 0 && scene.trekStapels[0].getSize() === 0) {
+			// Check if the game should end
+			if (scene.aflegStapels[stapelIndex].getSize() + scene.trekStapels[0].getSize() === 0) {
 				scene.scene.start('gameEnd', { winner: 'ai' });
 			} else {
+				// Move all cards back to the trekstapels
 				moveAllTo([scene.aflegStapels[stapelIndex]], scene.trekStapels[0]);
 				moveAllTo([scene.aflegStapels[j]], scene.trekStapels[1]);
 				moveAllTo(scene.patienceStapelsPlayer, scene.trekStapels[1]);
 				moveAllTo(scene.patienceStapelsAI, scene.trekStapels[0]);
 				moveAllTo([scene.handstapelPlayer], scene.trekStapels[1]);
+
 				scene.deal.setVisible(true);
 				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
 				scene.trekStapels[1].disableInteractive();
@@ -237,6 +246,9 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				for (const trekStapel of scene.trekStapels) {
 					trekStapel.shuffle();
 				}
+
+				// Hide borders of all patiencestapels
+				hidePatienceborders(scene);
 			}
 		}
 	}
@@ -270,5 +282,15 @@ function dealCards (patienceStapels, trekstapel, aflegStapels, scene, AI = false
 	for (const stapel of patienceStapels) {
 		stapel.enableStapel();
 		stapel.openTop();
+	}
+}
+
+// Hide borders of all patiencestapels
+function hidePatienceborders (scene) {
+	for (const stapel of scene.patienceStapelsPlayer) {
+		stapel.disableStapel();
+	}
+	for (const stapel of scene.patienceStapelsAI) {
+		stapel.disableStapel();
 	}
 }
