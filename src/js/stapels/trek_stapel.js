@@ -26,6 +26,8 @@ export class TrekStapel extends AbstractStapel {
 
 		this.setOrigin(0.5);
 		this.border.setOrigin(0.5);
+
+		this.clickable = false;
 	}
 
 	addCard (card) {
@@ -95,12 +97,7 @@ export class TrekStapel extends AbstractStapel {
 			this.setSize(cardWidth + padding * 2, cardHeight + padding * 2);
 		}
 
-		if (this.cards.length === 0) {
-			this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
-			this.border.setVisible(true);
-		} else {
-			this.border.setVisible(false);
-		}
+		this.updateBorder();
 	}
 
 	shuffle () {
@@ -113,6 +110,23 @@ export class TrekStapel extends AbstractStapel {
 		}
 
 		this.updateCards();
+	}
+
+	updateBorder () {
+		if (this.clickable) {
+			this.border.setStrokeStyle(5, colorStapelBorderGood, 1);
+			this.border.setVisible(true);
+		} else if (this.cards.length === 0) {
+			this.border.setStrokeStyle(5, colorStapelBorderIdle, 1);
+			this.border.setVisible(true);
+		} else {
+			this.border.setVisible(false);
+		}
+	}
+
+	setClickable (clickable) {
+		this.clickable = clickable;
+		this.updateBorder();
 	}
 }
 

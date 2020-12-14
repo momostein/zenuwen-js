@@ -28,6 +28,8 @@ export default class Game extends Phaser.Scene {
 	}
 
 	create () {
+		this.playing = false;
+
 		const screenCenter = {
 			x: this.cameras.main.worldView.x + this.cameras.main.width / 2,
 			y: this.cameras.main.worldView.y + this.cameras.main.height / 2,
@@ -82,7 +84,7 @@ export default class Game extends Phaser.Scene {
 
 		this.trekStapels[1].on('pointerdown', () => {
 			// TODO: Check if the trekstapel has cards
-			if (!this.ai.isMoving()) {
+			if (this.ai.idle) {
 				for (let i = 0; i < this.trekStapels.length; i++) {
 					const card = this.trekStapels[i].popCard();
 
@@ -95,6 +97,7 @@ export default class Game extends Phaser.Scene {
 						this.aflegStapels[i].setShowBorder(true);
 					}
 				}
+				this.ai.resetTimers();
 			}
 		});
 
@@ -108,7 +111,7 @@ export default class Game extends Phaser.Scene {
 
 		for (let i = 0; i < this.aflegStapels.length; i++) {
 			this.aflegStapels[i].on('pointerdown', () => {
-				pushAflegStapel(this, this.aflegStapels, i, this.trekStapels, this.ai, false);
+				pushAflegStapel(this, i, this.trekStapels, false);
 			});
 		}
 
@@ -120,11 +123,19 @@ export default class Game extends Phaser.Scene {
 			this.aflegStapels.forEach(stapel => stapel.setInteractive(undefined, undefined, true));
 			this.trekStapels[1].setInteractive(undefined, undefined, true);
 			this.deal.setVisible(false);
+			this.playing = true;
+
+			this.ai.resetTimers();
 		});
 	}
 
 	update (time, delta) {
-		this.ai.update(time, delta);
+		if (this.playing) {
+			this.ai.update(time, delta);
+
+			// Change aflegstapel border if AI is idle and game is started.
+			this.trekStapels[1].setClickable(this.ai.idle);
+		}
 	}
 
 	checkStapels () {
@@ -156,8 +167,8 @@ function moveAllTo (sourceStapels, targetStapel) {
 	}
 }
 
-function pushAflegStapel (scene, aflegStapels, i, trekStapels, ai, clickedByAI) {
-	const j = i === 0 ? 1 : 0;
+function pushAflegStapel (scene, stapelIndex, trekStapels, clickedByAI) {
+	const j = stapelIndex === 0 ? 1 : 0;
 
 	const numCardsPlayer =
 			countCards(scene.patienceStapelsPlayer) +
@@ -167,45 +178,51 @@ function pushAflegStapel (scene, aflegStapels, i, trekStapels, ai, clickedByAI) 
 			countCards(scene.patienceStapelsAI) +
 			countCards([scene.handstapelPlayer]);
 
+	console.log(numCardsAI, numCardsPlayer);
+
 	if (numCardsPlayer === 0 || numCardsAI === 0) {
 		// Cancel all moves being made by AI
-		ai.cancelAllMoves();
+		scene.ai.cancelAllMoves();
+		scene.ai.resetTimers();
+
+		scene.playing = false;
+		scene.trekStapels[1].setClickable(false);
 
 		if (!clickedByAI) {
-			if (aflegStapels[i].getSize() === 0 && trekStapels[1].getSize() === 0) {
+			if (scene.aflegStapels[stapelIndex].getSize() === 0 && trekStapels[1].getSize() === 0) {
 				scene.scene.start('gameEnd', { winner: 'player' });
 			} else {
-				moveAllTo([aflegStapels[i]], trekStapels[1]);
-				moveAllTo([aflegStapels[j]], trekStapels[0]);
-				moveAllTo([scene.handstapelAI], trekStapels[0]);
-				moveAllTo(scene.patienceStapelsPlayer, trekStapels[1]);
-				moveAllTo(scene.patienceStapelsAI, trekStapels[0]);
+				moveAllTo([scene.aflegStapels[stapelIndex]], scene.trekStapels[1]);
+				moveAllTo([scene.aflegStapels[j]], scene.trekStapels[0]);
+				moveAllTo([scene.handstapelAI], scene.trekStapels[0]);
+				moveAllTo(scene.patienceStapelsPlayer, scene.trekStapels[1]);
+				moveAllTo(scene.patienceStapelsAI, scene.trekStapels[0]);
 				scene.deal.setVisible(true);
 				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
-				trekStapels[1].disableInteractive();
-				for (const aflegStapel of aflegStapels) {
+				scene.trekStapels[1].disableInteractive();
+				for (const aflegStapel of scene.aflegStapels) {
 					aflegStapel.setShowBorder(false);
 				}
-				for (const trekStapel of trekStapels) {
+				for (const trekStapel of scene.trekStapels) {
 					trekStapel.shuffle();
 				}
 			}
 		} else {
-			if (aflegStapels[i].getSize() === 0 && trekStapels[1].getSize() === 0) {
+			if (scene.aflegStapels[stapelIndex].getSize() === 0 && scene.trekStapels[1].getSize() === 0) {
 				scene.scene.start('gameEnd', { winner: 'ai' });
 			} else {
-				moveAllTo([aflegStapels[i]], trekStapels[0]);
-				moveAllTo([aflegStapels[j]], trekStapels[1]);
-				moveAllTo(scene.patienceStapelsPlayer, trekStapels[1]);
-				moveAllTo(scene.patienceStapelsAI, trekStapels[0]);
-				moveAllTo([scene.handstapelPlayer], trekStapels[1]);
+				moveAllTo([scene.aflegStapels[stapelIndex]], scene.trekStapels[0]);
+				moveAllTo([scene.aflegStapels[j]], scene.trekStapels[1]);
+				moveAllTo(scene.patienceStapelsPlayer, scene.trekStapels[1]);
+				moveAllTo(scene.patienceStapelsAI, scene.trekStapels[0]);
+				moveAllTo([scene.handstapelPlayer], scene.trekStapels[1]);
 				scene.deal.setVisible(true);
-				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
-				trekStapels[1].disableInteractive();
-				for (const aflegStapel of aflegStapels) {
+				scene.scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
+				scene.trekStapels[1].disableInteractive();
+				for (const aflegStapel of scene.aflegStapels) {
 					aflegStapel.setShowBorder(false);
 				}
-				for (const trekStapel of trekStapels) {
+				for (const trekStapel of scene.trekStapels) {
 					trekStapel.shuffle();
 				}
 			}

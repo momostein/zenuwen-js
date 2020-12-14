@@ -21,6 +21,7 @@ export class AbstractAI {
 		this.cardAnimations = [];
 
 		this.hand = false;
+		this.idle = true;
 	}
 
 	update (time, delta) {
@@ -91,6 +92,8 @@ export class AbstractAI {
 
 		this.cardAnimations = [];
 	}
+
+	resetTimers () {}
 }
 
 class CardAnimation {

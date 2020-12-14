@@ -51,6 +51,8 @@ export class BasicAI extends AbstractAI {
 		this.idleTime = this.timing.idle;
 
 		this.idleTimer = 0;
+
+		this.reset = true;
 	}
 
 	update (time, delta) {
@@ -58,6 +60,10 @@ export class BasicAI extends AbstractAI {
 
 		// console.debug('time:', time, '\tdelta:', delta);
 		// console.debug('time passed since last move:', time - this.idleTimer);
+		if (this.reset) {
+			this.idleTimer = time;
+			this.reset = false;
+		}
 
 		if (!this.isMoving()) {
 			this.checkStapels();
@@ -167,9 +173,17 @@ export class BasicAI extends AbstractAI {
 						if (this.isMoving()) { break; }
 					}
 				}
+
+				// If the AI isn't  moving at this point, it has no moves.
+				this.idle = !this.isMoving();
 			}
 		} else {
 			this.idleTimer = time;
 		}
+	}
+
+	resetTimers () {
+		this.idle = false;
+		this.reset = true;
 	}
 }
