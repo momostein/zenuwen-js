@@ -173,6 +173,7 @@ function moveAllTo (sourceStapels, targetStapel) {
 		let card = stapel.popCard();
 		while (card) {
 			card.angle = 0;
+			card.setScale(1);
 			targetStapel.addCard(card);
 			card = stapel.popCard();
 		}
@@ -209,6 +210,7 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				moveAllTo([scene.aflegStapels[stapelIndex]], scene.trekStapels[1]);
 				moveAllTo([scene.aflegStapels[j]], scene.trekStapels[0]);
 				moveAllTo([scene.handstapelAI], scene.trekStapels[0]);
+				moveAllTo([scene.handstapelPlayer], scene.trekStapels[1]);
 				moveAllTo(scene.patienceStapelsPlayer, scene.trekStapels[1]);
 				moveAllTo(scene.patienceStapelsAI, scene.trekStapels[0]);
 
@@ -236,6 +238,7 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				moveAllTo(scene.patienceStapelsPlayer, scene.trekStapels[1]);
 				moveAllTo(scene.patienceStapelsAI, scene.trekStapels[0]);
 				moveAllTo([scene.handstapelPlayer], scene.trekStapels[1]);
+				moveAllTo([scene.handstapelAI], scene.trekStapels[0]);
 
 				scene.deal.setVisible(true);
 				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
