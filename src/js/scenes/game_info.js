@@ -10,12 +10,12 @@ export default class GameInfo extends Phaser.Scene {
 	}
 
 	preload () {
-		this.load.image('cardback', 'assets/PNG/Cards/cardBack_green3.png');
-		this.load.image('2', 'assets/PNG/SpelInfo/1.png');
-		this.load.image('3', 'assets/PNG/SpelInfo/2.png');
-		this.load.image('4', 'assets/PNG/SpelInfo/3.png');
-		this.load.image('5', 'assets/PNG/SpelInfo/4.png');
-		this.load.image('6', 'assets/PNG/SpelInfo/5.png');
+		this.load.image('cardback', 'assets/Cards/cardBack_green3.png');
+		this.load.image('2', 'assets/SpelInfo/1.png');
+		this.load.image('3', 'assets/SpelInfo/2.png');
+		this.load.image('4', 'assets/SpelInfo/3.png');
+		this.load.image('5', 'assets/SpelInfo/4.png');
+		this.load.image('6', 'assets/SpelInfo/5.png');
 		this.load.image('logo', '../../../assets/logo.png');
 	}
 
