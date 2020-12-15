@@ -32,6 +32,9 @@ export default class Game extends Phaser.Scene {
 
 	create () {
 		this.playing = false;
+		this.numberOfRounds = 0;
+		this.start = this.getTime();
+		this.elapsed = 0;
 
 		const screenCenter = this.game.config.screenCenter;
 
@@ -137,6 +140,14 @@ export default class Game extends Phaser.Scene {
 		});
 	}
 
+	getTime () {
+		// make a new date object
+		const d = new Date();
+
+		// return the number of milliseconds since 1 January 1970 00:00:00.
+		return d.getTime();
+	}
+
 	update (time, delta) {
 		if (this.playing) {
 			// If ai.update returns true, slap an aflegstapel
@@ -200,7 +211,6 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 			countCards([scene.handstapelAI]);
 
 	console.log(numCardsAI, numCardsPlayer);
-
 	if (numCardsPlayer === 0 || numCardsAI === 0) {
 		// Cancel all moves being made by AI
 		scene.ai.cancelAllMoves();
@@ -216,7 +226,10 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 			if (scene.aflegStapels[stapelIndex].getSize() + scene.trekStapels[1].getSize() === 0) {
 				// End game
 				gameEnd = true;
-				scene.scene.start('gameEnd', { winner: 'player' });
+
+				scene.numberOfRounds++;
+				scene.elapsed = Math.floor((scene.getTime() - scene.start) / 1000);
+				scene.scene.start('gameEnd', { winner: 'player', rounds: scene.numberOfRounds, timeS: scene.elapsed }); // player wins
 			} else {
 				// Move all cards back to the trekstapels
 				moveAllTo([scene.aflegStapels[stapelIndex]], scene.trekStapels[1]);
@@ -226,6 +239,7 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				moveAllTo(scene.patienceStapelsPlayer, scene.trekStapels[1]);
 				moveAllTo(scene.patienceStapelsAI, scene.trekStapels[0]);
 
+				scene.numberOfRounds++;
 				scene.deal.setVisible(true);
 				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
 				scene.trekStapels[1].disableInteractive();
@@ -239,12 +253,15 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				// Hide borders of all patiencestapels
 				hidePatienceborders(scene);
 			}
-		} else {
+		} else { // Ai is first
 			// Check if the game should end
 			if (scene.aflegStapels[stapelIndex].getSize() + scene.trekStapels[0].getSize() === 0) {
 				// End game
 				gameEnd = true;
-				scene.scene.start('gameEnd', { winner: 'ai' });
+
+				scene.numberOfRounds++;
+				scene.elapsed = Math.floor((scene.getTime() - scene.start) / 1000);
+				scene.scene.start('gameEnd', { winner: 'ai', rounds: scene.numberOfRounds, timeS: scene.elapsed }); // Ai wins
 			} else {
 				// Move all cards back to the trekstapels
 				moveAllTo([scene.aflegStapels[stapelIndex]], scene.trekStapels[0]);
@@ -253,6 +270,7 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				moveAllTo(scene.patienceStapelsAI, scene.trekStapels[0]);
 				moveAllTo([scene.handstapelPlayer], scene.trekStapels[1]);
 				moveAllTo([scene.handstapelAI], scene.trekStapels[0]);
+				scene.numberOfRounds++;
 
 				scene.deal.setVisible(true);
 				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
