@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
-
 import getCardFrame from './card_frames';
+
 const cardDist = 35;
 
 export class Card extends Phaser.GameObjects.Image {
@@ -23,6 +23,7 @@ export class Card extends Phaser.GameObjects.Image {
 		this.setInteractive();
 
 		this.on('dragstart', function (pointer) {
+			this.setScale(1);
 			if (this.stapel) {
 				// If the card is in a pile, get the cards on top of it too
 				this.dragCards = this.stapel.getDragCards(this);
@@ -41,6 +42,9 @@ export class Card extends Phaser.GameObjects.Image {
 				// Save their original position before dragging
 				card.savePos();
 				card.scene.children.bringToTop(card);
+				card.setScale(1);
+				card.setAngle(0);
+				card.open();
 			}
 		});
 
@@ -48,8 +52,8 @@ export class Card extends Phaser.GameObjects.Image {
 			// if the card is not dropped on a stapel,
 			// Move them to their original position
 			if (!dropped) {
-				for (const card of this.dragCards) {
-					card.loadPos();
+				if (this.stapel) {
+					this.stapel.updateCards();
 				}
 			}
 		});
@@ -57,7 +61,13 @@ export class Card extends Phaser.GameObjects.Image {
 		this.on('drag', function (pointer, dragX, dragY) {
 			// Make all dragged cards follow the mouse
 			for (let i = 0; i < this.dragCards.length; i++) {
-				this.dragCards[i].setPosition(dragX, dragY + i * cardDist);
+				const card = this.dragCards[i];
+
+				// Move the cards and stagger them
+				card.setPosition(dragX, dragY + i * cardDist);
+
+				// Also bring cards dragged by the player to the top
+				card.scene.children.bringToTop(card);
 			}
 		});
 
@@ -70,16 +80,20 @@ export class Card extends Phaser.GameObjects.Image {
 			if (stapel.checkCards(this.dragCards)) {
 				// place the card(s) on the new pile
 				for (const card of this.dragCards) {
+					// if (card.stapel !== stapel) {
 					console.log('removing card', card);
 
+					// TODO: Maybe check if the card is on a stapel before removing?
 					card.stapel.removeCard(card);
 
 					stapel.addCard(card);
+					// }
 				}
+				this.scene.checkStapels();
 			} else {
 				// place the card(s) back on the pile
-				for (const card of this.dragCards) {
-					card.loadPos();
+				if (this.stapel) {
+					this.stapel.updateCards();
 				}
 			}
 		});
@@ -117,9 +131,5 @@ export class Card extends Phaser.GameObjects.Image {
 	savePos () {
 		this.savedPosX = this.x;
 		this.savedPosY = this.y;
-	}
-
-	loadPos () {
-		this.setPosition(this.savedPosX, this.savedPosY);
 	}
 }
