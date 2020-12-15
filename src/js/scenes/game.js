@@ -9,7 +9,7 @@ import { BasicAI } from '../ai';
 import { Card } from '../cards/card';
 import Phaser from 'phaser';
 import { TextButton } from '../button';
-import { preloadAudio } from '../audio';
+import { preloadAudio, playDealSound, playCardAudio } from '../audio';
 
 const suits = ['C', 'D', 'H', 'S'];
 export default class Game extends Phaser.Scene {
@@ -101,6 +101,9 @@ export default class Game extends Phaser.Scene {
 					}
 				}
 				this.ai.resetTimers();
+
+				// Play placeCard sound
+				playCardAudio();
 			}
 		});
 
@@ -129,6 +132,9 @@ export default class Game extends Phaser.Scene {
 			this.playing = true;
 
 			this.ai.resetTimers();
+
+			// Play deal sound
+			playDealSound();
 		});
 	}
 

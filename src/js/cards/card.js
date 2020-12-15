@@ -92,7 +92,7 @@ export class Card extends Phaser.GameObjects.Image {
 				}
 
 				// Play a card sound
-				playCardAudio(this.scene);
+				playCardAudio();
 
 				this.scene.checkStapels();
 			} else {

@@ -7,27 +7,38 @@ const placeSounds = [
 	'cardSlide3',
 ];
 
-const placeFXs = [];
+const dealSounds = [
+	// 'cardShuffle1', // Has extra sound of the bridge
+	'cardShuffle2',
+	'Card_deal',
+];
+
+let audioscene;
 
 // Preload audio files
 export function preloadAudio (scene) {
+	// Set the scene
+	audioscene = scene;
+
 	// Load audio files
-	// scene.load.audio('cardPlace1', 'assets/Bonus/cardPlace1.ogg');
-	// scene.load.audio('cardPlace2', 'assets/Bonus/cardPlace2.ogg');
-	// scene.load.audio('cardPlace3', 'assets/Bonus/cardPlace3.ogg');
-
-	// scene.load.audio('cardSlide1', 'assets/Bonus/cardSlide1.ogg');
-	// scene.load.audio('cardSlide2', 'assets/Bonus/cardSlide2.ogg');
-	// scene.load.audio('cardSlide3', 'assets/Bonus/cardSlide3.ogg');
-
 	for (const placeSound of placeSounds) {
-		console.log('loading', placeSound, 'from', `assets/Bonus/${placeSound}.ogg`);
-		scene.load.audio(placeSound, `assets/Bonus/${placeSound}.ogg`);
+		console.debug('loading', placeSound, 'from', `assets/sounds/${placeSound}.wav`);
+		audioscene.load.audio(placeSound, `assets/sounds/${placeSound}.wav`);
+	}
+
+	for (const dealSound of dealSounds) {
+		console.debug('loading', dealSound, 'from', `assets/sounds/${dealSound}.wav`);
+		audioscene.load.audio(dealSound, `assets/sounds/${dealSound}.wav`);
 	}
 }
 
 // Play a card sound
-export function	playCardAudio (scene) {
+export function	playCardAudio () {
 	const placeSound = placeSounds[Math.floor(Math.random() * placeSounds.length)];
-	scene.sound.play(placeSound);
+	audioscene.sound.play(placeSound);
+}
+
+export function playDealSound () {
+	const dealSound = dealSounds[Math.floor(Math.random() * dealSounds.length)];
+	audioscene.sound.play(dealSound);
 }

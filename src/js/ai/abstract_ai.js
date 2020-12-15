@@ -185,7 +185,7 @@ class CardAnimation {
 				this.targetStapel.addCard(card);
 			}
 
-			playCardAudio(this.targetStapel.scene);
+			playCardAudio();
 		} else {
 			// Reset the card positions of all the sourceStapels
 			for (const card of this.cards) {
