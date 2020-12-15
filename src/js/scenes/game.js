@@ -19,7 +19,7 @@ export default class Game extends Phaser.Scene {
 
 	preload () {
 		// this.load.setBaseURL('http://labs.phaser.io'); // Files are now hosted locally
-		this.load.image('cardback', 'assets/PNG/Cards/cardBack_green3.png');
+		this.load.image('cardback', 'assets/Cards/cardBack_green3.png');
 		this.load.atlasXML(
 			'playingCards',
 			'assets/Spritesheets/playingCards.png',
