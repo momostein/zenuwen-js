@@ -1,3 +1,4 @@
+import { FullscreenButton } from '../fullscreenButton';
 import Phaser from 'phaser';
 import { TextButton } from '../button';
 import { difficulties } from '../ai';
@@ -13,6 +14,9 @@ export default class Difficulty extends Phaser.Scene {
 
 	create () {
 		const screenCenter = { x: this.cameras.main.worldView.x + this.cameras.main.width / 2, y: this.cameras.main.worldView.y + this.cameras.main.height / 2 };
+
+		this.fullscreenButton = new FullscreenButton(this);
+
 		this.add.text(screenCenter.x, screenCenter.y * 0.2, 'Moeilijkheidsgraad van AI:', { fontFamily: 'lemonMilk' })
 			.setColor(style.colors.textColor.rgba)
 			.setOrigin(0.5)

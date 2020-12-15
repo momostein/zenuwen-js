@@ -1,6 +1,7 @@
+import { FullscreenButton } from '../fullscreenButton';
 import Phaser from 'phaser';
-import { TextButton } from '../button';
 import { TextBox } from '../textBox';
+import { TextButton } from '../button';
 import { style } from '../style';
 
 export default class GameInfo extends Phaser.Scene {
@@ -19,6 +20,8 @@ export default class GameInfo extends Phaser.Scene {
 	}
 
 	create () {
+		this.fullscreenButton = new FullscreenButton(this);
+
 		this.regelArray = [];
 		this.menuPosition = 0;
 		const img1 = this.add.image(0, -100, 'logo').setScale(0.45);
