@@ -37,21 +37,21 @@ export default class GameEnd extends Phaser.Scene {
 		this.backgroundRect = new BackgroundRect(this, this.color);
 
 		this.add
-			.text(screenCenter.x, screenCenter.y * 0.8, this.text, { fontFamily: 'lemonMilk', fontSize: 100 })
+			.text(screenCenter.x, screenCenter.y * 0.6, this.text, { fontFamily: 'lemonMilk', fontSize: 100 })
 			.setColor(style.colors.textColor.rgba)
 			.setOrigin(0.5);
 		this.add
-			.text(screenCenter.x, screenCenter.y * 1, 'rondes gespleeld: ' + this.rounds, { fontFamily: 'lemonMilk', fontSize: 50 })
+			.text(screenCenter.x, screenCenter.y * 0.95, 'rondes gespeeld: ' + this.rounds, { fontFamily: 'lemonMilk', fontSize: 50 })
 			.setColor(style.colors.textColor.rgba)
 			.setOrigin(0.5);
 		this.add
-			.text(screenCenter.x, screenCenter.y * 1.2, 'Duur: ' + this.elaps + ' seconden', { fontFamily: 'lemonMilk', fontSize: 50 })
+			.text(screenCenter.x, screenCenter.y * 1.15, 'Duur: ' + this.elaps + ' seconden', { fontFamily: 'lemonMilk', fontSize: 50 })
 			.setColor(style.colors.textColor.rgba)
 			.setOrigin(0.5);
 		this.mainMenu = new TextButton(
 			this,
 			screenCenter.x,
-			750,
+			screenCenter.y * 1.5,
 			230,
 			100,
 			'Menu',
