@@ -1,3 +1,5 @@
+import { playCardAudio } from '../audio';
+
 const DefaultMoveTime = 1000;
 const cardDist = 35;
 
@@ -182,6 +184,8 @@ class CardAnimation {
 				// Add to targetstapel
 				this.targetStapel.addCard(card);
 			}
+
+			playCardAudio(this.targetStapel.scene);
 		} else {
 			// Reset the card positions of all the sourceStapels
 			for (const card of this.cards) {

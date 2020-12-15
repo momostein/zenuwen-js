@@ -9,6 +9,7 @@ import { BasicAI } from '../ai';
 import { Card } from '../cards/card';
 import Phaser from 'phaser';
 import { TextButton } from '../button';
+import { preloadAudio } from '../audio';
 
 const suits = ['C', 'D', 'H', 'S'];
 export default class Game extends Phaser.Scene {
@@ -25,6 +26,8 @@ export default class Game extends Phaser.Scene {
 			'assets/Spritesheets/playingCards.png',
 			'assets/Spritesheets/playingCards.xml',
 		);
+
+		preloadAudio(this);
 	}
 
 	create () {
