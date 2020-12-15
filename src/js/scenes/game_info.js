@@ -20,6 +20,8 @@ export default class GameInfo extends Phaser.Scene {
 	}
 
 	create () {
+		const screenCenter = this.game.config.screenCenter;
+
 		this.fullscreenButton = new FullscreenButton(this);
 
 		this.regelArray = [];
@@ -30,7 +32,7 @@ export default class GameInfo extends Phaser.Scene {
 		const img4 = this.add.image(0, -100, '4').setScale(0.45);
 		const img5 = this.add.image(0, -100, '5').setScale(0.45);
 		const img6 = this.add.image(0, -100, '6').setScale(0.45);
-		const screenCenter = { x: this.cameras.main.worldView.x + this.cameras.main.width / 2, y: this.cameras.main.worldView.y + this.cameras.main.height / 2 };
+
 		this.add.text(screenCenter.x, screenCenter.y * 0.08, 'Spelregels:', { fontFamily: 'lemonMilk' }).setColor(style.colors.textColor.rgba).setOrigin(0.5).setFontSize(30);
 		this.Box1 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '1. Het doel van het spel is om zo snel mogelijk alle kaarten kwijt te spelen.', 18, 6, undefined, undefined);
 		this.Box1.add(img1);

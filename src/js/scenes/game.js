@@ -30,10 +30,9 @@ export default class Game extends Phaser.Scene {
 	create () {
 		this.playing = false;
 
-		const screenCenter = {
-			x: this.cameras.main.worldView.x + this.cameras.main.width / 2,
-			y: this.cameras.main.worldView.y + this.cameras.main.height / 2,
-		};
+		const screenCenter = this.game.config.screenCenter;
+
+		console.log(screenCenter);
 
 		this.trekStapels = [
 			new TrekStapel(this, screenCenter.x - 450, screenCenter.y).disableInteractive(),

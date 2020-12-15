@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 import Scenes from './js/scenes';
-import { style } from './js/style';
 import { difficulties } from './js/ai';
+import { style } from './js/style';
 
 const config = {
 	type: Phaser.AUTO,
@@ -30,3 +30,4 @@ const game = new Phaser.Game(config);
 
 // Set default difficulty to easy
 game.config.difficulty = difficulties.easy;
+game.config.screenCenter = { x: config.scale.width / 2, y: config.scale.height / 2 };
