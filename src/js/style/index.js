@@ -2,7 +2,7 @@ import { Display } from 'phaser';
 
 export const style = {
 	colors: {
-		primary: Display.Color.HexStringToColor('#04B2D9'),
+		primary: Display.Color.HexStringToColor('#3f7cb6'),
 		secondary: Display.Color.HexStringToColor('#F2360C'),
 		background: Display.Color.HexStringToColor('#E4E4E4'),
 
