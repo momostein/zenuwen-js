@@ -9,7 +9,7 @@ import { BasicAI } from '../ai';
 import { Card } from '../cards/card';
 import Phaser from 'phaser';
 import { TextButton } from '../button';
-import { preloadAudio, playDealSound, playCardAudio } from '../audio';
+import { preloadAudio, playDealSound, playCardAudio, playSlapSound } from '../audio';
 
 const suits = ['C', 'D', 'H', 'S'];
 export default class Game extends Phaser.Scene {
@@ -210,9 +210,13 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 		scene.playing = false;
 		scene.trekStapels[1].setClickable(false);
 
+		let gameEnd = false;
+
 		if (!clickedByAI) {
 			// Check if the game should end
 			if (scene.aflegStapels[stapelIndex].getSize() + scene.trekStapels[1].getSize() === 0) {
+				// End game
+				gameEnd = true;
 				scene.scene.start('gameEnd', { winner: 'player' });
 			} else {
 				// Move all cards back to the trekstapels
@@ -239,6 +243,8 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 		} else {
 			// Check if the game should end
 			if (scene.aflegStapels[stapelIndex].getSize() + scene.trekStapels[0].getSize() === 0) {
+				// End game
+				gameEnd = true;
 				scene.scene.start('gameEnd', { winner: 'ai' });
 			} else {
 				// Move all cards back to the trekstapels
@@ -262,6 +268,14 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				// Hide borders of all patiencestapels
 				hidePatienceborders(scene);
 			}
+		}
+
+		if (!gameEnd) {
+			// Play slap sound if the game hasn't ended yet
+			playSlapSound();
+		} else {
+			// For now, also play slap sound if the game has ended
+			playSlapSound();
 		}
 	}
 }

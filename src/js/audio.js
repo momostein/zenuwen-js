@@ -13,32 +13,48 @@ const dealSounds = [
 	'Card_deal',
 ];
 
-let audioscene;
+const slapSounds = [
+	'tableHit1',
+	'tableHit2',
+];
+
+// This is so we can save the scene to play sounds
+let audioScene;
 
 // Preload audio files
 export function preloadAudio (scene) {
 	// Set the scene
-	audioscene = scene;
+	audioScene = scene;
 
 	// Load audio files
 	for (const placeSound of placeSounds) {
 		console.debug('loading', placeSound, 'from', `assets/sounds/${placeSound}.wav`);
-		audioscene.load.audio(placeSound, `assets/sounds/${placeSound}.wav`);
+		audioScene.load.audio(placeSound, `assets/sounds/${placeSound}.wav`);
 	}
 
 	for (const dealSound of dealSounds) {
 		console.debug('loading', dealSound, 'from', `assets/sounds/${dealSound}.wav`);
-		audioscene.load.audio(dealSound, `assets/sounds/${dealSound}.wav`);
+		audioScene.load.audio(dealSound, `assets/sounds/${dealSound}.wav`);
+	}
+
+	for (const slapSound of slapSounds) {
+		console.debug('loading', slapSound, 'from', `assets/sounds/${slapSound}.wav`);
+		audioScene.load.audio(slapSound, `assets/sounds/${slapSound}.wav`);
 	}
 }
 
 // Play a card sound
 export function	playCardAudio () {
 	const placeSound = placeSounds[Math.floor(Math.random() * placeSounds.length)];
-	audioscene.sound.play(placeSound);
+	audioScene.sound.play(placeSound);
 }
 
 export function playDealSound () {
 	const dealSound = dealSounds[Math.floor(Math.random() * dealSounds.length)];
-	audioscene.sound.play(dealSound);
+	audioScene.sound.play(dealSound);
+}
+
+export function playSlapSound () {
+	const slapSound = slapSounds[Math.floor(Math.random() * slapSounds.length)];
+	audioScene.sound.play(slapSound);
 }
