@@ -4,7 +4,7 @@ export class BackgroundRect extends Phaser.GameObjects.Graphics {
 	constructor (scene, backgroundColor) {
 		super(scene);
 
-		const screenCenter = { x: scene.cameras.main.worldView.x + scene.cameras.main.width / 2, y: scene.cameras.main.worldView.y + scene.cameras.main.height / 2 };
+		const screenCenter = scene.game.config.screenCenter;
 
 		this.fillStyle(backgroundColor.color);
 		this.fillRoundedRect(screenCenter.x - (scene.cameras.main.width * 0.8) / 2, screenCenter.y - (scene.cameras.main.height * 0.8) / 2, scene.cameras.main.width * 0.8, scene.cameras.main.height * 0.8, 50);

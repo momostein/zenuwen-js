@@ -1,4 +1,5 @@
 import { BackgroundRect } from '../backgroundRect';
+import { FullscreenButton } from '../fullscreenButton';
 import Game from '../scenes/game';
 import Phaser from 'phaser';
 import { TextButton } from '../button';
@@ -11,10 +12,13 @@ export default class MainMenu extends Phaser.Scene {
 
 	preload () {
 		this.load.image('logo', '../../../assets/logo.png');
+		this.load.image('fullscreenIcon', '../../assets/fullscreen.png');
 	}
 
 	create () {
-		const screenCenter = { x: this.cameras.main.worldView.x + this.cameras.main.width / 2, y: this.cameras.main.worldView.y + this.cameras.main.height / 2 };
+		const screenCenter = this.game.config.screenCenter;
+
+		this.fullscreenButton = new FullscreenButton(this);
 
 		this.backgroundRect = new BackgroundRect(this, style.colors.primary);
 

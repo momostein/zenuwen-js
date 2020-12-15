@@ -19,7 +19,7 @@ export default class Game extends Phaser.Scene {
 
 	preload () {
 		// this.load.setBaseURL('http://labs.phaser.io'); // Files are now hosted locally
-		this.load.image('cardback', 'assets/PNG/Cards/cardBack_green3.png');
+		this.load.image('cardback', 'assets/Cards/cardBack_green3.png');
 		this.load.atlasXML(
 			'playingCards',
 			'assets/Spritesheets/playingCards.png',
@@ -30,10 +30,9 @@ export default class Game extends Phaser.Scene {
 	create () {
 		this.playing = false;
 
-		const screenCenter = {
-			x: this.cameras.main.worldView.x + this.cameras.main.width / 2,
-			y: this.cameras.main.worldView.y + this.cameras.main.height / 2,
-		};
+		const screenCenter = this.game.config.screenCenter;
+
+		console.log(screenCenter);
 
 		this.trekStapels = [
 			new TrekStapel(this, screenCenter.x - 450, screenCenter.y).disableInteractive(),
@@ -173,6 +172,7 @@ function moveAllTo (sourceStapels, targetStapel) {
 		let card = stapel.popCard();
 		while (card) {
 			card.angle = 0;
+			card.setScale(1);
 			targetStapel.addCard(card);
 			card = stapel.popCard();
 		}
@@ -209,6 +209,7 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				moveAllTo([scene.aflegStapels[stapelIndex]], scene.trekStapels[1]);
 				moveAllTo([scene.aflegStapels[j]], scene.trekStapels[0]);
 				moveAllTo([scene.handstapelAI], scene.trekStapels[0]);
+				moveAllTo([scene.handstapelPlayer], scene.trekStapels[1]);
 				moveAllTo(scene.patienceStapelsPlayer, scene.trekStapels[1]);
 				moveAllTo(scene.patienceStapelsAI, scene.trekStapels[0]);
 
@@ -236,6 +237,7 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				moveAllTo(scene.patienceStapelsPlayer, scene.trekStapels[1]);
 				moveAllTo(scene.patienceStapelsAI, scene.trekStapels[0]);
 				moveAllTo([scene.handstapelPlayer], scene.trekStapels[1]);
+				moveAllTo([scene.handstapelAI], scene.trekStapels[0]);
 
 				scene.deal.setVisible(true);
 				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
