@@ -12,6 +12,8 @@ import { TextButton } from '../button';
 import { preloadAudio, playDealSound, playCardAudio, playSlapSound } from '../audio';
 
 const suits = ['C', 'D', 'H', 'S'];
+const spamPenalty = 2500; // Spam penalty in ms
+
 export default class Game extends Phaser.Scene {
 	constructor () {
 		super('game');
@@ -35,6 +37,12 @@ export default class Game extends Phaser.Scene {
 		this.numberOfRounds = 0;
 		this.start = this.getTime();
 		this.elapsed = 0;
+
+		// Anti-stapelspam counter
+		this.spamPenalty = spamPenalty;
+		this.spammedTime = 0;
+		this.resetSpam = false;
+		this.spammed = false;
 
 		const screenCenter = this.game.config.screenCenter;
 
@@ -119,7 +127,14 @@ export default class Game extends Phaser.Scene {
 
 		for (let i = 0; i < this.aflegStapels.length; i++) {
 			this.aflegStapels[i].on('pointerdown', () => {
-				pushAflegStapel(this, i, false);
+				if (!this.spammed) {
+					// Set spammed op true
+					this.spammed = true;
+
+					pushAflegStapel(this, i, false);
+				} else {
+					console.log("Please don't spam the aflegstapels!");
+				}
 			});
 		}
 
@@ -133,7 +148,11 @@ export default class Game extends Phaser.Scene {
 			this.deal.setVisible(false);
 			this.playing = true;
 
+			// Reset AI timers, just in case
 			this.ai.resetTimers();
+
+			// Reset spam timer, just in case
+			this.spammed = false;
 
 			// Play deal sound
 			playDealSound();
@@ -166,6 +185,24 @@ export default class Game extends Phaser.Scene {
 
 			// Change aflegstapel border if AI is idle and game is started.
 			this.trekStapels[1].setClickable(this.ai.idle);
+		}
+
+		// Anti spam logic
+		if (this.spammed) {
+			if (!this.resetSpam) {
+				// Reset timer if it's the first one
+				this.spammedTime = time;
+				this.resetSpam = true;
+			}
+
+			if (time - this.spammedTime > this.spamPenalty) {
+				// Reset everything after timer is finished
+				this.spammed = false;
+				this.resetSpam = false;
+			}
+		} else {
+			// With this we can reset spawn timer by just setting this.spammed to false
+			this.resetSpam = false;
 		}
 	}
 
