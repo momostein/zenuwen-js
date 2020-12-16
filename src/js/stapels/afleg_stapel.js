@@ -8,7 +8,7 @@ const colorStapelBorderIdle = style.colors.subtle.color32;
 const colorStapelBorderGood = style.colors.hoverGood.color32;
 const colorStapelBorderBad = style.colors.hoverBad.color32;
 
-const cardDist = 2;
+const cardDist = 1;
 const cardWidth = 140;
 const cardHeight = 190;
 const padding = 12;
