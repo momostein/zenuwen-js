@@ -259,6 +259,10 @@ export class BasicAI extends AbstractAI {
 		this.slapping = false;
 		this.slapMode = 'player';
 	}
+
+	reCheckMoves () {
+		this.idle = false;
+	}
 }
 
 function countCards (stapels) {

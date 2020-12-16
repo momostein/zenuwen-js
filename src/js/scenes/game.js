@@ -209,13 +209,18 @@ export default class Game extends Phaser.Scene {
 		}
 	}
 
+	// Gets called by card when it has moved some cards
 	checkStapels () {
+		// Check if we have to move the player's cards to their hand
 		if (countCards(this.patienceStapelsPlayer) <= 3) {
 			moveAllTo(this.patienceStapelsPlayer, this.handstapelPlayer);
 			for (const stapel of this.patienceStapelsPlayer) {
 				stapel.disableStapel();
 			}
 		}
+
+		// Make the AI reCheck his available moves
+		this.ai.reCheckMoves();
 	}
 }
 

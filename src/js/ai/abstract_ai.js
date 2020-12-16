@@ -71,6 +71,8 @@ export class AbstractAI {
 		return this.cardAnimations.length > 0;
 	}
 
+	reCheckMoves () {}
+
 	checkStapels () {
 		let aantal = 0;
 		for (const stapel of this.patienceStapelsAI) {
