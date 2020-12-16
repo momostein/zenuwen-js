@@ -148,8 +148,9 @@ export default class Game extends Phaser.Scene {
 			this.deal.setVisible(false);
 			this.playing = true;
 
-			// Reset AI timers, just in case
+			// Reset AI, just in case
 			this.ai.resetTimers();
+			this.ai.resetSlap();
 
 			// Reset spam timer, just in case
 			this.spammed = false;
