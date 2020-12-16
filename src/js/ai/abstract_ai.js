@@ -1,5 +1,7 @@
 import { playCardAudio } from '../audio';
 
+const debugTag = 'ABSTRACT_AI';
+
 const DefaultMoveTime = 1000;
 const cardDist = 35;
 
@@ -31,7 +33,7 @@ export class AbstractAI {
 		for (let i = this.cardAnimations.length - 1; i >= 0; i--) {
 			const cardAnimation = this.cardAnimations[i];
 
-			// console.debug('cardAnimation:', cardAnimation);
+			// console.debug(debugTag, 'cardAnimation:', cardAnimation);
 
 			if (cardAnimation.update(time, delta)) {
 				this.cardAnimations.splice(i, 1);
@@ -44,7 +46,7 @@ export class AbstractAI {
 		// if (!this.isMoving()) {
 		// 	const dragCard = this.patienceStapelsAI[0].cards[this.patienceStapelsAI[0].cards.length - 1];
 
-		// 	// console.log('dragCard:', dragCard);
+		// 	// console.log(debugTag, 'dragCard:', dragCard);
 
 		// 	if (dragCard) {
 		// 		const dragCards = this.patienceStapelsAI[0].getDragCards(dragCard);
@@ -52,8 +54,8 @@ export class AbstractAI {
 		// 		if (this.aflegStapels[0].checkCards(dragCards)) {
 		// 			// Start to move the cards if it's allowed
 
-		// 			console.debug('dragCards:', dragCards);
-		// 			console.debug('aflegstapel', this.aflegStapels[0]);
+		// 			console.debug(debugTag, 'dragCards:', dragCards);
+		// 			console.debug(debugTag, 'aflegstapel', this.aflegStapels[0]);
 
 		// 			this.cardAnimations.push(new CardAnimation(dragCards, this.patienceStapelsAI[0], this.aflegStapels[0]));
 		// 		}

@@ -1,3 +1,5 @@
+const debugTag = 'AUDIO:';
+
 const placeSounds = [
 	'cardPlace1',
 	'cardPlace2',
@@ -28,17 +30,17 @@ export function preloadAudio (scene) {
 
 	// Load audio files
 	for (const placeSound of placeSounds) {
-		console.debug('loading', placeSound, 'from', `assets/sounds/${placeSound}.wav`);
+		console.debug(debugTag, 'loading', placeSound, 'from', `assets/sounds/${placeSound}.wav`);
 		audioScene.load.audio(placeSound, `assets/sounds/${placeSound}.wav`);
 	}
 
 	for (const dealSound of dealSounds) {
-		console.debug('loading', dealSound, 'from', `assets/sounds/${dealSound}.wav`);
+		console.debug(debugTag, 'loading', dealSound, 'from', `assets/sounds/${dealSound}.wav`);
 		audioScene.load.audio(dealSound, `assets/sounds/${dealSound}.wav`);
 	}
 
 	for (const slapSound of slapSounds) {
-		console.debug('loading', slapSound, 'from', `assets/sounds/${slapSound}.wav`);
+		console.debug(debugTag, 'loading', slapSound, 'from', `assets/sounds/${slapSound}.wav`);
 		audioScene.load.audio(slapSound, `assets/sounds/${slapSound}.wav`);
 	}
 }

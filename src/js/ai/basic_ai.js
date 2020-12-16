@@ -1,5 +1,7 @@
 import { AbstractAI, difficulties } from './abstract_ai';
 
+const debugTag = 'BASIC_AI:';
+
 const timing = {
 	easy: {
 		afleg: 2000,
@@ -68,8 +70,8 @@ export class BasicAI extends AbstractAI {
 		// Return value
 		let slapped = false;
 
-		// console.debug('time:', time, '\tdelta:', delta);
-		// console.debug('time passed since last move:', time - this.idleTimer);
+		// console.debug(debugTag, 'time:', time, '\tdelta:', delta);
+		// console.debug(debugTag, 'time passed since last move:', time - this.idleTimer);
 		if (this.reset) {
 			// Don't reset if we're already slapping
 			if (!this.slapping) {
@@ -77,7 +79,6 @@ export class BasicAI extends AbstractAI {
 				this.reset = false;
 			}
 		}
-
 		if (!this.isMoving()) {
 			this.checkStapels();
 
@@ -112,11 +113,11 @@ export class BasicAI extends AbstractAI {
 				// We don't have to slap any stapels yet
 
 				if ((time - this.idleTimer) > this.idleTime) {
-					console.log('AI trying to make move...');
+					console.log(debugTag, 'AI trying to make move...');
 					this.idleTimer = time;
 
 					if (!this.hand) {
-						console.log('Cards not in hand');
+						console.log(debugTag, 'AI cards not in hand');
 
 						// Kaarten nog niet in de hand
 						for (const patienceStapel of this.patienceStapelsAI) {
@@ -146,7 +147,7 @@ export class BasicAI extends AbstractAI {
 						// If we couldn't make a move to an aflegstapel,
 						// see if we can make a move between our stapels
 						if (!this.isMoving()) {
-							console.log("Couldn't make a move to aflegstapel...");
+							console.log(debugTag, "Couldn't make a move to aflegstapel...");
 
 							for (const sourceStapel of this.patienceStapelsAI) {
 								const dragCards = [];
@@ -162,7 +163,7 @@ export class BasicAI extends AbstractAI {
 								}
 
 								if (dragCards.length > 0) {
-									console.log(dragCards);
+									console.debug(debugTag, 'dragcards:', dragCards);
 
 									// Save topcards in array
 									const topCards = [];

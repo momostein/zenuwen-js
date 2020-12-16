@@ -11,6 +11,8 @@ import Phaser from 'phaser';
 import { TextButton } from '../button';
 import { preloadAudio, playDealSound, playCardAudio, playSlapSound } from '../audio';
 
+const debugTag = 'GAME:';
+
 const suits = ['C', 'D', 'H', 'S'];
 const spamPenalty = 2500; // Spam penalty in ms
 
@@ -46,7 +48,7 @@ export default class Game extends Phaser.Scene {
 
 		const screenCenter = this.game.config.screenCenter;
 
-		console.log(screenCenter);
+		console.log(debugTag, screenCenter);
 
 		this.trekStapels = [
 			new TrekStapel(this, screenCenter.x - 450, screenCenter.y).disableInteractive(),
@@ -133,7 +135,7 @@ export default class Game extends Phaser.Scene {
 
 					pushAflegStapel(this, i, false);
 				} else {
-					console.log("Please don't spam the aflegstapels!");
+					console.log(debugTag, "Please don't spam the aflegstapels!");
 				}
 			});
 		}
@@ -248,7 +250,7 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 			countCards(scene.patienceStapelsAI) +
 			countCards([scene.handstapelAI]);
 
-	console.log(numCardsAI, numCardsPlayer);
+	console.debug(debugTag, 'Number of cards:', numCardsAI, numCardsPlayer);
 	if (numCardsPlayer === 0 || numCardsAI === 0) {
 		// Cancel all moves being made by AI
 		scene.ai.cancelAllMoves();
