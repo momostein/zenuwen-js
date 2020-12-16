@@ -58,7 +58,7 @@ export default class GameInfo extends Phaser.Scene {
 		this.Box7 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '7. Als de speler of computer geen kaarten meer in zijn Patience stapels heeft, dan moeten deze zo snel mogelijk op een aflegstapel klikken (best met zo weinig mogelijk kaarten). Deze nieuwe aflegstapel wordt dan gebruikt om nieuwe patiencestapels te maken. Als men te vroeg klop (als de computer eerst uitspeeld) wordt men bestraft.', 18, 6, undefined, undefined);
 		this.Box7.add(img7);
 		this.regelArray.push(this.Box7);
-		this.Box8 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '8. Men wint als men op een lege aflegstapel kan klikken en dus geen extra kaarten meer over heeft in de trekstapel en patiencestapel.', 18, 6, undefined, undefined);
+		this.Box8 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '8. Men wint als men op een lege aflegstapel kan klikken en dus geen extra kaarten meer over heeft in de trekstapel of patiencestapels.', 18, 6, undefined, undefined);
 		this.Box8.add(img8);
 		this.regelArray.push(this.Box8);
 		this.mainMenu = new TextButton(this, screenCenter.x, screenCenter.y * 1.7, 230, 100, 'Menu', 30, 6, undefined, undefined, () => this.scene.start('mainMenu'));
