@@ -28,20 +28,18 @@ export function preloadAudio (scene) {
 	// Set the scene
 	audioScene = scene;
 
+	// Array with all sound names
+	const allSounds = placeSounds.concat(dealSounds).concat(slapSounds);
+
 	// Load audio files
-	for (const placeSound of placeSounds) {
-		console.debug(debugTag, 'loading', placeSound, 'from', `assets/sounds/${placeSound}.wav`);
-		audioScene.load.audio(placeSound, `assets/sounds/${placeSound}.wav`);
-	}
+	for (const sound of allSounds) {
+		const urls = [
+			`assets/sounds_compressed/${sound}.ogg`,
+			`assets/sounds_compressed/${sound}.mp3`,
+		];
 
-	for (const dealSound of dealSounds) {
-		console.debug(debugTag, 'loading', dealSound, 'from', `assets/sounds/${dealSound}.wav`);
-		audioScene.load.audio(dealSound, `assets/sounds/${dealSound}.wav`);
-	}
-
-	for (const slapSound of slapSounds) {
-		console.debug(debugTag, 'loading', slapSound, 'from', `assets/sounds/${slapSound}.wav`);
-		audioScene.load.audio(slapSound, `assets/sounds/${slapSound}.wav`);
+		console.debug(debugTag, 'loading', sound, 'from', urls);
+		audioScene.load.audio(sound, urls);
 	}
 }
 
