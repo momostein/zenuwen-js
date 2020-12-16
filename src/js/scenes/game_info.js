@@ -16,6 +16,8 @@ export default class GameInfo extends Phaser.Scene {
 		this.load.image('4', 'assets/SpelInfo/3.png');
 		this.load.image('5', 'assets/SpelInfo/4.png');
 		this.load.image('6', 'assets/SpelInfo/5.png');
+		this.load.image('7', 'assets/SpelInfo/6.png');
+		this.load.image('8', 'assets/SpelInfo/7.png');
 		this.load.image('logo', '../../../assets/logo.png');
 	}
 
@@ -32,6 +34,8 @@ export default class GameInfo extends Phaser.Scene {
 		const img4 = this.add.image(0, -80, '4').setScale(0.45);
 		const img5 = this.add.image(0, -80, '5').setScale(0.45);
 		const img6 = this.add.image(0, -80, '6').setScale(0.45);
+		const img7 = this.add.image(0, -80, '7').setScale(0.45);
+		const img8 = this.add.image(0, -80, '8').setScale(0.45);
 		this.add.text(screenCenter.x, screenCenter.y * 0.08, 'Spelregels:', { fontFamily: 'lemonMilk' }).setColor(style.colors.textColor.rgba).setOrigin(0.5).setFontSize(30);
 		this.Box1 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '1. Het doel van het spel is om zo snel mogelijk alle kaarten kwijt te spelen.', 18, 6, undefined, undefined);
 		this.Box1.add(img1);
@@ -51,9 +55,11 @@ export default class GameInfo extends Phaser.Scene {
 		this.Box6 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '6. Als de speler en Ai geen kaarten meer kunnen leggen dan kan men op een trekstapel drukken om een nieuwe kaart op de aflegstapel te leggen.', 18, 6, undefined, undefined);
 		this.Box6.add(img6);
 		this.regelArray.push(this.Box6);
-		this.Box7 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '7. Als de speler of Ai geen kaarten meer in zijn Patience stapels heeft, dan moeten deze zo snel mogelijk op een aflegstapel klikken. Deze nieuwe aflegstapel wordt dan gebruikt om nieuwe patiencestapels te maken.', 18, 6, undefined, undefined);
+		this.Box7 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '7. Als de speler of Ai geen kaarten meer in zijn Patience stapels heeft, dan moeten deze zo snel mogelijk op een aflegstapel klikken (best met zo weinig mogelijk kaarten). Deze nieuwe aflegstapel wordt dan gebruikt om nieuwe patiencestapels te maken. Als men te vroeg klop (als de Ai eerst uitspeeld) wordt men bestraft.', 18, 6, undefined, undefined);
+		this.Box7.add(img7);
 		this.regelArray.push(this.Box7);
 		this.Box8 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '8. Men wint als men op een lege aflegstapel kan klikken en dus geen extra kaarten meer over heeft in de trekstapel en patiencestapel.', 18, 6, undefined, undefined);
+		this.Box8.add(img8);
 		this.regelArray.push(this.Box8);
 		this.mainMenu = new TextButton(this, screenCenter.x, screenCenter.y * 1.7, 230, 100, 'Menu', 30, 6, undefined, undefined, () => this.scene.start('mainMenu'));
 		this.back = new TextButton(this, screenCenter.x * 0.5, screenCenter.y * 1.7, 200, 100, 'Vorige', 30, 6, undefined, undefined, () => { this.backFunc(); });
