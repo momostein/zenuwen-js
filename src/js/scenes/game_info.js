@@ -52,10 +52,10 @@ export default class GameInfo extends Phaser.Scene {
 		this.Box5 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '5. Men kan kaarten tussen patiencestapels verplaatsen en op elkaar leggen als deze dezelfde waarde hebben. Ook kan men andere kaarten op lege patiencestapels leggen.', 18, 6, undefined, undefined);
 		this.Box5.add(img5);
 		this.regelArray.push(this.Box5);
-		this.Box6 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '6. Als de speler en Ai geen kaarten meer kunnen leggen dan kan men op een trekstapel drukken om een nieuwe kaart op de aflegstapel te leggen.', 18, 6, undefined, undefined);
+		this.Box6 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '6. Als de speler en computer geen kaarten meer kunnen leggen dan kan men op een trekstapel drukken om een nieuwe kaart op de aflegstapel te leggen.', 18, 6, undefined, undefined);
 		this.Box6.add(img6);
 		this.regelArray.push(this.Box6);
-		this.Box7 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '7. Als de speler of Ai geen kaarten meer in zijn Patience stapels heeft, dan moeten deze zo snel mogelijk op een aflegstapel klikken (best met zo weinig mogelijk kaarten). Deze nieuwe aflegstapel wordt dan gebruikt om nieuwe patiencestapels te maken. Als men te vroeg klop (als de Ai eerst uitspeeld) wordt men bestraft.', 18, 6, undefined, undefined);
+		this.Box7 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '7. Als de speler of computer geen kaarten meer in zijn Patience stapels heeft, dan moeten deze zo snel mogelijk op een aflegstapel klikken (best met zo weinig mogelijk kaarten). Deze nieuwe aflegstapel wordt dan gebruikt om nieuwe patiencestapels te maken. Als men te vroeg klop (als de computer eerst uitspeeld) wordt men bestraft.', 18, 6, undefined, undefined);
 		this.Box7.add(img7);
 		this.regelArray.push(this.Box7);
 		this.Box8 = new TextBox(this, screenCenter.x, screenCenter.y * 0.85, 1500, 750, '8. Men wint als men op een lege aflegstapel kan klikken en dus geen extra kaarten meer over heeft in de trekstapel en patiencestapel.', 18, 6, undefined, undefined);
