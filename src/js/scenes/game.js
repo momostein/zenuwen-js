@@ -13,7 +13,14 @@ import { preloadAudio, playDealSound, playCardAudio, playSlapSound } from '../au
 
 const debugTag = 'GAME:';
 
+// Standard deck
 const suits = ['C', 'D', 'H', 'S'];
+const maxCardValue = 13;
+
+// Small deck for debug purposes
+// const suits = ['C', 'D', 'H'];
+// const maxCardValue = 11;
+
 const spamPenalty = 2500; // Spam penalty in ms
 
 export default class Game extends Phaser.Scene {
@@ -57,7 +64,7 @@ export default class Game extends Phaser.Scene {
 
 		// Add cards to the trekstapel
 		for (const suit of suits) {
-			for (let value = 1; value <= 13; value++) {
+			for (let value = 1; value <= maxCardValue; value++) {
 				this.trekStapels[0].addCard(new Card(this, 0, 0, value, suit));
 				// this.trekStapels[0].addCard(new Card(this, 0, 0, 1, suit));
 			}
@@ -66,8 +73,10 @@ export default class Game extends Phaser.Scene {
 		// Shuffle the trekstapel
 		this.trekStapels[0].shuffle();
 
+		const totalCards = this.trekStapels[0].cards.length;
+
 		// Split the cards in the trekstapel
-		for (let i = 0; i < 26; i++) {
+		for (let i = 0; i < totalCards / 2; i++) {
 			this.trekStapels[1].addCard(this.trekStapels[0].popCard());
 		}
 
@@ -100,6 +109,29 @@ export default class Game extends Phaser.Scene {
 		this.trekStapels[1].on('pointerdown', () => {
 			// TODO: Check if the trekstapel has cards
 			if (this.ai.idle) {
+				// Check first if both stapels are empty
+				let total = 0;
+				for (const trekStapel of this.trekStapels) {
+					total += trekStapel.cards.length;
+				}
+
+				// If the trekstaples are empty, reshuffle them into the trekstapels
+				if (total === 0) {
+					// Re shuffle the aflegstapels
+					for (let i = 0; i < this.trekStapels.length; i++) {
+						// Move all cards to trekstapel
+						let card = this.aflegStapels[i].popCard();
+						while (card) {
+							this.trekStapels[i].addCard(card);
+							card = this.aflegStapels[i].popCard();
+						}
+
+						// Shuffle the trekstapels
+						this.trekStapels[i].shuffle();
+					}
+				}
+
+				// Draw top cards
 				for (let i = 0; i < this.trekStapels.length; i++) {
 					const card = this.trekStapels[i].popCard();
 
@@ -112,6 +144,8 @@ export default class Game extends Phaser.Scene {
 						this.aflegStapels[i].setShowBorder(true);
 					}
 				}
+
+				// Reset AI timers so the AI doesn't move instantly
 				this.ai.resetTimers();
 
 				// Play placeCard sound

@@ -1,6 +1,6 @@
 import { playCardAudio } from '../audio';
 
-const debugTag = 'ABSTRACT_AI';
+// const debugTag = 'ABSTRACT_AI';
 
 const DefaultMoveTime = 1000;
 const cardDist = 35;

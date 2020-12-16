@@ -48,6 +48,9 @@ export class AflegStapel extends AbstractStapel {
 
 	popCard () {
 		const card = super.popCard();
+		if (card) {
+			card.setAngle(0);
+		}
 
 		this.updateCards();
 
