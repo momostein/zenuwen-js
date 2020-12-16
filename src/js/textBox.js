@@ -15,7 +15,7 @@ export class TextBox extends Phaser.GameObjects.Container {
 		buttonColor = style.colors.white,
 		image,
 		textPosX = -((width / 2) - 75),
-		textPosY = 200,
+		textPosY = 250,
 	) {
 		super(scene, x, y);
 		this.setSize(width, height);

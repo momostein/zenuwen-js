@@ -8,6 +8,8 @@ export default class GameEnd extends Phaser.Scene {
 	constructor () {
 		super('gameEnd'); // id of Scene
 		this.text = '';
+		this.rounds = 0;
+		this.elaps = 0;
 		this.color = style.colors.primary;
 	}
 
@@ -20,6 +22,8 @@ export default class GameEnd extends Phaser.Scene {
 			this.text = 'Verloren';
 			this.color = style.colors.lost;
 		}
+		this.rounds = data.rounds;
+		this.elaps = data.timeS;
 	}
 
 	preload () {
@@ -33,13 +37,21 @@ export default class GameEnd extends Phaser.Scene {
 		this.backgroundRect = new BackgroundRect(this, this.color);
 
 		this.add
-			.text(screenCenter.x, screenCenter.y * 0.8, this.text, { fontFamily: 'lemonMilk', fontSize: 100 })
+			.text(screenCenter.x, screenCenter.y * 0.6, this.text, { fontFamily: 'lemonMilk', fontSize: 100 })
+			.setColor(style.colors.textColor.rgba)
+			.setOrigin(0.5);
+		this.add
+			.text(screenCenter.x, screenCenter.y * 0.95, 'rondes gespeeld: ' + this.rounds, { fontFamily: 'lemonMilk', fontSize: 50 })
+			.setColor(style.colors.textColor.rgba)
+			.setOrigin(0.5);
+		this.add
+			.text(screenCenter.x, screenCenter.y * 1.15, 'Duur: ' + this.elaps + ' seconden', { fontFamily: 'lemonMilk', fontSize: 50 })
 			.setColor(style.colors.textColor.rgba)
 			.setOrigin(0.5);
 		this.mainMenu = new TextButton(
 			this,
 			screenCenter.x,
-			700,
+			screenCenter.y * 1.5,
 			230,
 			100,
 			'Menu',

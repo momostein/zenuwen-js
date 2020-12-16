@@ -9,6 +9,7 @@ import { BasicAI } from '../ai';
 import { Card } from '../cards/card';
 import Phaser from 'phaser';
 import { TextButton } from '../button';
+import { preloadAudio, playDealSound, playCardAudio, playSlapSound } from '../audio';
 
 const suits = ['C', 'D', 'H', 'S'];
 export default class Game extends Phaser.Scene {
@@ -25,10 +26,15 @@ export default class Game extends Phaser.Scene {
 			'assets/Spritesheets/playingCards.png',
 			'assets/Spritesheets/playingCards.xml',
 		);
+
+		preloadAudio(this);
 	}
 
 	create () {
 		this.playing = false;
+		this.numberOfRounds = 0;
+		this.start = this.getTime();
+		this.elapsed = 0;
 
 		const screenCenter = this.game.config.screenCenter;
 
@@ -97,6 +103,9 @@ export default class Game extends Phaser.Scene {
 					}
 				}
 				this.ai.resetTimers();
+
+				// Play placeCard sound
+				playCardAudio();
 			}
 		});
 
@@ -125,7 +134,18 @@ export default class Game extends Phaser.Scene {
 			this.playing = true;
 
 			this.ai.resetTimers();
+
+			// Play deal sound
+			playDealSound();
 		});
+	}
+
+	getTime () {
+		// make a new date object
+		const d = new Date();
+
+		// return the number of milliseconds since 1 January 1970 00:00:00.
+		return d.getTime();
 	}
 
 	update (time, delta) {
@@ -191,7 +211,6 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 			countCards([scene.handstapelAI]);
 
 	console.log(numCardsAI, numCardsPlayer);
-
 	if (numCardsPlayer === 0 || numCardsAI === 0) {
 		// Cancel all moves being made by AI
 		scene.ai.cancelAllMoves();
@@ -200,10 +219,17 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 		scene.playing = false;
 		scene.trekStapels[1].setClickable(false);
 
+		let gameEnd = false;
+
 		if (!clickedByAI) {
 			// Check if the game should end
 			if (scene.aflegStapels[stapelIndex].getSize() + scene.trekStapels[1].getSize() === 0) {
-				scene.scene.start('gameEnd', { winner: 'player' });
+				// End game
+				gameEnd = true;
+
+				scene.numberOfRounds++;
+				scene.elapsed = Math.floor((scene.getTime() - scene.start) / 1000);
+				scene.scene.start('gameEnd', { winner: 'player', rounds: scene.numberOfRounds, timeS: scene.elapsed }); // player wins
 			} else {
 				// Move all cards back to the trekstapels
 				moveAllTo([scene.aflegStapels[stapelIndex]], scene.trekStapels[1]);
@@ -213,6 +239,7 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				moveAllTo(scene.patienceStapelsPlayer, scene.trekStapels[1]);
 				moveAllTo(scene.patienceStapelsAI, scene.trekStapels[0]);
 
+				scene.numberOfRounds++;
 				scene.deal.setVisible(true);
 				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
 				scene.trekStapels[1].disableInteractive();
@@ -226,10 +253,15 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				// Hide borders of all patiencestapels
 				hidePatienceborders(scene);
 			}
-		} else {
+		} else { // Ai is first
 			// Check if the game should end
 			if (scene.aflegStapels[stapelIndex].getSize() + scene.trekStapels[0].getSize() === 0) {
-				scene.scene.start('gameEnd', { winner: 'ai' });
+				// End game
+				gameEnd = true;
+
+				scene.numberOfRounds++;
+				scene.elapsed = Math.floor((scene.getTime() - scene.start) / 1000);
+				scene.scene.start('gameEnd', { winner: 'ai', rounds: scene.numberOfRounds, timeS: scene.elapsed }); // Ai wins
 			} else {
 				// Move all cards back to the trekstapels
 				moveAllTo([scene.aflegStapels[stapelIndex]], scene.trekStapels[0]);
@@ -238,6 +270,7 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				moveAllTo(scene.patienceStapelsAI, scene.trekStapels[0]);
 				moveAllTo([scene.handstapelPlayer], scene.trekStapels[1]);
 				moveAllTo([scene.handstapelAI], scene.trekStapels[0]);
+				scene.numberOfRounds++;
 
 				scene.deal.setVisible(true);
 				scene.aflegStapels.forEach(stapel => stapel.disableInteractive());
@@ -252,6 +285,14 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				// Hide borders of all patiencestapels
 				hidePatienceborders(scene);
 			}
+		}
+
+		if (!gameEnd) {
+			// Play slap sound if the game hasn't ended yet
+			playSlapSound();
+		} else {
+			// For now, also play slap sound if the game has ended
+			playSlapSound();
 		}
 	}
 }

@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import getCardFrame from './card_frames';
+import { playCardAudio } from '../audio';
 
 const cardDist = 35;
 
@@ -89,6 +90,10 @@ export class Card extends Phaser.GameObjects.Image {
 					stapel.addCard(card);
 					// }
 				}
+
+				// Play a card sound
+				playCardAudio();
+
 				this.scene.checkStapels();
 			} else {
 				// place the card(s) back on the pile
