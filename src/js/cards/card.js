@@ -2,6 +2,8 @@ import Phaser from 'phaser';
 import getCardFrame from './card_frames';
 import { playCardAudio } from '../audio';
 
+const debugTag = 'CARD:';
+
 const cardDist = 35;
 
 export class Card extends Phaser.GameObjects.Image {
@@ -82,7 +84,7 @@ export class Card extends Phaser.GameObjects.Image {
 				// place the card(s) on the new pile
 				for (const card of this.dragCards) {
 					// if (card.stapel !== stapel) {
-					console.log('removing card', card);
+					console.debug(debugTag, 'removing card', card);
 
 					// TODO: Maybe check if the card is on a stapel before removing?
 					card.stapel.removeCard(card);

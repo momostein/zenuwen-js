@@ -1,6 +1,8 @@
 import { AbstractStapel } from './abstract_stapel';
 import { style } from '../style';
 
+import { resizeRect } from './stapel_utils';
+
 const colorStapelBorderIdle = style.colors.subtle.color32;
 const colorStapelBorderGood = style.colors.hoverGood.color32;
 const colorStapelBorderBad = style.colors.hoverBad.color32;
@@ -174,15 +176,4 @@ export class PatienceStapel extends AbstractStapel {
 		this.handStapel = false;
 		this.setInteractive();
 	}
-}
-
-function resizeRect (rect, w, h) {
-	// This will properly resize a rectangle without scaling the stroke
-
-	// Resize the rectangle and its geometry
-	rect.geom.setSize(w, h);
-	rect.setSize(w, h);
-
-	// update internal data
-	rect.updateDisplayOrigin().updateData();
 }

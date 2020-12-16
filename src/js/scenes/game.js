@@ -55,7 +55,7 @@ export default class Game extends Phaser.Scene {
 
 		const screenCenter = this.game.config.screenCenter;
 
-		console.log(debugTag, screenCenter);
+		console.log(debugTag, 'Screencenter', screenCenter);
 
 		this.trekStapels = [
 			new TrekStapel(this, screenCenter.x - 450, screenCenter.y).disableInteractive(),
@@ -301,6 +301,9 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 		let gameEnd = false;
 
 		if (!clickedByAI) {
+			// Player is first
+			console.log(debugTag, 'Player slapped stapel', stapelIndex);
+
 			// Check if the game should end
 			if (scene.aflegStapels[stapelIndex].getSize() + scene.trekStapels[1].getSize() === 0) {
 				// End game
@@ -332,7 +335,10 @@ function pushAflegStapel (scene, stapelIndex, clickedByAI) {
 				// Hide borders of all patiencestapels
 				hidePatienceborders(scene);
 			}
-		} else { // Ai is first
+		} else {
+			// Ai is first
+			console.log(debugTag, 'AI slapped stapel', stapelIndex);
+
 			// Check if the game should end
 			if (scene.aflegStapels[stapelIndex].getSize() + scene.trekStapels[0].getSize() === 0) {
 				// End game
