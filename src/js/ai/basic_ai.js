@@ -151,7 +151,14 @@ export class BasicAI extends AbstractAI {
 
 							if (dragCards.length > 0) {
 								console.log(dragCards);
-
+								// Save topcards in array
+								const topCards = [];
+								for (const targetStapel of this.patienceStapelsAI) {
+									const top = targetStapel.cards[targetStapel.cards.length - 1];
+									if (top && targetStapel !== sourceStapel) {
+										topCards.push(top.value);
+									}
+								}
 								for (const targetStapel of this.patienceStapelsAI) {
 									if (targetStapel === sourceStapel) {
 										// Don't try to move to cards to itself
@@ -163,6 +170,10 @@ export class BasicAI extends AbstractAI {
 										targetStapel.cards.length 	=== 0
 									) {
 										// Moving a full stapel to an empty spot is not a good idea
+										continue;
+									}
+									// Move the card not to a empty pile when there is a pile whit a topcard of that cardvalue
+									if (topCards.includes(dragCards[0].value) && targetStapel.cards.length === 0) {
 										continue;
 									}
 
