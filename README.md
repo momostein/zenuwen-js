@@ -7,13 +7,13 @@ The classic card game of zenuwen, written in javascript with the use of the [Pha
 1. Install Node.js
 2. Download or clone this repository
 3. Navigate to the repository
-4. Run ```npm install``` in the project directory
+4. Install npm packages
 
     ```bash
     npm install
     ```
 
-5. Run the start-dev-server `npm` command
+5. Start the development server
 
     ```bash
     npm run start-dev-server
