@@ -175,7 +175,7 @@ export default class Game extends Phaser.Scene {
 		}
 
 		// Buttons
-		this.pause = new TextButton(this, this.cameras.main.width - 80, 55, 100, 50, 'Pause', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
+		this.pause = new TextButton(this, this.cameras.main.width - 80, 55, 100, 50, 'Pauze', 20, 0, undefined, undefined, () => this.scene.switch('pauseMenu'));
 		this.deal = new TextButton(this, screenCenter.x, screenCenter.y, 200, 75, 'Delen', 35, 4, undefined, undefined, () => {
 			dealCards(this.patienceStapelsPlayer, this.trekStapels[1], this.aflegStapels, this);
 			dealCards(this.patienceStapelsAI, this.trekStapels[0], this.aflegStapels, this, true);
