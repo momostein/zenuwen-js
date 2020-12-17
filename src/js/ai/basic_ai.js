@@ -4,22 +4,22 @@ const debugTag = 'BASIC_AI:';
 
 const timing = {
 	easy: {
-		afleg: 2000,
-		patience: 1000,
-		idle: 2000,
-		slap: 2000,
-	},
-	normal: {
-		afleg: 1000,
-		patience: 500,
-		idle: 1000,
+		afleg: 1500,
+		patience: 600,
+		idle: 1500,
 		slap: 1000,
 	},
+	normal: {
+		afleg: 700,
+		patience: 400,
+		idle: 1000,
+		slap: 500,
+	},
 	hard: {
-		afleg: 500,
+		afleg: 400,
 		patience: 250,
 		idle: 500,
-		slap: 500,
+		slap: 300,
 	},
 };
 
