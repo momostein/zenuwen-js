@@ -21,3 +21,9 @@ The classic card game of zenuwen, written in javascript with the use of the [Pha
 
 6. Go to <http://localhost:3000/>
 7. Enjoy!
+
+## Credits
+
+[Images and sound effects from kenney.nl](https://www.kenney.nl/)
+
+[Additional sound effects from zapsplat.com](https://www.zapsplat.com)
