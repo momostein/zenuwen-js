@@ -19,7 +19,7 @@ const timing = {
 		afleg: 400,
 		patience: 250,
 		idle: 500,
-		slap: 300,
+		slap: 400,
 	},
 };
 
