@@ -27,3 +27,5 @@ The classic card game of zenuwen, written in javascript with the use of the [Pha
 [Images and sound effects from kenney.nl](https://www.kenney.nl/)
 
 [Additional sound effects from zapsplat.com](https://www.zapsplat.com)
+
+[LEMON MILK font made by MARSNEV](https://marsnev.com/)
