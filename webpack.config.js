@@ -11,7 +11,7 @@ module.exports = {
 	},
 	externalsType: 'script',
 	externals: {
-		phaser: ['https://cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.js', 'Phaser'],
+		phaser: ['https://cdnjs.cloudflare.com/ajax/libs/phaser/3.50.1/phaser.min.js', 'Phaser'],
 	},
 
 	output: {
